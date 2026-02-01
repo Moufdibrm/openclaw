@@ -7,6 +7,8 @@ import type { SandboxToolPolicy } from "./sandbox.js";
 import { expandToolGroups, normalizeToolName } from "./tool-policy.js";
 import { normalizeMessageChannel } from "../utils/message-channel.js";
 import { resolveThreadParentSessionKey } from "../sessions/session-key-utils.js";
+import { resolveNestedToolsPolicy } from "../sessions/spawn-depth.js";
+import { normalizeAgentId } from "../routing/session-key.js";
 
 type CompiledPattern =
   | { kind: "all" }
@@ -95,13 +97,66 @@ const DEFAULT_SUBAGENT_TOOL_DENY = [
   "memory_get",
 ];
 
-export function resolveSubagentToolPolicy(cfg?: OpenClawConfig): SandboxToolPolicy {
+// Tools that can be enabled via allowSessionsRead config
+const SESSION_READ_TOOLS = ["sessions_list", "sessions_history"];
+
+/**
+ * Resolves the tool policy for subagent sessions.
+ *
+ * @param cfg - OpenClaw configuration
+ * @param opts - Optional parameters for nested spawn support
+ * @param opts.agentId - Agent ID of the subagent (for nested spawn config lookup)
+ * @param opts.spawnDepth - Current spawn depth (1 = direct spawn, 2+ = nested)
+ */
+export function resolveSubagentToolPolicy(
+  cfg?: OpenClawConfig,
+  opts?: {
+    agentId?: string;
+    spawnDepth?: number;
+  },
+): SandboxToolPolicy {
   const configured = cfg?.tools?.subagents?.tools;
-  const deny = [
-    ...DEFAULT_SUBAGENT_TOOL_DENY,
-    ...(Array.isArray(configured?.deny) ? configured.deny : []),
-  ];
-  const allow = Array.isArray(configured?.allow) ? configured.allow : undefined;
+  const agentId = opts?.agentId ? normalizeAgentId(opts.agentId) : undefined;
+  const spawnDepth = opts?.spawnDepth ?? 1;
+
+  // Check if nested spawn is allowed for this agent
+  const agentConfig = agentId && cfg ? resolveAgentConfig(cfg, agentId) : undefined;
+  const allowNestedSpawn =
+    agentConfig?.subagents?.allowNestedSpawn ??
+    cfg?.agents?.defaults?.subagents?.allowNestedSpawn ??
+    false;
+
+  // Check if session read tools are allowed for this agent
+  const allowSessionsRead =
+    agentConfig?.subagents?.allowSessionsRead ??
+    cfg?.agents?.defaults?.subagents?.allowSessionsRead ??
+    false;
+
+  // Build deny list, conditionally removing tools based on config
+  let baseDeny = [...DEFAULT_SUBAGENT_TOOL_DENY];
+  if (allowNestedSpawn) {
+    baseDeny = baseDeny.filter((tool) => tool !== "sessions_spawn");
+  }
+  if (allowSessionsRead) {
+    baseDeny = baseDeny.filter((tool) => !SESSION_READ_TOOLS.includes(tool));
+  }
+
+  const deny = [...baseDeny, ...(Array.isArray(configured?.deny) ? configured.deny : [])];
+  let allow = Array.isArray(configured?.allow) ? configured.allow : undefined;
+
+  // Apply nested tools policy for deep nested subagents (depth > 1)
+  if (spawnDepth > 1 && agentId && cfg) {
+    const nestedTools = resolveNestedToolsPolicy({ cfg, agentId, spawnDepth });
+    if (nestedTools) {
+      if (Array.isArray(nestedTools.allow)) {
+        allow = nestedTools.allow;
+      }
+      if (Array.isArray(nestedTools.deny) && nestedTools.deny.length > 0) {
+        deny.push(...nestedTools.deny);
+      }
+    }
+  }
+
   return { allow, deny };
 }
 

@@ -150,6 +150,16 @@ export const AgentDefaultsSchema = z
               .strict(),
           ])
           .optional(),
+        allowNestedSpawn: z.boolean().optional(),
+        allowSessionsRead: z.boolean().optional(),
+        maxSpawnDepth: z.number().int().min(1).max(10).optional(),
+        nestedTools: z
+          .object({
+            allow: z.array(z.string()).optional(),
+            deny: z.array(z.string()).optional(),
+          })
+          .strict()
+          .optional(),
       })
       .strict()
       .optional(),

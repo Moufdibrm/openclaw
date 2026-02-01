@@ -36,6 +36,16 @@ export type AgentConfig = {
     allowAgents?: string[];
     /** Per-agent default model for spawned sub-agents (string or {primary,fallbacks}). */
     model?: string | { primary?: string; fallbacks?: string[] };
+    /** Allow nested spawn (subagents spawning other subagents). Default: false. */
+    allowNestedSpawn?: boolean;
+    allowSessionsRead?: boolean;
+    /** Maximum spawn depth allowed (1 = no nested spawn, 10 max). Default: 1. */
+    maxSpawnDepth?: number;
+    /** Tool policy for nested subagents (depth > 1). */
+    nestedTools?: {
+      allow?: string[];
+      deny?: string[];
+    };
   };
   sandbox?: {
     mode?: "off" | "non-main" | "all";
