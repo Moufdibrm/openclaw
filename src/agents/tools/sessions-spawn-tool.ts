@@ -10,6 +10,7 @@ import {
   normalizeAgentId,
   parseAgentSessionKey,
 } from "../../routing/session-key.js";
+import { computeSpawnDepth, isNestedSpawnAllowed } from "../../sessions/spawn-depth.js";
 import { normalizeDeliveryContext } from "../../utils/delivery-context.js";
 import { resolveAgentConfig } from "../agent-scope.js";
 import { AGENT_LANE_SUBAGENT } from "../lanes.js";
@@ -119,12 +120,38 @@ export function createSessionsSpawnTool(opts?: {
       const cfg = loadConfig();
       const { mainKey, alias } = resolveMainSessionAlias(cfg);
       const requesterSessionKey = opts?.agentSessionKey;
+
+      // Compute requester agent ID early for nested spawn check
+      const requesterInternalKeyForCheck = requesterSessionKey
+        ? resolveInternalSessionKey({
+            key: requesterSessionKey,
+            alias,
+            mainKey,
+          })
+        : alias;
+      const requesterAgentIdForCheck = normalizeAgentId(
+        opts?.requesterAgentIdOverride ??
+          parseAgentSessionKey(requesterInternalKeyForCheck)?.agentId,
+      );
+
+      // Check if nested spawn is allowed (configurable)
       if (typeof requesterSessionKey === "string" && isSubagentSessionKey(requesterSessionKey)) {
-        return jsonResult({
-          status: "forbidden",
-          error: "sessions_spawn is not allowed from sub-agent sessions",
+        const nestedCheck = isNestedSpawnAllowed({
+          requesterSessionKey,
+          requesterAgentId: requesterAgentIdForCheck,
+          cfg,
         });
+
+        if (!nestedCheck.allowed) {
+          return jsonResult({
+            status: "forbidden",
+            error: nestedCheck.reason ?? "sessions_spawn is not allowed from sub-agent sessions",
+            currentDepth: nestedCheck.currentDepth,
+            maxDepth: nestedCheck.maxDepth,
+          });
+        }
       }
+
       const requesterInternalKey = requesterSessionKey
         ? resolveInternalSessionKey({
             key: requesterSessionKey,
@@ -167,6 +194,10 @@ export function createSessionsSpawnTool(opts?: {
       }
       const childSessionKey = `agent:${targetAgentId}:subagent:${crypto.randomUUID()}`;
       const spawnedByKey = requesterInternalKey;
+
+      // Compute child's spawn depth (parent depth + 1, or 1 if parent is not a subagent)
+      const parentSpawnDepth = computeSpawnDepth({ sessionKey: requesterInternalKey });
+      const childSpawnDepth = parentSpawnDepth === 0 ? 1 : parentSpawnDepth + 1;
       const targetAgentConfig = resolveAgentConfig(cfg, targetAgentId);
       const resolvedModel =
         normalizeModelSelection(modelOverride) ??
@@ -185,26 +216,33 @@ export function createSessionsSpawnTool(opts?: {
         }
         thinkingOverride = normalized;
       }
-      if (resolvedModel) {
-        try {
-          await callGateway({
-            method: "sessions.patch",
-            params: { key: childSessionKey, model: resolvedModel },
-            timeoutMs: 10_000,
-          });
+      // Patch child session with spawnDepth (and model if specified)
+      try {
+        await callGateway({
+          method: "sessions.patch",
+          params: {
+            key: childSessionKey,
+            spawnDepth: childSpawnDepth,
+            ...(resolvedModel ? { model: resolvedModel } : {}),
+          },
+          timeoutMs: 10_000,
+        });
+        if (resolvedModel) {
           modelApplied = true;
-        } catch (err) {
-          const messageText =
-            err instanceof Error ? err.message : typeof err === "string" ? err : "error";
-          const recoverable =
-            messageText.includes("invalid model") || messageText.includes("model not allowed");
-          if (!recoverable) {
-            return jsonResult({
-              status: "error",
-              error: messageText,
-              childSessionKey,
-            });
-          }
+        }
+      } catch (err) {
+        const messageText =
+          err instanceof Error ? err.message : typeof err === "string" ? err : "error";
+        const recoverable =
+          messageText.includes("invalid model") || messageText.includes("model not allowed");
+        if (!recoverable) {
+          return jsonResult({
+            status: "error",
+            error: messageText,
+            childSessionKey,
+          });
+        }
+        if (resolvedModel) {
           modelWarning = messageText;
         }
       }

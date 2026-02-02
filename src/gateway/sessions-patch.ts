@@ -93,6 +93,27 @@ export async function applySessionsPatchToStore(params: {
     }
   }
 
+  if ("spawnDepth" in patch) {
+    const raw = patch.spawnDepth;
+    if (raw === null) {
+      if (existing?.spawnDepth) {
+        return invalid("spawnDepth cannot be cleared once set");
+      }
+    } else if (raw !== undefined) {
+      const depth = Number(raw);
+      if (!Number.isInteger(depth) || depth < 1 || depth > 10) {
+        return invalid("invalid spawnDepth: must be integer between 1 and 10");
+      }
+      if (!isSubagentSessionKey(storeKey)) {
+        return invalid("spawnDepth is only supported for subagent:* sessions");
+      }
+      if (existing?.spawnDepth && existing.spawnDepth !== depth) {
+        return invalid("spawnDepth cannot be changed once set");
+      }
+      next.spawnDepth = depth;
+    }
+  }
+
   if ("label" in patch) {
     const raw = patch.label;
     if (raw === null) {
