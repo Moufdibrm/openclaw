@@ -53,12 +53,22 @@ Shared execution contracts must not embed machine-specific absolute paths.
 Allowed:
 - `~/...`
 - runtime-relative expansion
+- documented runtime-local state schemes such as `jack-x-state://...`
 
 Forbidden in shared contracts:
 - `/Users/...`
 - `/home/ubuntu/...`
 
 Historical evidence, generated artifacts, and archived reviews are excluded from this rule.
+
+Operational reference:
+
+- `~/hermes-runtime/docs/runtime-portability-contract.md`
+
+Interpretation rule:
+
+- `~/openclaw` and `~/.openclaw/*` may still appear in historical corpora, archived reviews, or bounded legacy workspace dependencies
+- they are not the default runtime roots for new or migrated slices
 
 ## Required Validation Floor
 Every slice must close with:
