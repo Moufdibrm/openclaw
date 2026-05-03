@@ -1,6 +1,6 @@
 # BRM Hermes Master Plan
 
-Last updated: `2026-05-02`
+Last updated: `2026-05-03`
 
 ## Current Canonical Orchestration Plan
 
@@ -17,6 +17,7 @@ Current architecture priority:
 - keep Jack bounded through typed execution modes instead of blanket tool locks
 - close the protocol lifecycle from missing protocol to draft runtime, validation, promotion, monitoring, and autoloop feedback
 - converge the live runtime code path toward `hermes-runtime` so Hermes owns process, state, bridges, hooks, and route execution
+- keep `hermes-runtime` as a standalone production repo, not a deploy-only working tree
 
 ## Objective
 
@@ -54,8 +55,9 @@ Current runtime-consolidation order:
 1. freeze the migration contract and parity gates
 2. extract central bridges into `hermes-runtime`
 3. reroute Hermes hooks / deploy / bootstrap / validation to the Hermes bridge surface
-4. migrate live route runners in bounded tranches
-5. fail hard on remaining runtime-critical `OpenClaw` path debt
+4. normalize `hermes-runtime` as a standalone repo with its own remote and backupable provenance
+5. migrate live route runners in bounded tranches
+6. fail hard on remaining runtime-critical `OpenClaw` path debt
 
 ## Architecture Target
 

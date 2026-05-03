@@ -25,6 +25,7 @@ This file defines the execution truth model that every production slice must obe
 - target runtime process family: `Hermes`
 - target runtime state root: `~/.brm-hermes/profiles/*`
 - target runtime code root: `~/hermes-runtime`
+- target runtime repo root: `~/hermes-runtime/.git`
 - `OpenClaw` may remain during migration as:
   - authoring surface
   - docs / protocol archive
@@ -44,6 +45,7 @@ Forbidden:
 - moving logic without parity proof
 - introducing new shared contracts with `OpenClaw`-only runtime paths
 - keeping two live runtime code paths for the same capability once Hermes parity is proven
+- relying on `/Users/moufdi/.git` or any home-directory parent repo as runtime source control truth
 
 ## Portable Contract Rule
 Shared execution contracts must not embed machine-specific absolute paths.

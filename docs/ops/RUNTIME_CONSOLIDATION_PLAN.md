@@ -2,6 +2,26 @@
 
 Last updated: `2026-05-03`
 
+## Current Status
+
+Closed:
+
+- Wave 1: central bridge extraction into `hermes-runtime`
+- Wave 2: Hermes callers rerouted to the Hermes bridge root
+- Wave 2b: `hermes-runtime` is now a standalone git repository with its own `origin`
+
+Current runtime repo truth:
+
+- local repo root: `~/hermes-runtime`
+- remote repo: `https://github.com/Moufdibrm/hermes-runtime`
+- nested `hermes-agent/.git` has been removed from the live runtime path after backup
+- `hermes-agent` is currently carried as a vendored snapshot with upstream provenance recorded in `hermes-runtime/docs/runtime-repo-topology.md`
+
+Still open:
+
+- global `runtime_truth_gate.py --strict` remains red because broader contract portability debt still exists in other slices
+- remaining route migrations still point at `OpenClaw` for bounded legacy surfaces
+
 ## Target
 
 The production target is:
