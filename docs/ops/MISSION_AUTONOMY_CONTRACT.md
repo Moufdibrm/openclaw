@@ -140,6 +140,73 @@ The first Curator substrate must be readable from task/run metadata without intr
 These signals may be stored directly or derived from task events and workflow runs.
 The important rule is that they remain lineage-bound to MM truth.
 
+### Workspace Kind
+
+Every task read model may expose one canonical `task_workspace_kind` derived from task truth:
+
+- `review`
+- `operator`
+- `wake`
+- `blocked`
+- `completed`
+
+Derivation priority:
+
+- closed task -> `completed`
+- `blocked` or `waiting_external` -> `blocked`
+- `draft_ready` or `waiting_review` -> `review`
+- `manual_only`, `direct_discussion`, or `extraction` -> `operator`
+- otherwise -> `wake`
+
+### Curator Snapshot
+
+Mission read models may expose one canonical `curator_snapshot` derived from task truth:
+
+- `tracked_tasks`
+- `iterations`
+- `review_cycles`
+- `blocked_cycles`
+- `data_gaps`
+- `escalations`
+- `avg_cost_per_iteration`
+- `workspace_summary`
+
+Rules:
+
+- counters remain additive over lineage-bound task truth
+- `avg_cost_per_iteration` is a weighted average by `iteration_count`
+- `workspace_summary` counts the canonical `task_workspace_kind` buckets
+- no second persistent Curator store is introduced
+
+### Curator Recommendations
+
+Mission read models may expose read-only `curator_recommendations` with:
+
+- `type`
+- `severity`
+- `confidence`
+- `reason`
+- `evidence`
+- `suggested_action`
+- `task_ids`
+- `route_ids`
+
+Initial recommendation taxonomy:
+
+- `route_underperforming`
+- `insert_extraction_step`
+- `keep_as_direct_discussion`
+- `escalate_human_earlier`
+- `manual_only_candidate`
+
+Curator remains non-authoritative:
+
+- no auto-dispatch
+- no auto-close
+- no auto-reschedule
+- no second scheduler
+- no alternate task state
+
 ### Wake / Claim Fields
 
 - `lease_owner`
@@ -323,6 +390,16 @@ Mission Manager and Hermes must validate the same canonical contract.
 
 - `POST /api/missions/:id/tasks/:taskId/review`
 - `POST /api/missions/:id/tasks/:taskId/feedback`
+
+### Curator Read Surface
+
+- `GET /api/missions/:id/curator`
+  - returns:
+    - `mission_id`
+    - `curator_snapshot`
+    - `curator_recommendations`
+    - `task_summary`
+    - `tasks`
 
 ## UI Reflection
 
