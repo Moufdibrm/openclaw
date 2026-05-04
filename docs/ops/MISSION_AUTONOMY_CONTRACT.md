@@ -34,6 +34,197 @@ Curator comes later and optimizes this loop; it does not replace it.
 - `mission.next_check_at` remains derived from open mission tasks
 - No second scheduler or task state is allowed outside MM
 
+## Workflow Ledger Contract
+
+`workflow_run` and `agent_run_event` are the canonical execution ledger for lineage-bound runtime truth.
+
+They do not replace mission or mission-task business truth.
+They record how work was executed, reviewed, blocked, validated, approved, or failed.
+
+### Canonical Workflow Statuses
+
+Incoming runtime aliases may normalize, but the stored `workflow_run.status` must collapse to one of:
+
+- `queued`
+- `planned`
+- `running`
+- `blocked`
+- `waiting_approval`
+- `completed`
+- `failed`
+- `cancelled`
+- `validated`
+- `rejected`
+- `superseded`
+
+Richer execution meaning must live in:
+
+- `current_stage`
+- `current_task`
+- `event_type`
+- workflow `metadata`
+- event `metadata`
+
+### Canonical Execution Modes
+
+`workflow_run.execution_mode` must normalize to one of:
+
+- `manual`
+- `scheduled`
+- `autoloop`
+- `draft_protocol`
+- `operator`
+- `background`
+
+### First-Class Workflow Truth Fields
+
+The canonical `workflow_run` surface is:
+
+- `run_id`
+- `parent_run_id`
+- `mission_id`
+- `agent_id`
+- `agent_name`
+- `session_id`
+- `protocol_id`
+- `route_id`
+- `dispatch_mode`
+- `executor_kind`
+- `profile`
+- `source`
+- `source_channel`
+- `source_ref`
+- `execution_mode`
+- `status`
+- `protocol_version`
+- `input_ref`
+- `context_packet_ref`
+- `allowed_tools`
+- `validation_result`
+- `approval_state`
+- `blocker`
+- `error`
+- `current_stage`
+- `current_task`
+- `summary`
+- `started_at`
+- `completed_at`
+- `last_event_at`
+- `usage`
+- `artifacts`
+- `metadata`
+
+The canonical `agent_run_event` surface is:
+
+- `event_id`
+- `run_id`
+- `parent_run_id`
+- `agent_id`
+- `agent_name`
+- `protocol_version`
+- `input_ref`
+- `context_packet_ref`
+- `allowed_tools`
+- `validation_result`
+- `approval_state`
+- `blocker`
+- `error`
+- `event_type`
+- `status`
+- `stage_id`
+- `tool_name`
+- `message`
+- `timestamp`
+- `received_at`
+- `usage`
+- `metadata`
+
+### Well-Known Workflow Metadata Keys
+
+The following workflow truth fields are already first-class on `workflow_run`, and may also appear in `workflow_run.metadata` for compatibility:
+
+- `context_packet_ref`
+- `allowed_tools`
+- `approval_state`
+- `validation_result`
+- `blocker`
+- `error`
+
+Until they are promoted further, these same facts may appear in `agent_run_event.metadata` as machine-readable keys.
+
+Rules:
+
+- these keys must not exist only inside free-text summaries
+- `approval_state` on `workflow_run` should remain a normalized machine-readable state label
+- if richer approval context is needed, it may live in `workflow_run.metadata.approval_state` or `agent_run_event.metadata.approval_state`
+- `validation_result`, `blocker`, and `error` should remain objects or null
+- `context_packet_ref` should remain a stable reference, not an ad hoc narrative string
+- task state may summarize these facts, but the workflow ledger remains the canonical execution trace
+
+### Approval And Validation Lineage
+
+Approval, validation, and protocol-governance facts must be lineage-bound to the same workflow ledger.
+
+Minimum expectation:
+
+- approval request -> `agent_run_event`
+- approval resolution -> `agent_run_event`
+- validation result -> `agent_run_event`
+- blocker emission -> `agent_run_event`
+- runtime error emission -> `agent_run_event`
+- protocol lifecycle stage change -> linked by `run_id` or `origin_run_id`
+
+If a route is approval-gated:
+
+- `workflow_run.status` may remain `blocked`
+- the reason must be recoverable from `blocker` / `approval_state`
+- completion must not silently bypass an MM-visible approval decision
+
+If a route is validation-gated:
+
+- the validation verdict must be recoverable from `validation_result`
+- `prod` promotion must not be inferred from a successful run alone
+
+### Protocol Lifecycle Truth
+
+Protocol lifecycle remains a governance read/write surface anchored to MM truth.
+
+Canonical lifecycle states:
+
+- `candidate`
+- `draft_runtime`
+- `validated`
+- `prod`
+- `deprecated`
+- `superseded`
+
+Canonical lineage-bearing lifecycle fields include:
+
+- `protocol_key`
+- `mission_id`
+- `origin_run_id`
+- `parent_run_id`
+- `requested_route_id`
+- `target_agent`
+- `bundle_path`
+- `protocol_path`
+- `registry_entry_path`
+- `review_root`
+- `draft_artifact_path`
+- `feedback_artifact_path`
+- `allowed_actions`
+- `recommended_next_action`
+- `validated_at`
+- `promoted_at`
+- `deprecated_at`
+- `metadata`
+
+Lifecycle rules:
+
+- `candidate` and `draft_runtime` may be machine-generated, but remain reviewable
+- `validated` requires lineage-bound validation evidence
+- `prod`, `deprecated`, and `superseded` remain explicit governance outcomes, not silent runtime side effects
+
 ## Mission Task Contract
 
 ### Engagement Mode
