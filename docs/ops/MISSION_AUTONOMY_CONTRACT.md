@@ -161,6 +161,22 @@ Rules:
 - `context_packet_ref` should remain a stable reference, not an ad hoc narrative string
 - task state may summarize these facts, but the workflow ledger remains the canonical execution trace
 
+### Wake Submission Lineage Keys
+
+Wave 0+1 wake-loop submissions must keep the task binding machine-readable without introducing new MM business objects.
+
+Minimum metadata/runtime-truth keys:
+
+- `mission_task_id`
+- `submission_scope`
+
+Rules:
+
+- `mission_task_id` identifies the MM task that originated the submission when the wake-loop dispatches a governed route
+- `submission_scope` identifies the submission boundary, with `mission_task` as the canonical Wave 0+1 value
+- these keys may live in workflow/event metadata and runtime truth even when they are not first-class workflow columns
+- child route payloads emitted from Hermes should preserve them so downstream bridge/audit artifacts do not lose task lineage
+
 ### Approval And Validation Lineage
 
 Approval, validation, and protocol-governance facts must be lineage-bound to the same workflow ledger.
@@ -486,6 +502,11 @@ It must:
 6. dispatch using canonical `route_id` and `executor_kind`
 7. write task events and update `last_run_id`
 8. release or renew the lease on completion/failure
+
+When the wake-loop dispatches a route, the child runtime submission must carry:
+
+- `mission_task_id`
+- `submission_scope=mission_task`
 
 ### Due Task Eligibility
 
