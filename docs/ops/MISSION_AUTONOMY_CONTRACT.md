@@ -14,9 +14,9 @@ Canonical here means the object model and its invariants are authoritative; it d
 | Area | Status | Notes |
 | --- | --- | --- |
 | Workflow ledger and task lineage | shipped | `workflow_runs` / `agent_run_events` and `mission_task_id` / `submission_scope` are canonical on governed wake routes, and `MissionTask` exposes `submission_scope` plus `execution_lineage` as read models. |
-| Runtime handoff | partial | Hippocampus and specialist dispatch share a canonical `context_packet_ref`, but the operator-facing execution surface is still being refined. |
+| Runtime handoff | partial | Hippocampus is now the canonical pre-routing packet for interactive specialist dispatch, `context_packet_ref` remains stable across interactive and wake routes, and `MissionTask` now exposes a task-bound routing summary. Deeper KG/MM-first enrichment and full retirement of older keyword fallbacks remain open. |
 | Protocol lifecycle closure | partial | `candidate -> draft_runtime -> validated` is enforced; `validated -> prod` still requires an explicit reviewed promotion path. |
-| Autoloop improvement inbox | next | replay, promotion, and monitoring for protocol improvements remain open. |
+| Autoloop improvement inbox | partial | `MissionTask` now exposes a derived protocol-improvement inbox from curator signals, recommendations, and lifecycle state, but replay, promotion, and monitoring remain open. |
 
 ## Core Objects
 

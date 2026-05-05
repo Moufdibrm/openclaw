@@ -33,9 +33,9 @@ Current instruction:
 | Area | Status | Notes |
 | --- | --- | --- |
 | Workflow ledger and task lineage | shipped | The first canonical `WorkflowRun` / `AgentRunEvent` slice is live, and `mission_task_id` / `submission_scope` now remain machine-readable through the wake path. |
-| Runtime handoff | partial | Hippocampus preprocessing is live, and the current closure step is converging interactive and wake-loop execution onto the same canonical `context_packet_ref` contract. |
+| Runtime handoff | partial | Hippocampus preprocessing is live and now feeds a task-bound routing summary through the same canonical `context_packet_ref` contract on interactive and wake-loop paths; broader MM/KG-first enrichment and fallback retirement remain open. |
 | Protocol lifecycle closure | partial | Protocol-missing and draft-protocol runtime exist as lifecycle bridges; reviewed promotion to `prod` is still explicit work. |
-| Autoloop improvement inbox | next | Observation -> replay -> validation -> promotion remains the next closure wave. |
+| Autoloop improvement inbox | partial | The first task-bound improvement inbox is now derived from curator signals plus lifecycle state; observation -> replay -> validation -> promotion remains the next closure wave. |
 
 ## Target Architecture
 

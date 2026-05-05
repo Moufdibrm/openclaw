@@ -32,8 +32,8 @@ Current readiness:
 - `Hermes runtime / gateway / cron`: `usable foundation`
 - `Mission Manager control plane`: `usable cockpit with canonical workflow ledger, task-centric lineage, and curator read surface`
 - `Mission Manager costs`: `operator-usable for subscription-handled, out-of-subscription LLM, and external tool costs; some providers still remain unknown/credit-based`
-- `Jack orchestration`: `partially usable but not production-trusted for critical autonomous work; task lineage and protocol closure are still being hardened`
-- `Hippocampus preprocessing`: `first runtime packet live on Jack; LLM refiner called with deterministic fallback`
+- `Jack orchestration`: `partially usable but not production-trusted for critical autonomous work; task-centric lineage, routing summary, and protocol closure are now live, but replay/promotion and broader fallback retirement remain open`
+- `Hippocampus preprocessing`: `primary interactive pre-routing packet live on Jack with deterministic fallback, canonical context_packet_ref transport, and task-bound routing summary visibility`
 - `Specialist runtime`: `real bound sessions plus profile-backed direct specialist chat; first child-run lineage is live, but protocol stages/approvals/validation are still not fully unified`
 - `Specialist routes`: `usable on validated route scopes with bounded context packets, dedicated tool maps, protocol indexes, and work-policy routing; still not fully route-complete`
 - `Specialist route executor contract`: `first canonical registry field closed with executor.kind plus portable ~/ path resolution across local and VPS; live coverage is command-only for now`
@@ -49,9 +49,9 @@ Current readiness:
 | Area | Status | Notes |
 | --- | --- | --- |
 | Workflow ledger and task lineage | shipped | `workflow_runs` / `agent_run_events` are live and task-bound runtime truth is preserved through `mission_task_id` and `submission_scope` on governed wake routes. |
-| Runtime handoff | partial | Hippocampus and specialist dispatch are both live; canonical `context_packet_ref` convergence is the current closure step, while the operator-facing execution surface is still being tightened. |
+| Runtime handoff | partial | Hippocampus and specialist dispatch are both live, canonical `context_packet_ref` convergence is closed for the current slice, and `MissionTask` now exposes a task-bound routing summary; broader KG/MM-first pre-routing enrichment remains open. |
 | Protocol lifecycle closure | partial | The lifecycle state machine is live in MM; reviewed promotion to `prod` and the autoloop closure remain open. |
-| Autoloop improvement inbox | next | Failure classification, replay, promotion, and monitoring are the next closure wave. |
+| Autoloop improvement inbox | partial | The first task-bound improvement inbox is derived from curator recommendations and lifecycle state; failure classification, replay, promotion, and monitoring remain the next closure wave. |
 
 Immediate blockers:
 
