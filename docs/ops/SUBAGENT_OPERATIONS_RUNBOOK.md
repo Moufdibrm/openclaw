@@ -29,6 +29,39 @@ This document is operational. It should stay factual.
 6. Prefer derived read models over new tables.
 7. Prefer additive machine-readable fields over prose-only summaries.
 
+## Deployment Policy
+
+The VPS is a release mirror, not an authoring checkout.
+
+Allowed in-band runtime actions:
+
+- `gateway_control.status`
+- `gateway_control.health_check`
+- `gateway_control.restart_gateway`
+- `gateway_control.reload_config`
+- `gateway_control.release_status`
+- `gateway_control.rollback_release`
+
+Forbidden in-band runtime actions:
+
+- `git pull`
+- `git checkout`
+- self-update to a commit
+- building a new release on the live gateway
+- mutating the deployed release in place as the normal upgrade path
+
+Rule:
+
+- new code is authored, tested, pushed, and deployed from the operator machine
+- the VPS consumes immutable releases under `releases/`
+- rollback is agent-callable
+- forward deploy is operator-driven
+
+Current BRM policy:
+
+- `/update` is disabled on Jack production deployments
+- `update_to_commit` is intentionally not exposed until a separate governed source-of-truth flow exists
+
 ## System Truth Map
 
 ### Mission Manager
