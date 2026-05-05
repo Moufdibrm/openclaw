@@ -1,6 +1,6 @@
 # BRM Agents - Production Status
 
-Last updated: `2026-05-02`
+Last updated: `2026-05-05`
 
 ## Scope
 
@@ -43,6 +43,7 @@ Current readiness:
 - `Jack X memory/KG`: `usable structured pipeline plus readable Memory Wiki compiler and active Gemini semantic cache; coverage and KG quality still improving`
 - `Mnemos context-check`: `usable continuity surface with proactive watch-threshold snapshots, auto-reset handoff capsules, and a cross-session journal; still not a KG writer`
 - `Autoloop`: `not closed; current cron is scheduling, not protocol self-improvement`
+- `Protocol improvement inbox`: `first derived task-bound inbox live; replay, promotion, and monitoring still partial`
 
 ## Shipping Matrix
 
@@ -51,7 +52,7 @@ Current readiness:
 | Workflow ledger and task lineage | shipped | `workflow_runs` / `agent_run_events` are live and task-bound runtime truth is preserved through `mission_task_id` and `submission_scope` on governed wake routes. |
 | Runtime handoff | partial | Hippocampus and specialist dispatch are both live, canonical `context_packet_ref` convergence is closed for the current slice, and `MissionTask` now exposes a task-bound routing summary; broader KG/MM-first pre-routing enrichment remains open. |
 | Protocol lifecycle closure | partial | The lifecycle state machine is live in MM; reviewed promotion to `prod` and the autoloop closure remain open. |
-| Autoloop improvement inbox | partial | The first task-bound improvement inbox is derived from curator recommendations and lifecycle state; failure classification, replay, promotion, and monitoring remain the next closure wave. |
+| Autoloop improvement inbox | partial | The first task-bound improvement inbox is derived from curator recommendations, curator signals, and lifecycle state; failure classification, replay, promotion, and monitoring remain the next closure wave. |
 
 Immediate blockers:
 
@@ -177,6 +178,12 @@ Working now:
   - recommended execution mode
   - guardrails
   - auxiliary LLM refiner call with short timeout and deterministic fallback
+- Mission tasks now expose the first task-bound routing and protocol-improvement read surfaces:
+  - `submission_scope`
+  - `execution_lineage`
+  - `hippocampus_summary`
+  - `protocol_improvement_inbox`
+  - these remain derived MM truth, not new persistence layers
 - the MS365 mailbox surface is now operationally usable beyond digesting:
   - bulk search across `inbox` and `sent`
   - bounded folder/date search

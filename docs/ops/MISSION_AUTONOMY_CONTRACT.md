@@ -18,6 +18,10 @@ Canonical here means the object model and its invariants are authoritative; it d
 | Protocol lifecycle closure | partial | `candidate -> draft_runtime -> validated` is enforced; `validated -> prod` still requires an explicit reviewed promotion path. |
 | Autoloop improvement inbox | partial | `MissionTask` now exposes a derived protocol-improvement inbox from curator signals, recommendations, and lifecycle state, but replay, promotion, and monitoring remain open. |
 
+Operational companion:
+
+- [SUBAGENT_OPERATIONS_RUNBOOK.md](/Users/moufdi/openclaw/docs/ops/SUBAGENT_OPERATIONS_RUNBOOK.md) is the machine-local runbook for parallel agents working on the same stack.
+
 ## Core Objects
 
 - `mission`

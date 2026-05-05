@@ -1,6 +1,6 @@
 # BRM Orchestration Unified Plan
 
-Last updated: `2026-05-02`
+Last updated: `2026-05-05`
 
 Status: canonical plan for the next orchestration hardening wave.
 
@@ -35,7 +35,7 @@ Current instruction:
 | Workflow ledger and task lineage | shipped | The first canonical `WorkflowRun` / `AgentRunEvent` slice is live, and `mission_task_id` / `submission_scope` now remain machine-readable through the wake path. |
 | Runtime handoff | partial | Hippocampus preprocessing is live and now feeds a task-bound routing summary through the same canonical `context_packet_ref` contract on interactive and wake-loop paths; broader MM/KG-first enrichment and fallback retirement remain open. |
 | Protocol lifecycle closure | partial | Protocol-missing and draft-protocol runtime exist as lifecycle bridges; reviewed promotion to `prod` is still explicit work. |
-| Autoloop improvement inbox | partial | The first task-bound improvement inbox is now derived from curator signals plus lifecycle state; observation -> replay -> validation -> promotion remains the next closure wave. |
+| Autoloop improvement inbox | partial | The first task-bound improvement inbox is now derived from curator signals, recommendations, and lifecycle state; observation -> replay -> validation -> promotion remains the next closure wave. |
 
 ## Target Architecture
 
@@ -252,8 +252,8 @@ Not production-ready yet:
   - `extraction`
   - `governed_route`
 - route outcomes are not yet uniformly comparable enough for Curator-grade analysis
-- Protocol lifecycle is not fully modeled as `candidate -> draft -> validated -> prod -> deprecated`.
-- Autoloop is not closed: current recurring jobs execute known scripts, but do not yet learn from errors and promote protocol improvements.
+- Protocol lifecycle is modeled as `candidate -> draft_runtime -> validated -> prod -> deprecated`, but reviewed promotion and later governance stages are still partial.
+- Autoloop is not closed: the first task-bound protocol improvement inbox is now live, but replay, promotion, and monitoring remain open.
 - Docs and snapshots have drifted across local/VPS and across older protocol status files.
 - Toolbox standardization is not closed:
   - the first Shopify commerce slice is now closed on the live `shopify-stores` backend
