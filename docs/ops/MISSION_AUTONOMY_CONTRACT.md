@@ -7,6 +7,16 @@ This phase turns Mission Manager from a passive tracker into an active follow-up
 Mission Manager remains the business source of truth.
 Hermes becomes the wake-and-execute layer on top of that truth.
 Curator comes later and optimizes this loop; it does not replace it.
+Canonical here means the object model and its invariants are authoritative; it does not imply every clause is fully shipped yet.
+
+## Shipping Matrix
+
+| Area | Status | Notes |
+| --- | --- | --- |
+| Workflow ledger and task lineage | shipped | `workflow_runs` / `agent_run_events` and `mission_task_id` / `submission_scope` are canonical on governed wake routes, and `MissionTask` exposes `submission_scope` plus `execution_lineage` as read models. |
+| Runtime handoff | partial | Hippocampus and specialist dispatch share a canonical `context_packet_ref`, but the operator-facing execution surface is still being refined. |
+| Protocol lifecycle closure | partial | `candidate -> draft_runtime -> validated` is enforced; `validated -> prod` still requires an explicit reviewed promotion path. |
+| Autoloop improvement inbox | next | replay, promotion, and monitoring for protocol improvements remain open. |
 
 ## Core Objects
 
@@ -176,6 +186,7 @@ Rules:
 - `submission_scope` identifies the submission boundary, with `mission_task` as the canonical Wave 0+1 value
 - these keys may live in workflow/event metadata and runtime truth even when they are not first-class workflow columns
 - child route payloads emitted from Hermes should preserve them so downstream bridge/audit artifacts do not lose task lineage
+- interactive Hippocampus packets and specialist-runtime packets may keep different payload schemas, but they should converge on the same machine-readable `context_packet_ref` contract
 
 ### Approval And Validation Lineage
 
