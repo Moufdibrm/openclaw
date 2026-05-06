@@ -1,6 +1,6 @@
 # Agent Governance
 
-Last updated: `2026-05-06`
+Last updated: `2026-05-07`
 
 This folder is the operational governance base for BRM/Hermes agents.
 
@@ -38,6 +38,12 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - shared brand scope model for `brand_focus` vs `generic` work
 - `brand-scope-contract.yaml`
   - machine-readable brand scope contract and validation rules
+- `MEMORY_LIFECYCLE_CONTRACT.md`
+  - Jack-X, LLM Wiki, KG, Jack, and Mnemos lifecycle and write responsibility split
+- `memory-lifecycle-matrix.yaml`
+  - machine-readable memory lifecycle states, paths, write gates, blockers, and proof targets
+- `MEMORY_LIFECYCLE_REPAIR_REPORT.md`
+  - local KG repair, validation evidence, refreshed Memory Wiki run, and remaining memory lifecycle blockers
 - `brand-scope-sidecars.yaml`
   - sidecar mapping for legacy brand-linked proof bundles that do not yet emit native `brand_scope`
 - `RELEASE_READINESS_MATRIX.md`
@@ -131,7 +137,9 @@ Specialists remain preferred for deep domain work because they have narrower con
 Tony owns development work. If the task is code or git, route to Tony by default.
 Production deploy, service restart, gateway wiring, and Mission Manager implementation remain separate operator/integrator lanes unless explicitly delegated.
 
-Jack X is the long-term memory agent. It may update memory/KG through governed validation paths, but durable quality cleanup and duplicate reduction need a later refinement layer.
+Jack X is the long-term memory agent. It may update memory/KG through governed validation paths.
+LLM Wiki is the slow consolidation layer: it reads Jack-X evidence and memory projection, creates readable pages and reviewable KG operation proposals, but it must not directly mutate the durable KG.
+Mnemos remains continuity memory only, not enterprise truth.
 
 Brand packs should be clean, standard, and easy to complete.
 Missing brand surfaces do not block unrelated work on the same brand.

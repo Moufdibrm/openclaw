@@ -1,5 +1,5 @@
 version: 1
-last_updated: "2026-05-06"
+last_updated: "2026-05-07"
 scope:
   v1_agents:
     - jack
@@ -120,7 +120,7 @@ agents:
 
   jack-x:
     status: beta
-    role: "Long-term memory, channel intake, KG and memory updates."
+    role: "Long-term memory, channel intake, KG and memory updates, plus review of Memory Wiki refinement proposals."
     approved_autonomy:
       - audit_read
       - autonomous_e2e_validated_route
@@ -131,13 +131,15 @@ agents:
       - mission-manager-agent-session-read
       - memory-wiki
       - kg-memory-update-governed
+      - memory-refinement-review
       - filesystem-memory-artifacts
-    preferred_use: "Use Jack-X for durable memory and multi-channel extraction, not for operator replies."
+    preferred_use: "Use Jack-X for durable memory, multi-channel extraction, and governed review of LLM Wiki KG operation proposals, not for operator replies."
     forbidden_or_gated:
       - external-message-send
       - payment-or-support-mutation
       - business-system-mutation
-    open_design_gap: "Needs downstream refinement/dedup/quality layer after Jack-X validation."
+      - llm-wiki-direct-kg-write
+    open_design_gap: "Needs KG repair plus wiki-to-review bridge before durable refinement can be production-ready."
 
   mnemos:
     status: beta

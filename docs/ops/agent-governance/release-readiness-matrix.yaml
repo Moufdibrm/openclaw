@@ -1,5 +1,5 @@
 version: 1
-last_updated: "2026-05-06"
+last_updated: "2026-05-07"
 purpose: "Global release/prep rollup for governed V1 BRM/Hermes agents."
 scope: "governance_release_readiness_only_no_deploy"
 
@@ -26,6 +26,7 @@ source_matrices:
   fixture_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
   brand_scope_contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
   brand_scope_sidecars: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+  memory_lifecycle: "/Users/moufdi/openclaw/docs/ops/agent-governance/memory-lifecycle-matrix.yaml"
   ads_media_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml"
   ads_media_ledger: "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml"
   alfred_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-orchestration-matrix.yaml"
@@ -45,6 +46,7 @@ global_summary:
     - "Alfred strategy-plan blocked by brand_pack_id/runtime_store_key mismatch"
     - "Safir email workflow needs a business brief fixture"
     - "Jack fresh post-deploy proof and Jack-X/Mnemos package route harness gaps remain"
+    - "Jack-X memory lifecycle is repaired locally but still blocked by commit gating, wiki-to-review bridge, relation rendering, and retrieval proof"
 
 agents:
   - id: "jack"
@@ -72,25 +74,32 @@ agents:
   - id: "jack-x"
     governance_status: "beta"
     release_prep_status: "partial"
-    readiness_claim: "Memory/intake routes have fixture packs but are package-backed, not full shipped registry routes."
-    supported_release_modes: ["fixture_beta", "memory_candidate_review"]
+    readiness_claim: "Memory/intake routes and Memory Wiki exist; KG JSONL is repaired locally, but durable memory production is blocked until review-gated commit and wiki-to-review promotion are closed."
+    supported_release_modes: ["fixture_beta", "memory_candidate_review", "memory_wiki_consolidation"]
     route_counts:
       prod: 0
-      beta: 7
-      draft: 0
+      beta: 8
+      draft: 1
       specialist_route_registry: 0
       package_only: 7
-      planned: 0
+      recurring_script: 1
+      planned: 1
     fixture_status: "available"
     current_blockers:
-      - "package-only route coverage"
-      - "no KG commit allowed in governance smoke"
+      - "package-only/recurring-script route coverage"
+      - "KG JSONL repaired locally; no supervised live commit replay yet"
+      - "LLM Wiki kg_operations are not yet bridged into Jack-X review queue"
+      - "Jack-X commit-candidate --apply is not gated by promotion review result"
+      - "Memory Wiki pages do not yet render KG relation evidence from memory projection"
+      - "no live KG commit allowed in governance smoke until review gate exists"
       - "brand-linked memory candidates must emit brand_scope"
-    approval_gates: ["kg_commit", "external_reply", "business_system_mutation"]
+      - "Jack retrieval proof after memory update is missing"
+    approval_gates: ["kg_commit", "person_identity_merge", "external_reply", "business_system_mutation"]
     source_refs:
       - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
       - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-    next_validation: "Run frozen fixture suite with write_cursor=false and no KG commit."
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/memory-lifecycle-matrix.yaml"
+    next_validation: "Add commit review gate and wiki-to-review bridge, then run frozen memory lifecycle fixture: candidate -> review -> wiki -> refinement review -> supervised test KG commit -> Jack retrieval proof."
 
   - id: "mnemos"
     governance_status: "beta"
@@ -328,10 +337,10 @@ release_candidates:
   - id: "technical-beta-fixture"
     status: "partial"
     agents: ["jack", "jack-x", "mnemos", "tony"]
-    target_claim: "Run fixture-only beta workflows with no MM/KG/runtime mutation."
+    target_claim: "Run fixture-only beta workflows with no MM/KG/runtime mutation; add memory lifecycle fixture on a repaired/test KG copy."
     evidence_ledgers:
       - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-    blocked_surfaces: ["mission_manager_mutation", "kg_commit", "production_deploy", "service_restart"]
+    blocked_surfaces: ["mission_manager_mutation", "live_kg_commit", "production_deploy", "service_restart"]
   - id: "ads-media-cortex-kanye"
     status: "partial"
     agents: ["cortex", "kanye", "alfred"]
@@ -364,4 +373,3 @@ validation:
     - "Brand-linked rows must reference brand-scope-contract.yaml or brand-scope-sidecars.yaml."
     - "Approval-gated surfaces remain blocked unless explicit approval evidence is referenced."
     - "Referenced proof paths must exist where a row claims existing proof."
-

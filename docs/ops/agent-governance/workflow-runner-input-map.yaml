@@ -119,6 +119,20 @@ routes:
     contract_optional: [projection_scope]
     test_mode: copied_db_fixture
     constraints: [kg_commit_false, no_live_db_mutation]
+  - id: jack-x.memory-wiki
+    mapping_status: recurring_script
+    script_path: /Users/moufdi/hermes-runtime/scripts/jack_x_memory_wiki_cycle.py
+    contract_required: [channel_reports, memory_projection]
+    contract_optional: [semantic_mode, semantic_provider, max_pages]
+    runner_optional: [runtime_root, output_root, semantic_mode, semantic_provider, max_pages]
+    test_mode: frozen_reports_no_kg_mutation
+    constraints: [no_direct_kg_write, no_mission_manager_mutation_in_governance_test]
+  - id: jack-x.memory-refinement-review
+    mapping_status: planned
+    contract_required: [kg_operations, source_page, source_refs, kg_health_status]
+    contract_optional: [operator_scope, brand_scope]
+    test_mode: planned_test_kg_copy
+    constraints: [no_live_kg_commit_until_repaired, review_gated]
   - id: jack-x.signal.extract
     mapping_status: package_only
     package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.signal.extract.protocol.yaml

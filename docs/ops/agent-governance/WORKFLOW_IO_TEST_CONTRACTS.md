@@ -72,6 +72,8 @@ Every brand-linked output class must carry `brand_scope` directly or through a s
 | `jack-x.lark-table-intake-pass0` | beta/package | Lark table/view/filter | `compact_json`, `memory_candidate` | rows considered, candidate records |
 | `jack-x.whatsapp-intake-pass0` | beta/package | WhatsApp snapshot/window/contact scope | `compact_json`, `memory_candidate` | extracted signals, ambiguity list |
 | `jack-x.db-analysis` | beta/package | memory DB/projection scope | `memory_projection`, `runtime_summary` | memory health, conflicts, stale data |
+| `jack-x.memory-wiki` | beta/recurring-script | Jack-X channel reports, latest memory projection, semantic mode | Memory Wiki manifest, pages, `kg_operations`, `review_items` | page count, review count, key aliases/relations/open questions |
+| `jack-x.memory-refinement-review` | draft/planned | Memory Wiki `kg_operations`, source page, source refs, KG health status | refinement review artifact, accepted/rejected/deferred counts, commit or skip reason | proposed durable deltas and why each was accepted, blocked, or deferred |
 | `jack-x.signal.extract` | beta/package | bounded signal artifact | `handoff_packet`, `mission_patch`, `memory_candidate` | extracted action/memory split, proposed patch |
 
 ### Mnemos

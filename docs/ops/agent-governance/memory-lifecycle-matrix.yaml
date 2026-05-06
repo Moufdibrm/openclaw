@@ -1,0 +1,178 @@
+version: 1
+last_updated: "2026-05-07"
+scope: "brm_hermes_memory_lifecycle_governance"
+runtime_mutation_authorized: false
+mission_manager_mutation_authorized: false
+
+canonical_paths:
+  durable_kg: "/Users/moufdi/.openclaw/knowledge-graph/memory.jsonl"
+  jack_x_runtime_root: "/Users/moufdi/.openclaw/workspace-jack-x/runtime"
+  jack_x_graph_candidates: "/Users/moufdi/.openclaw/workspace-jack-x/runtime/graph-candidates"
+  jack_x_channel_reports: "/Users/moufdi/.openclaw/workspace-jack-x/runtime/channel-reports"
+  jack_x_memory_reviews_db: "/Users/moufdi/.openclaw/workspace-jack-x/runtime/memory_reviews.db"
+  memory_wiki_latest: "/Users/moufdi/.openclaw/memory-wiki/latest.json"
+  memory_wiki_pages: "/Users/moufdi/.openclaw/memory-wiki/pages"
+
+optional_generated_paths:
+  semantic_cache:
+    path: "/Users/moufdi/.openclaw/semantic-cache/jack-x-semantic-cache.json"
+    status: "created_on_first_active_semantic_run"
+    required_for_deterministic_wiki: false
+
+ambiguous_or_legacy_paths:
+  - path: "/Users/moufdi/.clawdis/knowledge-graph/memory.jsonl"
+    status: "legacy_compatibility_unclear"
+    rule: "do not write as an independent source of truth"
+  - path: "/Users/moufdi/.openclaw/kg"
+    status: "legacy_markdown_memory"
+    rule: "read only unless a route explicitly migrates it"
+
+roles:
+  jack:
+    purpose: "operator routing, approval, and ambiguous memory decision supervision"
+    durable_kg_write: "governed_only"
+    forbidden:
+      - "hidden_memory_mutation"
+      - "commit_when_kg_invalid"
+  jack-x:
+    purpose: "long-term memory intake, candidates, promotion review, and governed durable KG writes"
+    durable_kg_write: "allowed_after_validation_gates"
+    owns:
+      - "signal capture"
+      - "graph candidate generation"
+      - "promotion review"
+      - "wiki refinement review"
+      - "governed KG commit"
+    forbidden:
+      - "external replies"
+      - "business system mutation"
+      - "direct customer/payment/support action"
+  llm-wiki:
+    purpose: "slow consolidation and enrichment of Jack-X evidence into readable pages and reviewable KG operations"
+    durable_kg_write: "forbidden"
+    owns:
+      - "memory pages"
+      - "alias consolidation proposals"
+      - "relationship proposals"
+      - "open question extraction"
+      - "kg_operations manifest"
+    forbidden:
+      - "direct KG mutation"
+      - "approval decisions"
+      - "runtime truth ownership"
+  mnemos:
+    purpose: "session continuity, compaction, handoff capsules"
+    durable_kg_write: "forbidden"
+    forbidden:
+      - "enterprise truth ownership"
+      - "business execution"
+
+lifecycle:
+  - state: "signal_observed"
+    owner: "jack-x"
+    inputs: ["channel_event", "snapshot", "agent_session", "bounded_signal"]
+    outputs: ["source_artifact", "channel_window_scope"]
+    write_surface: "jack_x_runtime_only"
+  - state: "candidate_extracted"
+    owner: "jack-x"
+    outputs: ["brm.graph-candidate.v1", "source_refs", "dedup_key"]
+    write_surface: "graph_candidates"
+  - state: "promotion_reviewed"
+    owner: "jack-x"
+    outputs: ["memory_review_row", "promotion_decision"]
+    write_surface: "memory_reviews_db"
+  - state: "durable_committed"
+    owner: "jack-x"
+    outputs: ["kg_commit_summary", "strict_validation_result"]
+    write_surface: "durable_kg"
+    gates: ["kg_jsonl_valid", "candidate_schema_valid", "actor_allowed", "risk_policy_passed"]
+  - state: "wiki_compiled"
+    owner: "llm-wiki"
+    outputs: ["memory_wiki_pages", "latest_manifest", "kg_operations", "review_items"]
+    write_surface: "memory_wiki_only"
+  - state: "wiki_refinement_proposed"
+    owner: "llm-wiki"
+    outputs: ["link_existing", "upsert_candidate", "merge_candidate", "add_relation", "mark_stale", "needs_human"]
+    write_surface: "memory_wiki_manifest_only"
+  - state: "refinement_reviewed"
+    owner: "jack-x"
+    outputs: ["accepted_refinement", "rejected_refinement", "deferred_refinement"]
+    write_surface: "memory_reviews_db"
+  - state: "refinement_committed"
+    owner: "jack-x"
+    outputs: ["kg_commit_summary", "strict_validation_result"]
+    write_surface: "durable_kg"
+    gates: ["same_as_durable_committed"]
+  - state: "retrieval_ready"
+    owner: "jack"
+    outputs: ["bounded_context_packet", "retrieval_proof"]
+    write_surface: "none_or_mission_artifact"
+
+write_policy:
+  auto_eligible_after_kg_repair:
+    - "stable brand/project/application/channel entities with source refs"
+    - "non-sensitive product or operation entities with brand_scope"
+    - "non-destructive relation additions above route confidence threshold"
+    - "exact update to already known entity with matching dedup key"
+  review_gated:
+    - "person identity create or merge"
+    - "person role or responsibility update"
+    - "ownership, permission, or access relation"
+    - "duplicate consolidation"
+    - "stale-data deletion"
+    - "finance, payment, dispute, support, refund, customer-risk, or legal facts"
+    - "ambiguous brand_scope or tenant scope"
+  forbidden:
+    - "llm-wiki direct KG mutation"
+    - "mnemos KG mutation"
+    - "raw runtime telemetry in durable KG"
+    - "commit when KG validation fails"
+
+proof_targets:
+  required_per_memory_run:
+    - "source artifact path"
+    - "graph candidate path"
+    - "promotion review summary"
+    - "KG commit summary or explicit skip reason"
+    - "strict KG validation result"
+    - "Memory Wiki manifest when wiki ran"
+    - "kg_operations count"
+    - "retrieval proof or open question"
+  example_najet:
+    - "source refs where Najet was observed"
+    - "candidate person with aliases and role evidence"
+    - "promotion decision"
+    - "wiki page with consolidated aliases, relationships, and open questions"
+    - "refinement operation if a missing relation is found"
+
+current_blockers:
+  - id: "kg_jsonl_invalid"
+    severity: "p0"
+    status: "resolved_local_2026-05-07"
+    evidence: "/Users/moufdi/.openclaw/knowledge-graph/repair-20260506T232721Z/validate-openclaw-combined-after.json"
+    required_resolution: "supervised live commit replay still required before prod memory writes"
+  - id: "source_of_truth_split"
+    severity: "p0"
+    status: "mitigated_content_aligned"
+    evidence: "/Users/moufdi/.openclaw and /Users/moufdi/.clawdis active KG files share sha256 8b9f891b8ce386ec056b559586bead93f952d9760e58a17776aca4da43318eb1"
+    required_resolution: "convert .clawdis to compatibility alias or update tool/MCP pointers to .openclaw"
+  - id: "commit_not_review_gated"
+    severity: "p1"
+    status: "open"
+    evidence: "jack_x_db_analysis_cycle records promotion review before commit, but commit_graph_candidate still applies full graph candidate"
+    required_resolution: "filter or block commit-candidate --apply based on promotion review decisions"
+  - id: "wiki_to_review_bridge_missing"
+    severity: "p1"
+    status: "open"
+    evidence: "LLM Wiki emits kg_operations but no governed Jack-X review handoff is documented as closed"
+    required_resolution: "convert wiki operations into Jack-X refinement review queue"
+  - id: "wiki_relation_context_missing"
+    severity: "p1"
+    status: "open"
+    evidence: "fresh projection contains Najet member_of Team :: BRM Board, but Memory Wiki page renders no relationships"
+    required_resolution: "include bounded KG relation evidence in Memory Wiki page seeds/pages"
+  - id: "retrieval_proof_missing"
+    severity: "p1"
+    status: "open"
+    evidence: "no current proof that Jack reads a freshly committed/refined fact"
+    required_resolution: "fixture proof from KG/wiki to Jack bounded context"

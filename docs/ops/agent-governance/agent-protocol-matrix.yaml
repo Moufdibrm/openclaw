@@ -1,5 +1,5 @@
 version: 1
-last_updated: "2026-05-06"
+last_updated: "2026-05-07"
 
 route_status_values:
   - draft
@@ -9,6 +9,7 @@ route_status_values:
 registry_coverage_values:
   - specialist_route_registry
   - package_only
+  - recurring_script
   - planned
 
 common_proof_rules:
@@ -96,6 +97,18 @@ agents:
         registry_coverage: package_only
         purpose: "Memory projection, review and DB analysis."
         proof_target: "memory_projection and runtime_summary"
+      - id: jack-x.memory-wiki
+        status: beta
+        registry_coverage: recurring_script
+        purpose: "Compile Jack-X reports and memory projection into readable Memory Wiki pages plus reviewable KG operations."
+        proof_target: "latest_manifest, page_count, kg_operations, review_items"
+        write_rule: "May write Memory Wiki pages/manifests only; no direct durable KG mutation."
+      - id: jack-x.memory-refinement-review
+        status: draft
+        registry_coverage: planned
+        purpose: "Review LLM Wiki KG operation proposals and convert accepted items into governed Jack-X promotion decisions."
+        proof_target: "refinement_review_artifact, accepted/rejected/deferred counts, KG commit or skip reason"
+        open_gap: "Bridge from LLM Wiki kg_operations to Jack-X review queue is not closed."
       - id: jack-x.signal.extract
         status: beta
         registry_coverage: package_only

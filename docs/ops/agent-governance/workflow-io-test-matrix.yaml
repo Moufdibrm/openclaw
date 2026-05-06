@@ -171,6 +171,26 @@ workflows:
     proof_required: [memory_projection]
     render_to_moufdi: "memory health, conflicts, stale data"
     post_deploy_test: "Run a read-only DB projection and verify stale/conflict detection."
+  - id: jack-x.memory-wiki
+    agent: jack-x
+    status: beta
+    registry_coverage: recurring_script
+    inputs_required: [channel_reports, memory_projection]
+    inputs_optional: [semantic_mode, semantic_provider, max_pages]
+    outputs_expected: [memory_wiki_manifest, memory_wiki_pages, kg_operations, review_items]
+    proof_required: [memory_wiki_manifest]
+    render_to_moufdi: "page count, review count, key aliases, relationships, and open questions"
+    post_deploy_test: "Run on frozen Jack-X reports and verify no direct KG mutation."
+  - id: jack-x.memory-refinement-review
+    agent: jack-x
+    status: draft
+    registry_coverage: planned
+    inputs_required: [kg_operations, source_page, source_refs, kg_health_status]
+    inputs_optional: [operator_scope, brand_scope]
+    outputs_expected: [refinement_review_artifact, accepted_count, rejected_count, deferred_count, commit_or_skip_reason]
+    proof_required: [refinement_review_artifact, commit_or_skip_reason]
+    render_to_moufdi: "proposed durable deltas and why each was accepted, blocked, or deferred"
+    post_deploy_test: "Use a temporary/test KG copy until canonical KG repair and review gates are proven."
   - id: jack-x.signal.extract
     agent: jack-x
     status: beta

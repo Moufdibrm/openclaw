@@ -1,6 +1,6 @@
 # Agent Governance Matrix
 
-Last updated: `2026-05-06`
+Last updated: `2026-05-07`
 
 ## Current State
 
@@ -10,7 +10,7 @@ The V1 governance scope is:
 | Agent | Product status | Real role | Canonical local workdir | Route status |
 | --- | --- | --- | --- | --- |
 | Jack | beta | transversal operator, routing, direct execution when governed | `~/clawd` | partial, core missing/capability/draft routes exist; Higgsfield skill installed for governed direct/supervised use |
-| Jack-X | beta | long-term memory, channel intake, KG/memory updates | `~/.openclaw/workspace-jack-x` | packages exist, not all in specialist registry |
+| Jack-X | beta | long-term memory, channel intake, KG/memory updates, Memory Wiki refinement review | `~/.openclaw/workspace-jack-x` | packages exist, Memory Wiki compiles pages, KG commit proof currently blocked by KG health |
 | Mnemos | beta | continuity and compaction preservation | `~/.openclaw/workspace-mnemos` | package exists, not in specialist registry |
 | Rosa | beta | marketing, offers, performance, market intelligence | `~/.openclaw/workspace-rosa` | several prod route scopes |
 | Jeff | beta | influence, creators, outreach, collaboration ops | `~/.openclaw/workspace-jeff` | several prod route scopes, wider nodes partial |
@@ -56,7 +56,7 @@ Global approval gates:
 | Agent | Allowed toolbox families | Forbidden or gated |
 | --- | --- | --- |
 | Jack | MM, KG, specialist dispatch, governed platform skills, Higgsfield supervised/direct creative use when requested, browser after canonical proof, filesystem/docs governance | hidden prod deploy/restart, gateway/MM code, direct high-risk mutation without route |
-| Jack-X | MS365 read, Lark read, WhatsApp snapshot read, MM agent session read, memory/KG candidate/update path | external replies, payments, support replies, business-system mutation |
+| Jack-X | MS365 read, Lark read, WhatsApp snapshot read, MM agent session read, memory/KG candidate/update path, Memory Wiki refinement review | external replies, payments, support replies, business-system mutation, direct LLM Wiki KG writes |
 | Mnemos | local session state, context metering, continuity artifacts | external read/write, KG durable truth ownership, business execution |
 | Rosa | marketing analytics, Shopify/Klaviyo/Hiboo/GA4/GSC/DataForSEO/Lark reads, report artifacts, creative asset requests via Kanye/Jack | direct Higgsfield generation, external publication or campaign mutation unless route+approval |
 | Jeff | creator/portfolio/inbox/Hiboo scripts, outreach artifacts, collaboration drafts | outbound creator contact or collaboration mutation without approval |
@@ -99,7 +99,7 @@ These are not canonical V1 governance roots unless a route says so.
 | Agent | Read surfaces | Mutable surfaces |
 | --- | --- | --- |
 | Jack | MM, KG, platform skills, route registry, brand packs, Higgsfield skill surface when governed | governed MM/KG/platform writes and generated media artifacts only through request/route and approval gates |
-| Jack-X | MS365, Lark, WhatsApp snapshot, MM agent sessions | local memory, memory wiki, KG updates through governed validation |
+| Jack-X | MS365, Lark, WhatsApp snapshot, MM agent sessions, Memory Wiki manifests/pages | local memory, review queue, KG updates through governed validation; LLM Wiki writes pages and proposals only |
 | Mnemos | local session/context state | continuity capsules and local continuity journal |
 | Rosa | Shopify, Klaviyo, Hiboo, Lark, GA4/GSC/DataForSEO, paid snapshots | local report artifacts; business mutation only if route+approval |
 | Jeff | Hiboo, creator/profile data, inbox inputs, registry artifacts | local reports/candidate registry; collaboration/contact mutation approval-gated |
@@ -118,6 +118,8 @@ Use `agent-protocol-matrix.yaml` as the current machine-readable map.
 Important current gaps:
 
 - `jack-x.*`, `jack.email-digest`, `jack.direct.mm-supervision`, and `mnemos.context-check` are package-backed but absent from `specialist-route-registry.json`.
+- Jack-X has a KG commit path, but the audited local KG JSONL is invalid and recent commits cannot be trusted until repair/validation is complete.
+- LLM Wiki has the right product role as a slow consolidation layer, but its `kg_operations` need a governed Jack-X refinement review bridge before they can affect durable KG.
 - `Safir email-workflow` is not closed. It should be reopened as a new beta/draft route using the improved email/design model floor.
 - `higgsfield-ai/skills` is installed locally in Jack and Kanye profiles with four skills: `higgsfield-generate`, `higgsfield-marketplace-cards`, `higgsfield-product-photoshoot`, and `higgsfield-soul-id`. The HF API pair is configured for the existing Hermes generation tool, and the official Higgsfield CLI is installed/authenticated locally. A bounded GPT Image 2 still test passed with manifest `/Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json`; a bounded Monoi Love product-shot test passed with manifest `/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/manifest.json`. Remaining gaps: standardize polling failure recovery, refine product lifestyle prompt-safety after one `nsfw` false-positive, and QA more owner-run variants before prod.
 - Jack direct Higgsfield execution remains an explicit exception because `jack.higgsfield-skill-supervision` is still draft. Kanye remains the V1 owner for generation.
