@@ -40,7 +40,7 @@ Current readiness:
 - `Safir route-backed surface`: `first canonical mail slice now live on executor.kind=command with VPS render-only proof for safir.email-audit and safir.mail-pole-audit; email-workflow remains open`
 - `Kanye creative routes`: `phase1 route-backed closeout now live on executor.kind=command with kanye.still-generate and kanye.reference-edit, plus local/VPS tests and real VPS smoke proof; tuning, MM lineage, and wider delivery/task integration remain open`
 - `Toolbox standardization`: `first Shopify commerce slice is now standardized around the live shopify-stores backend; broader toolbox wave remains open but no longer depends on Shopify floor discovery`
-- `Jack X memory/KG`: `usable structured pipeline plus readable Memory Wiki compiler; KG JSONL is repaired locally, but durable memory production is blocked until review-gated commit, source-of-truth cleanup, wiki-to-review promotion, relation rendering, and Jack retrieval proof are closed`
+- `Jack X memory/KG`: `usable structured pipeline plus readable Memory Wiki compiler; KG JSONL is repaired locally, but durable memory production is blocked until review-gated commit, source-of-truth cleanup, wiki-to-review promotion, future-time feedback loop, relation rendering, and Jack retrieval proof are closed`
 - `Mnemos context-check`: `usable continuity surface with proactive watch-threshold snapshots, auto-reset handoff capsules, and a cross-session journal; still not a KG writer`
 - `Autoloop`: `not closed; current cron is scheduling, not protocol self-improvement`
 - `Protocol improvement inbox`: `first derived task-bound inbox live; replay, promotion, and monitoring still partial`
@@ -60,7 +60,7 @@ Immediate blockers:
 - Jack now receives a bounded Hippocampus packet before execution, but older keyword route resolution still exists underneath and must be progressively retired
 - Hermes native delegation and BRM specialist dispatch are parallel systems instead of one parent/child run model
 - protocol lifecycle state machine is modeled, but reviewed promotion to `prod` and the wider autoloop closure remain partial
-- memory lifecycle is not production-closed: local KG JSONL is repaired, but LLM Wiki `kg_operations` are not yet bridged into Jack-X review, Jack-X commit is not review-gated, relation rendering is incomplete, and Jack retrieval proof after memory update is missing
+- memory lifecycle is not production-closed: local KG JSONL is repaired, but LLM Wiki `kg_operations` are not yet bridged into Jack-X review, Jack-X commit is not review-gated, future-time autocorrection is not route-backed, relation rendering is incomplete, and Jack retrieval proof after memory update is missing
 - older docs and snapshots still contain drift and must be treated as historical unless reconciled with `ORCHESTRATION_UNIFIED_PLAN.md`
 
 Still explicitly true:
@@ -229,6 +229,7 @@ Still open:
   - Jack-X `commit-candidate --apply` is gated by promotion review result
   - `~/.openclaw` vs `~/.clawdis` KG write target ambiguity is structurally resolved
   - Memory Wiki refinement proposals are fed into a governed Jack-X review artifact
+  - Jack-X has a feedback-loop route for later evidence, contradictions, staleness, and history-preserving corrections
   - Memory Wiki pages render bounded KG relation evidence from projection
   - Jack proves retrieval of a freshly committed/refined fact from bounded context
 - KG review semantic resolution is now active, but still conservative on some human alias cases; this is a quality-tuning gap, not a runtime gap

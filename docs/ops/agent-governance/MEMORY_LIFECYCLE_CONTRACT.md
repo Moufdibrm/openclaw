@@ -21,15 +21,15 @@ Observed locally on `2026-05-07` before repair:
 - Mnemos is continuity memory only and must not become enterprise truth.
 
 The JSONL corruption was repaired on `2026-05-07`; see `MEMORY_LIFECYCLE_REPAIR_REPORT.md`.
-The remaining product issue is not that the pieces are absent. The issue is that the loop from "captured signal" to "durable KG fact" to "slow consolidation" to "refined durable update" is not governed end to end.
+The remaining product issue is not that the pieces are absent. The issue is that the loop from "captured signal" to "durable KG fact" to "slow consolidation" to "refined durable update" to "future correction" is not governed end to end.
 
 ## Product Roles
 
 | Surface | Owner | Role | May write durable KG? |
 | --- | --- | --- | --- |
 | Jack | operator/orchestrator | route, ask approval, supervise ambiguous memory decisions | yes, only through governed policy |
-| Jack-X | long-term memory agent | capture signals, produce memory candidates, run promotion review, commit governed durable facts | yes, only after validation gates |
-| LLM Wiki | slow consolidation layer | read Jack-X traces, pages, projections, and source refs; consolidate aliases, relations, summaries, open questions, and KG operation proposals | no direct KG write |
+| Jack-X | long-term memory agent | capture signals, produce memory candidates, run promotion review, commit governed durable facts, and run the autocorrection feedback loop over time | yes, only after validation gates |
+| LLM Wiki | slow consolidation layer | read Jack-X traces, pages, projections, and source refs; consolidate aliases, relations, summaries, open questions, contradictions, staleness, and KG operation proposals | no direct KG write |
 | Mnemos | continuity layer | preserve session context, compaction handoff, and reinjection capsules | no |
 | Shared KG | durable enterprise memory | canonical facts, stable entities, stable relationships, reviewed metadata | n/a |
 
@@ -84,6 +84,64 @@ The remaining product issue is not that the pieces are absent. The issue is that
    - Input: valid KG, Memory Wiki latest manifest, and agent-scoped memory excerpt.
    - Output: bounded context packet for the mission or conversation.
 
+10. `feedback_observed`
+   - Owner: Jack-X.
+   - Input: later signals, repeated source evidence, operator correction, failed retrieval, specialist feedback, external surface drift, or Memory Wiki contradiction.
+   - Output: feedback event linked to the original KG entity/relation and source evidence.
+   - No direct destructive mutation.
+
+11. `correction_candidate`
+   - Owner: Jack-X or LLM Wiki.
+   - Output: proposed correction operation: `confirm`, `add_observation`, `add_relation`, `update_attribute`, `merge_duplicate`, `mark_stale`, `supersede`, `deprecate`, or `needs_human`.
+   - LLM Wiki may propose; Jack-X owns the durable review queue.
+
+12. `correction_reviewed`
+   - Owner: Jack-X, with Jack/operator approval when ambiguity or risk requires it.
+   - Output: accepted/rejected/deferred correction with reason, confidence, and source refs.
+   - Contradictions do not overwrite silently. They become an explicit correction candidate.
+
+13. `correction_committed`
+   - Owner: Jack-X or Jack.
+   - Output: durable KG update, strict validation proof, and metadata linking the update to the previous version.
+   - Destructive replacement must use `supersedes`, `superseded_by`, `valid_from`, `valid_until`, or equivalent metadata instead of silent deletion.
+
+14. `feedback_loop_reported`
+   - Owner: Jack-X.
+   - Output: periodic memory health report: promoted facts, corrected facts, stale candidates, unresolved contradictions, open review backlog, and retrieval quality.
+
+## Future-Time Model
+
+The KG must support memory improving over time.
+
+Rules:
+
+- durable entries should keep provenance, confidence, and review metadata
+- corrections should preserve history instead of silently replacing facts
+- stale facts should be marked stale or superseded before removal
+- repeated corroboration should increase confidence only when sources are independent enough
+- contradictions should lower confidence or open review, not auto-delete prior truth
+- time-sensitive facts should carry `observed_at`, `valid_from`, `valid_until`, `last_seen_at`, or equivalent metadata when available
+- a future signal may correct a past KG entry, but must leave a reviewable trail
+- Jack-X owns this feedback loop; LLM Wiki proposes slow corrections; Jack/operator resolves ambiguous or risky cases
+
+Autocorrection is allowed for:
+
+- typo/normalization fixes where stable identity is unchanged
+- alias additions with repeated evidence
+- non-destructive relation additions with strong source refs
+- confidence refresh from new corroborating evidence
+- marking stale when a better source clearly supersedes old information
+
+Autocorrection is review-gated for:
+
+- person identity merge or split
+- role/responsibility change
+- brand ownership/access/permission relation
+- customer/support/payment/legal facts
+- destructive deletion
+- source conflict between two plausible facts
+- any correction that would affect an agent permission, external action, or business decision
+
 ## Source Of Truth
 
 Canonical durable KG path:
@@ -132,6 +190,7 @@ Review-gated:
 - stale-data deletion or destructive correction
 - finance, payment, dispute, support, refund, customer-risk, or legal facts
 - any ambiguous brand scope or tenant scope
+- any correction that changes a previously durable person, permission, ownership, support, payment, or business-critical fact
 
 Forbidden:
 
@@ -153,6 +212,7 @@ Every memory lifecycle run must be able to produce:
 - Memory Wiki manifest path when the wiki ran
 - `kg_operations` count and review item count
 - retrieval proof showing Jack can read the updated fact or the open question
+- feedback loop proof when a prior fact is confirmed, corrected, superseded, or marked stale
 
 For the Najet example, the expected proof is:
 
@@ -162,6 +222,7 @@ For the Najet example, the expected proof is:
 - KG commit or review-gated skip
 - LLM Wiki page showing consolidated summary, aliases, relationships, and open questions
 - refinement operation when the wiki finds a missing or weak relationship
+- future correction trail if a later signal changes Najet's role, aliases, team relation, or confidence
 
 ## Current Blockers
 
@@ -170,6 +231,7 @@ For the Najet example, the expected proof is:
 - LLM Wiki `kg_operations` need a governed handoff into Jack-X review instead of staying only in the wiki manifest.
 - Jack-X DB analysis must gate `commit-candidate --apply` on promotion review, not only record review before commit.
 - Memory Wiki pages must include bounded KG relation evidence from memory projection.
+- Future-time feedback loop is specified in governance, but not yet implemented as a repeatable route/protocol.
 - The pending review queue has unresolved items and no operator-grade triage proof.
 - Brand-linked memory candidates need native `brand_scope`.
 - Retrieval proof is missing: after a commit/refinement, Jack must demonstrate that the updated memory is visible in its bounded context.
@@ -179,5 +241,7 @@ For the Najet example, the expected proof is:
 1. Add promotion-review gating before any Jack-X live `commit-candidate --apply`.
 2. Convert wiki `kg_operations` into a Jack-X refinement review artifact without direct KG mutation.
 3. Add KG relation evidence to Memory Wiki page seeds/pages.
-4. Run one low-risk supervised KG commit after the gate exists.
-5. Prove retrieval from Jack's memory context.
+4. Add Jack-X memory feedback loop route for contradiction/staleness/correction review.
+5. Run one low-risk supervised KG commit after the gate exists.
+6. Prove retrieval from Jack's memory context.
+7. Prove one autocorrection fixture: previous fact -> later signal -> correction candidate -> review -> superseded/confirmed KG update -> retrieval.

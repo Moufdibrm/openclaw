@@ -35,7 +35,7 @@ roles:
       - "hidden_memory_mutation"
       - "commit_when_kg_invalid"
   jack-x:
-    purpose: "long-term memory intake, candidates, promotion review, and governed durable KG writes"
+    purpose: "long-term memory intake, candidates, promotion review, governed durable KG writes, and future-time autocorrection"
     durable_kg_write: "allowed_after_validation_gates"
     owns:
       - "signal capture"
@@ -43,18 +43,21 @@ roles:
       - "promotion review"
       - "wiki refinement review"
       - "governed KG commit"
+      - "memory feedback loop"
+      - "staleness and contradiction review"
     forbidden:
       - "external replies"
       - "business system mutation"
       - "direct customer/payment/support action"
   llm-wiki:
-    purpose: "slow consolidation and enrichment of Jack-X evidence into readable pages and reviewable KG operations"
+    purpose: "slow consolidation and enrichment of Jack-X evidence into readable pages, contradictions, stale-data cues, and reviewable KG operations"
     durable_kg_write: "forbidden"
     owns:
       - "memory pages"
       - "alias consolidation proposals"
       - "relationship proposals"
       - "open question extraction"
+      - "contradiction and staleness proposals"
       - "kg_operations manifest"
     forbidden:
       - "direct KG mutation"
@@ -107,6 +110,55 @@ lifecycle:
     owner: "jack"
     outputs: ["bounded_context_packet", "retrieval_proof"]
     write_surface: "none_or_mission_artifact"
+  - state: "feedback_observed"
+    owner: "jack-x"
+    inputs: ["later_signal", "operator_correction", "failed_retrieval", "specialist_feedback", "wiki_contradiction", "surface_drift"]
+    outputs: ["feedback_event", "linked_entity_or_relation", "source_refs"]
+    write_surface: "memory_reviews_db_or_feedback_artifact"
+  - state: "correction_candidate"
+    owner: "jack-x_or_llm-wiki"
+    outputs: ["confirm", "add_observation", "add_relation", "update_attribute", "merge_duplicate", "mark_stale", "supersede", "deprecate", "needs_human"]
+    write_surface: "review_artifact_only"
+  - state: "correction_reviewed"
+    owner: "jack-x"
+    outputs: ["accepted_correction", "rejected_correction", "deferred_correction", "approval_required"]
+    write_surface: "memory_reviews_db"
+  - state: "correction_committed"
+    owner: "jack-x"
+    outputs: ["kg_commit_summary", "strict_validation_result", "version_linkage"]
+    write_surface: "durable_kg"
+    gates: ["same_as_durable_committed", "no_silent_overwrite", "review_required_for_destructive_change"]
+  - state: "feedback_loop_reported"
+    owner: "jack-x"
+    outputs: ["memory_health_report", "correction_summary", "stale_backlog", "contradiction_backlog", "retrieval_quality"]
+    write_surface: "report_artifact"
+
+future_time_policy:
+  principle: "memory improves over time without silent overwrites"
+  metadata_expected_when_available:
+    - "observed_at"
+    - "valid_from"
+    - "valid_until"
+    - "last_seen_at"
+    - "supersedes"
+    - "superseded_by"
+    - "confidence"
+    - "source_refs"
+    - "reviewed_by"
+  allowed_autocorrection:
+    - "typo_or_normalization_fix_same_identity"
+    - "alias_addition_with_repeated_evidence"
+    - "non_destructive_relation_addition_with_source_refs"
+    - "confidence_refresh_from_new_evidence"
+    - "mark_stale_when_superseded_by_better_source"
+  review_gated_autocorrection:
+    - "person_identity_merge_or_split"
+    - "role_or_responsibility_change"
+    - "ownership_permission_or_access_relation"
+    - "customer_support_payment_legal_fact"
+    - "destructive_delete"
+    - "source_conflict_between_plausible_facts"
+    - "correction_affecting_agent_permission_or_business_decision"
 
 write_policy:
   auto_eligible_after_kg_repair:
@@ -122,6 +174,7 @@ write_policy:
     - "stale-data deletion"
     - "finance, payment, dispute, support, refund, customer-risk, or legal facts"
     - "ambiguous brand_scope or tenant scope"
+    - "correction to previously durable business-critical facts"
   forbidden:
     - "llm-wiki direct KG mutation"
     - "mnemos KG mutation"
@@ -138,12 +191,14 @@ proof_targets:
     - "Memory Wiki manifest when wiki ran"
     - "kg_operations count"
     - "retrieval proof or open question"
+    - "feedback loop proof for confirmations, corrections, supersessions, and stale marks"
   example_najet:
     - "source refs where Najet was observed"
     - "candidate person with aliases and role evidence"
     - "promotion decision"
     - "wiki page with consolidated aliases, relationships, and open questions"
     - "refinement operation if a missing relation is found"
+    - "future correction trail if later evidence changes role, alias, relation, or confidence"
 
 current_blockers:
   - id: "kg_jsonl_invalid"
@@ -176,3 +231,8 @@ current_blockers:
     status: "open"
     evidence: "no current proof that Jack reads a freshly committed/refined fact"
     required_resolution: "fixture proof from KG/wiki to Jack bounded context"
+  - id: "feedback_loop_route_missing"
+    severity: "p1"
+    status: "open"
+    evidence: "future-time autocorrection policy is now specified, but no repeatable Jack-X route proves correction over time"
+    required_resolution: "add fixture route for previous fact -> later signal -> correction candidate -> review -> KG update -> retrieval"

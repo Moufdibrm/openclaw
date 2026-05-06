@@ -191,6 +191,16 @@ workflows:
     proof_required: [refinement_review_artifact, commit_or_skip_reason]
     render_to_moufdi: "proposed durable deltas and why each was accepted, blocked, or deferred"
     post_deploy_test: "Use a temporary/test KG copy until canonical KG repair and review gates are proven."
+  - id: jack-x.memory-feedback-loop
+    agent: jack-x
+    status: draft
+    registry_coverage: planned
+    inputs_required: [previous_kg_fact, later_signal, source_refs, correction_scope]
+    inputs_optional: [operator_correction, retrieval_failure, brand_scope]
+    outputs_expected: [feedback_event, correction_candidate, review_decision, supersession_or_confirmation_summary, retrieval_proof]
+    proof_required: [feedback_event, correction_candidate, review_decision, retrieval_proof]
+    render_to_moufdi: "time delta, preserved history, correction decision, and updated retrieval view"
+    post_deploy_test: "Fixture previous fact, inject later contradictory/corroborating signal, then verify correction candidate and history-preserving KG update."
   - id: jack-x.signal.extract
     agent: jack-x
     status: beta

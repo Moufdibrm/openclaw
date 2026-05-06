@@ -109,6 +109,12 @@ agents:
         purpose: "Review LLM Wiki KG operation proposals and convert accepted items into governed Jack-X promotion decisions."
         proof_target: "refinement_review_artifact, accepted/rejected/deferred counts, KG commit or skip reason"
         open_gap: "Bridge from LLM Wiki kg_operations to Jack-X review queue is not closed."
+      - id: jack-x.memory-feedback-loop
+        status: draft
+        registry_coverage: planned
+        purpose: "Detect later evidence, contradictions, stale facts, and failed retrievals, then propose history-preserving KG corrections."
+        proof_target: "feedback_event, correction_candidate, review_decision, supersession_or_confirmation_summary, retrieval_proof"
+        open_gap: "Autocorrection policy exists in governance, but no repeatable route proves memory improvement over time."
       - id: jack-x.signal.extract
         status: beta
         registry_coverage: package_only

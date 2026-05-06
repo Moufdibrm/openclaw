@@ -130,7 +130,7 @@ Working now:
 - `jack-x.registry-ingest`, `jack-x.db-analysis`, and `jack-x.memory-wiki` run via Hermes recurring jobs.
 - Jack X has a real channel registry, event DB ingestion, DB-first analysis, KG candidate/review path, and MM memory projection.
 - Jack X Memory Wiki now compiles channel reports and the latest memory projection into readable enterprise memory pages under `~/.openclaw/memory-wiki`; it does not directly mutate the KG.
-- Memory production is not closed: KG JSONL is repaired locally, but review-gated commit, source-of-truth cleanup, wiki-to-review promotion, relation rendering, and Jack retrieval proof must close before durable KG writes are treated as production-ready.
+- Memory production is not closed: KG JSONL is repaired locally, but review-gated commit, source-of-truth cleanup, wiki-to-review promotion, future-time feedback loop, relation rendering, and Jack retrieval proof must close before durable KG writes are treated as production-ready.
 - The semantic layer is now wired in bounded mode: `deterministic`, `shadow`, `active`. Production cron now runs `active` on `Gemini` with a shared semantic cache, so the first backfill writes fresh semantic outputs and subsequent runs reuse cached semantics for unchanged pages.
 - Mnemos exists as a working continuity subsystem:
   - proactive watch-threshold snapshots once the configured watch band is crossed
@@ -542,7 +542,7 @@ P5 - Autoloop:
 | Protocol corpus | 70% | Many packages exist; lifecycle/promotion incomplete. |
 | Mission Manager cockpit | 76-78% | First canonical run ledger is live; direct sessions and child lineage still missing. |
 | Scheduler truth | 70-73% | Cron exists, reports into WorkflowRun for recurring jobs, and now includes active Gemini-backed Memory Wiki cache reuse; protocol/MM drift remains. |
-| Jack X memory/KG | 68-74% | KG JSONL is repaired locally and active Memory Wiki compile works; durable production readiness is still blocked by review-gated commit, source-of-truth cleanup, wiki-to-review promotion, relation rendering, and retrieval proof. |
+| Jack X memory/KG | 68-74% | KG JSONL is repaired locally and active Memory Wiki compile works; durable production readiness is still blocked by review-gated commit, source-of-truth cleanup, wiki-to-review promotion, future-time feedback loop, relation rendering, and retrieval proof. |
 | Mnemos continuity | 65-70% | Trigger-only and useful; natural saturation proof still weak. |
 | Jack orchestration | 45-52% | Main risk: rigid keyword routing and tool lock. |
 | Hippocampus runtime | 25-35% | Index/schema exists; not mandatory runtime path. |

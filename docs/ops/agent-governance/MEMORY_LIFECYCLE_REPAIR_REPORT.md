@@ -110,6 +110,7 @@ Still open:
 - Jack-X DB analysis commits are not gated by the promotion review result; the review is recorded, then the full graph candidate is still committed when `--apply` runs
 - LLM Wiki emits `kg_operations`, but there is no closed handoff into Jack-X refinement review
 - Memory Wiki pages still do not render KG relation context such as `Najet member_of Team :: BRM Board`, even when the projection contains the relation
+- the future-time feedback loop is not yet route-backed: there is no repeatable proof for previous fact -> later signal -> correction candidate -> review -> superseded/confirmed KG update -> retrieval
 - no live KG commit replay was run after repair; only no-apply and staging proofs were run
 
 ## Next Required Slice
@@ -117,6 +118,7 @@ Still open:
 1. Add a review gate before Jack-X `commit-candidate --apply`.
 2. Add the `LLM Wiki kg_operations -> Jack-X refinement review` bridge.
 3. Teach Memory Wiki page seeds/pages to include bounded KG relation evidence from memory projection.
-4. Convert `.clawdis/knowledge-graph` into a compatibility alias or update its tool/MCP pointers to `.openclaw`.
-5. Run one low-risk live KG commit under supervised mode after the review gate exists.
-
+4. Add Jack-X feedback-loop route for correction/staleness/contradiction review over time.
+5. Convert `.clawdis/knowledge-graph` into a compatibility alias or update its tool/MCP pointers to `.openclaw`.
+6. Run one low-risk live KG commit under supervised mode after the review gate exists.
+7. Prove one autocorrection fixture with history-preserving metadata.

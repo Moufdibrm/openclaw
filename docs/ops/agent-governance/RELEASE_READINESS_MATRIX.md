@@ -28,7 +28,7 @@ Several individual routes are production-usable on bounded scopes:
 | Gate | Status | Meaning |
 | --- | --- | --- |
 | `brand_scope` on brand-linked deliverables | partial | contract is now required, but representative proof bundles are legacy and need sidecar/native emission |
-| memory lifecycle | partial | KG JSONL is repaired locally and LLM Wiki active compile is fresh; review-gated commit, wiki-to-review bridge, relation rendering, source-of-truth cleanup, and retrieval proof remain open |
+| memory lifecycle | partial | KG JSONL is repaired locally and LLM Wiki active compile is fresh; review-gated commit, wiki-to-review bridge, future-time feedback loop, relation rendering, source-of-truth cleanup, and retrieval proof remain open |
 | reviewed fixtures | partial | strong coverage exists, but Naya sourcing input, Naya stock SKU/snapshot, Safir email brief, and Jack fresh proof remain open |
 | native route proof | partial | many routes have historical/golden proof; several beta/package routes need fresh post-deploy or fixture smoke proof |
 | external mutations | blocked by default | outbound messages, refunds, disputes, CRM/storefront/campaign mutations, supplier sends, publication, Drive upload require approval |
@@ -39,7 +39,7 @@ Several individual routes are production-usable on bounded scopes:
 | Agent | Prep state | What can run next | Main blocker |
 | --- | --- | --- | --- |
 | Jack | partial | beta fixture checks for protocol/capability/draft routes | no fresh post-deploy proof in audited paths; Higgsfield supervision remains draft |
-| Jack-X | partial | frozen fixture suite for package-backed memory routes and Memory Wiki consolidation | KG repaired locally; commit path must be review-gated before live replay; wiki-to-review bridge missing |
+| Jack-X | partial | frozen fixture suite for package-backed memory routes, Memory Wiki consolidation, and autocorrection fixture | KG repaired locally; commit path must be review-gated before live replay; wiki-to-review and feedback-loop routes missing |
 | Mnemos | ready for beta fixture | context-check fixture replay | package-only route, not a full shipped surface |
 | Rosa | ready for prod route smoke | offer, performance audit, competitive watch with upload off | native `brand_scope` missing in legacy manifests |
 | Jeff | ready/partial | analyse-profil and performance-report smoke; candidate-intake normalization | outreach/collab routes approval-gated and planned |

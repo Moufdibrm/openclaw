@@ -133,6 +133,12 @@ routes:
     contract_optional: [operator_scope, brand_scope]
     test_mode: planned_test_kg_copy
     constraints: [no_live_kg_commit_until_repaired, review_gated]
+  - id: jack-x.memory-feedback-loop
+    mapping_status: planned
+    contract_required: [previous_kg_fact, later_signal, source_refs, correction_scope]
+    contract_optional: [operator_correction, retrieval_failure, brand_scope]
+    test_mode: planned_test_kg_copy
+    constraints: [history_preserving_update, no_silent_overwrite, review_gated_for_business_critical_facts]
   - id: jack-x.signal.extract
     mapping_status: package_only
     package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.signal.extract.protocol.yaml

@@ -46,7 +46,7 @@ global_summary:
     - "Alfred strategy-plan blocked by brand_pack_id/runtime_store_key mismatch"
     - "Safir email workflow needs a business brief fixture"
     - "Jack fresh post-deploy proof and Jack-X/Mnemos package route harness gaps remain"
-    - "Jack-X memory lifecycle is repaired locally but still blocked by commit gating, wiki-to-review bridge, relation rendering, and retrieval proof"
+    - "Jack-X memory lifecycle is repaired locally but still blocked by commit gating, wiki-to-review bridge, relation rendering, feedback-loop route, and retrieval proof"
 
 agents:
   - id: "jack"
@@ -74,16 +74,16 @@ agents:
   - id: "jack-x"
     governance_status: "beta"
     release_prep_status: "partial"
-    readiness_claim: "Memory/intake routes and Memory Wiki exist; KG JSONL is repaired locally, but durable memory production is blocked until review-gated commit and wiki-to-review promotion are closed."
+    readiness_claim: "Memory/intake routes and Memory Wiki exist; KG JSONL is repaired locally, but durable memory production is blocked until review-gated commit, wiki-to-review promotion, feedback-loop autocorrection, and retrieval proof are closed."
     supported_release_modes: ["fixture_beta", "memory_candidate_review", "memory_wiki_consolidation"]
     route_counts:
       prod: 0
       beta: 8
-      draft: 1
+      draft: 2
       specialist_route_registry: 0
       package_only: 7
       recurring_script: 1
-      planned: 1
+      planned: 2
     fixture_status: "available"
     current_blockers:
       - "package-only/recurring-script route coverage"
@@ -91,6 +91,7 @@ agents:
       - "LLM Wiki kg_operations are not yet bridged into Jack-X review queue"
       - "Jack-X commit-candidate --apply is not gated by promotion review result"
       - "Memory Wiki pages do not yet render KG relation evidence from memory projection"
+      - "Future-time autocorrection/feedback loop is governed but not route-backed"
       - "no live KG commit allowed in governance smoke until review gate exists"
       - "brand-linked memory candidates must emit brand_scope"
       - "Jack retrieval proof after memory update is missing"
@@ -99,7 +100,7 @@ agents:
       - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
       - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
       - "/Users/moufdi/openclaw/docs/ops/agent-governance/memory-lifecycle-matrix.yaml"
-    next_validation: "Add commit review gate and wiki-to-review bridge, then run frozen memory lifecycle fixture: candidate -> review -> wiki -> refinement review -> supervised test KG commit -> Jack retrieval proof."
+    next_validation: "Add commit review gate, wiki-to-review bridge, and memory-feedback-loop route, then run frozen fixture: candidate -> review -> wiki -> refinement/correction review -> supervised KG commit -> Jack retrieval proof."
 
   - id: "mnemos"
     governance_status: "beta"
