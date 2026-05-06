@@ -1,0 +1,429 @@
+version: 1
+last_updated: "2026-05-06"
+purpose: "Map workflow contract inputs to runtime runner args or mark workflows as package-only/planned for dry-run testing."
+scope: "governance_mapping_only_no_runtime_changes"
+
+mapping_status_values:
+  exact_runtime_route: "Contract inputs match a specialist-route-registry runner closely enough for post-deploy smoke testing."
+  partial_runtime_route: "Runtime route exists but defaults/optional inputs or proof criteria need tightening."
+  package_only: "Protocol package exists, but no specialist-route-registry runner entry was observed."
+  planned_only: "Workflow is planned/draft; test as dry-run or blocked render only."
+  local_helper: "Workflow uses a local governed helper outside specialist-route-registry."
+  blocked_until_approval: "Do not execute until approval/consent prerequisites exist."
+
+safe_defaults:
+  upload_drive: false
+  days: 7
+  case_limit: 3
+  ticket_limit: 5
+  skip_comments: true
+  snapshot_repo: true
+  write_cursor: false
+  kg_commit: false
+  mission_manager_mutation: false
+
+routes:
+  - id: jack.protocol-missing
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/hermes-runtime"
+    contract_required: [request_text, target_agent]
+    runner_required: [request_text, target_agent]
+    contract_optional: [source_channel, reason_code, mentioned_agents, upload_drive]
+    runner_optional: [source_channel, reason_code, mentioned_agents, upload_drive]
+    test_mode: fixture_request
+  - id: jack.capability-missing
+    mapping_status: partial_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/hermes-runtime"
+    contract_required: [request_text, capability_slug]
+    runner_required: [request_text, capability_slug]
+    contract_optional: [capability_label, coverage_hint, suggested_agents, framework_layers]
+    runner_optional: [capability_label, source_channel, reason_code, mentioned_agents, coverage_hint, suggested_agents, framework_layers, operator_question, upload_drive]
+    test_mode: fixture_request
+    gap: "Contract omits source_channel/reason_code/mentioned_agents/operator_question/upload_drive optional args."
+  - id: jack.draft-protocol-runtime
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/hermes-runtime"
+    contract_required: [bundle_path, draft_mode]
+    runner_required: [bundle_path, draft_mode]
+    contract_optional: [prompt]
+    runner_optional: [prompt]
+    test_mode: dry_run_observe
+  - id: jack.direct.mm-supervision
+    mapping_status: package_only
+    runtime_registry: false
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack/packages/jack.direct.mm-supervision.protocol.yaml
+    contract_required: [mission_context, intended_change]
+    contract_optional: [current_mm_state]
+    test_mode: patch_only_mock
+    approval_gates: [mission_manager_mutation]
+    gap: "Package includes Mission Manager update stages; smoke test must stop at patch preview or use a mock."
+  - id: jack.email-digest
+    mapping_status: package_only
+    runtime_registry: false
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack/packages/jack.email-digest.protocol.yaml
+    contract_required: [jack_x_mail_artifact]
+    contract_optional: [operator_scope]
+    test_mode: artifact_fed_no_send
+    approval_gates: [outbound_external_message]
+  - id: jack.higgsfield-skill-supervision
+    mapping_status: planned_only
+    runtime_registry: false
+    contract_required: [creative_prompt]
+    contract_optional: [source_image, route_intent]
+    test_mode: blocked_or_handoff_to_kanye
+    approval_gates: [external_publication, paid_delivery_mutation]
+    gap: "No Jack package observed for this workflow."
+
+  - id: jack-x.registry-ingest
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.registry-ingest.protocol.yaml
+    contract_required: [registry_source]
+    contract_optional: [channel_scope]
+    test_mode: registry_fixture_no_live
+    constraints: [write_cursor_false, kg_commit_false]
+  - id: jack-x.email-intake-pass0
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.email-intake-pass0.protocol.yaml
+    contract_required: [mailbox_scope]
+    contract_optional: [store, time_window]
+    test_mode: frozen_mail_fixture
+    constraints: [write_cursor_false, no_external_reply]
+  - id: jack-x.lark-message-intake-pass0
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.lark-message-intake-pass0.protocol.yaml
+    contract_required: [lark_channel_or_thread]
+    contract_optional: [time_window]
+    test_mode: frozen_lark_message_fixture
+    constraints: [write_cursor_false]
+  - id: jack-x.lark-table-intake-pass0
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.lark-table-intake-pass0.protocol.yaml
+    contract_required: [lark_table_or_view]
+    contract_optional: [filter]
+    test_mode: frozen_lark_table_fixture
+    constraints: [write_cursor_false]
+  - id: jack-x.whatsapp-intake-pass0
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.whatsapp-intake-pass0.protocol.yaml
+    contract_required: [whatsapp_snapshot]
+    contract_optional: [contact_scope, time_window]
+    test_mode: frozen_snapshot_no_vps_live
+    constraints: [no_external_message]
+  - id: jack-x.db-analysis
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.db-analysis.protocol.yaml
+    contract_required: [memory_db_scope]
+    contract_optional: [projection_scope]
+    test_mode: copied_db_fixture
+    constraints: [kg_commit_false, no_live_db_mutation]
+  - id: jack-x.signal.extract
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/jack-x/packages/jack-x.signal.extract.protocol.yaml
+    contract_required: [bounded_signal_artifact]
+    contract_optional: [mission_context]
+    test_mode: frozen_signal_fixture
+    constraints: [mission_patch_preview_only]
+
+  - id: mnemos.context-check
+    mapping_status: package_only
+    package_path: /Users/moufdi/hermes-runtime/adapters/agents/mnemos/packages/mnemos.context-check.protocol.yaml
+    contract_required: [context_snapshot]
+    contract_optional: [pressure_threshold]
+    test_mode: frozen_context_snapshot
+
+  - id: rosa.offer-strategy.direct
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-rosa"
+    contract_required: [prompt]
+    runner_required: [prompt]
+    contract_optional: [store, upload_drive]
+    runner_optional: [store, upload_drive]
+    test_mode: prompt_fixture_upload_off
+  - id: rosa.audit-performance-marketing
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-rosa"
+    contract_required: [store]
+    runner_required: [store]
+    contract_optional: [period_days, end_date, upload_drive]
+    runner_optional: [period_days, end_date, upload_drive]
+    test_mode: bounded_period_upload_off
+  - id: rosa.veille-concurrentielle
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-rosa"
+    contract_required: [store, domain]
+    runner_required: [store, domain]
+    contract_optional: [refresh_market_graph]
+    runner_optional: [refresh_market_graph]
+    test_mode: known_domain_graph_refresh_off
+  - id: rosa.market-graph-refresh
+    mapping_status: partial_runtime_route
+    runtime_registry: true
+    contract_required: [store_or_market_scope]
+    contract_optional: [seo_capture]
+    runner_required: []
+    runner_optional: []
+    test_mode: reviewed_capture_only
+    gap: "Registry entry has no runner args; define store/domain/capture arg mapping before automation."
+
+  - id: jeff.analyse-profil
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-jeff"
+    contract_required: [creator_handle, store]
+    runner_required: [creator_handle, store]
+    test_mode: known_creator_fixture
+  - id: jeff.performance-report
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-jeff"
+    contract_required: [store, period_days]
+    runner_required: [store, period_days]
+    contract_optional: [upload_drive]
+    runner_optional: [upload_drive]
+    test_mode: upload_off
+  - id: jeff.candidate-intake
+    mapping_status: partial_runtime_route
+    runtime_registry: true
+    contract_required: [candidate_profile_or_source]
+    contract_optional: [store, campaign_scope]
+    runner_required: []
+    runner_optional: []
+    test_mode: candidate_fixture_only
+    gap: "Registry entry is mission-only with no runner args."
+  - id: jeff.email-digest
+    mapping_status: planned_only
+    contract_required: [inbox_artifact]
+    contract_optional: [time_window]
+    test_mode: digest_fixture_no_send
+    approval_gates: [creator_contact_send]
+  - id: jeff.outreach-pipeline
+    mapping_status: planned_only
+    contract_required: [creator_context, campaign_context]
+    test_mode: draft_only
+    approval_gates: [creator_contact_send]
+  - id: jeff.ajout-collaboration
+    mapping_status: planned_only
+    contract_required: [collaboration_target, collaboration_delta]
+    test_mode: pre_mutation_only
+    approval_gates: [collaboration_mutation]
+  - id: jeff.collab-management
+    mapping_status: planned_only
+    contract_required: [collaboration_id, action_delta]
+    test_mode: pre_mutation_only
+    approval_gates: [collaboration_mutation]
+
+  - id: naya.stock-check
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/supply-chain"
+    contract_required: [store, product_query]
+    runner_required: [store, product_query]
+    contract_optional: [reviewed_stock_snapshot]
+    runner_optional: [reviewed_stock_snapshot]
+    test_mode: reviewed_snapshot_then_live_bounded
+  - id: naya.product-sourcing
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/supply-chain"
+    contract_required: [reviewed_sourcing_sheet]
+    runner_required: [reviewed_sourcing_sheet]
+    contract_optional: [upload_drive]
+    runner_optional: [upload_drive]
+    test_mode: reviewed_sheet_upload_off
+  - id: naya.campaign-support
+    mapping_status: planned_only
+    contract_required: [campaign_scope, product_or_sku_scope]
+    test_mode: feasibility_artifact_only
+  - id: naya.supplier-comm
+    mapping_status: planned_only
+    contract_required: [supplier_target, communication_intent]
+    test_mode: draft_only_no_send
+    approval_gates: [supplier_message_send]
+
+  - id: selena.paypal-dispute.phase1-audit
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/customer-support"
+    contract_required: [reviewed_dispute_export, store]
+    runner_required: [reviewed_dispute_export, store]
+    test_mode: reviewed_export_only
+  - id: selena.paypal-dispute.phase1-live
+    mapping_status: partial_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/customer-support"
+    contract_required: [store]
+    runner_required: [store]
+    contract_optional: [days, case_limit, reviewed_dispute_export]
+    runner_optional: [reviewed_dispute_export]
+    safe_defaults: {days: 7, case_limit: 3}
+    test_mode: live_read_tiny_limit
+    gap: "Registry args do not expose days/case_limit inputs even though route notes mention them."
+  - id: selena.zendesk-feedback-review
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/customer-support"
+    contract_required: [zendesk_export, store]
+    runner_required: [zendesk_export, store]
+    test_mode: reviewed_export_only
+  - id: selena.zendesk-feedback-live
+    mapping_status: partial_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/customer-support"
+    contract_required: [store]
+    runner_required: [store]
+    contract_optional: [days, ticket_limit, skip_comments, zendesk_export]
+    runner_optional: [skip_comments, zendesk_export]
+    safe_defaults: {days: 7, ticket_limit: 5, skip_comments: true}
+    test_mode: live_read_tiny_limit
+    gap: "Registry args do not expose days/ticket_limit inputs even though route notes mention them."
+
+  - id: alfred.visibility-audit
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-alfred"
+    contract_required: [report_data_path, store]
+    runner_required: [report_data_path, store]
+    contract_optional: [date, domain, upload_drive]
+    runner_optional: [date, domain, upload_drive]
+    test_mode: reviewed_report_data_upload_off
+  - id: alfred.strategy-plan
+    mapping_status: planned_only
+    contract_required: [phase1_audit_artifact, strategy_scope]
+    test_mode: artifact_fed_strategy_only
+  - id: alfred.deployment-feedback-loop
+    mapping_status: planned_only
+    contract_required: [deployment_feedback_artifacts]
+    test_mode: feedback_artifact_only_no_deploy
+
+  - id: cortex.ads-observation
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-cortex"
+    contract_required: [store]
+    runner_required: [store]
+    contract_optional: [workspace, mission_id, mission_code, task_slug, upload_drive]
+    runner_optional: [workspace, mission_id, mission_code, task_slug, upload_drive]
+    test_mode: read_only_upload_off
+  - id: cortex.campaign-management
+    mapping_status: planned_only
+    contract_required: [campaign_objective, budget_scope, brand_scope]
+    test_mode: draft_plan_only
+    approval_gates: [campaign_mutation, ad_publication]
+  - id: cortex.feedback-loop
+    mapping_status: planned_only
+    contract_required: [post_publication_metrics]
+    contract_optional: [creative_artifacts]
+    test_mode: metrics_fixture_only
+
+  - id: tony.codebase-exploration
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/openclaw"
+    contract_required: [prompt]
+    runner_required: [prompt]
+    contract_optional: [target_repo, upload_drive]
+    runner_optional: [target_repo, upload_drive]
+    test_mode: fixture_repo_read_only
+    default_target_repo: /Users/moufdi/hermes-runtime/fixtures/tony-dev-fixture-template
+  - id: tony.development-plan
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/tech"
+    contract_required: [target_repo, task_request, exploration_artifact]
+    runner_required: [target_repo, task_request, exploration_artifact]
+    contract_optional: [prompt, upload_drive]
+    runner_optional: [prompt, upload_drive]
+    test_mode: fixture_repo_plan_only
+  - id: tony.development
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/clawd/workspace/tech"
+    contract_required: [target_repo, task_request, exploration_artifact, development_plan]
+    runner_required: [target_repo, task_request, exploration_artifact, development_plan]
+    contract_optional: [snapshot_repo, upload_drive]
+    runner_optional: [snapshot_repo, upload_drive]
+    safe_defaults: {snapshot_repo: true}
+    test_mode: fixture_repo_snapshot_only
+    approval_gates: [prod_deploy_or_restart]
+
+  - id: kanye.still-generate
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-kanye"
+    contract_required: [prompt]
+    runner_required: [prompt]
+    contract_optional: [route, intent, source_image]
+    runner_optional: [route, intent, source_image]
+    test_mode: low_risk_still
+  - id: kanye.reference-edit
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-kanye"
+    contract_required: [prompt, source_image]
+    runner_required: [prompt, source_image]
+    contract_optional: [route]
+    runner_optional: [route]
+    test_mode: safe_reference_fixture
+  - id: kanye.higgsfield-skill-exploration
+    mapping_status: planned_only
+    contract_required: [skill_package_scope]
+    test_mode: inspect_only_no_secret
+  - id: kanye.higgsfield-skill-validation
+    mapping_status: planned_only
+    contract_required: [bounded_prompt]
+    contract_optional: [source_media]
+    test_mode: bounded_validation_manifest
+  - id: kanye.higgsfield-generate.official-cli
+    mapping_status: local_helper
+    contract_required: [prompt]
+    contract_optional: [model, source_media]
+    test_mode: official_cli_with_generate_get_recovery
+  - id: kanye.higgsfield-product-photoshoot.validation
+    mapping_status: local_helper
+    contract_required: [product_image, mode, prompt]
+    contract_optional: [aspect_ratio, brand_context, product_context]
+    helper: /Users/moufdi/.openclaw/workspace-kanye/bin/higgsfield-product-photoshoot-run
+    test_mode: product_shot_1_1_helper
+  - id: kanye.higgsfield-marketplace-cards.validation
+    mapping_status: planned_only
+    contract_required: [product_image, marketplace_scope, brand_constraints]
+    contract_optional: [category, count]
+    test_mode: main_scope_no_publication
+    approval_gates: [external_publication]
+  - id: kanye.higgsfield-soul-id.validation
+    mapping_status: blocked_until_approval
+    contract_required: [explicit_approval, identity_consent, identity_photos, model_check]
+    contract_optional: [reuse_prompt]
+    test_mode: blocked_until_approval_and_consent
+    approval_gates: [identity_or_private_media_use]
+
+  - id: safir.email-audit
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-safir"
+    contract_required: [store, parent_record_id]
+    runner_required: [store, parent_record_id]
+    test_mode: read_only_no_send
+  - id: safir.mail-pole-audit
+    mapping_status: exact_runtime_route
+    runtime_registry: true
+    runner_cwd: "~/.openclaw/workspace-safir"
+    contract_required: [store]
+    runner_required: [store]
+    contract_optional: [period_days]
+    runner_optional: [period_days]
+    safe_defaults: {skip_drive: true}
+    test_mode: render_only_skip_drive
+    approval_gates: [drive_delivery, external_email_send]
+  - id: safir.email-workflow
+    mapping_status: planned_only
+    contract_required: [brand, campaign_goal, offer, audience]
+    contract_optional: [assets, brand_voice, creative_handoff]
+    test_mode: render_draft_only_no_send
+    approval_gates: [external_email_send, crm_mutation]

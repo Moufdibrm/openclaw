@@ -1,0 +1,235 @@
+version: 1
+last_updated: "2026-05-06"
+mission_id: "spv-2026-05-06"
+purpose: "Validate V1 BRM/Hermes agents for supervised production start."
+scope: "governance_validation_only_no_deploy_no_runtime_no_mm"
+
+hard_blocks:
+  - "runtime_gateway_changes"
+  - "deploy_scripts"
+  - "systemd_or_service_restart"
+  - "mission_manager_code_or_mutation"
+  - "external_message_send_without_approval"
+  - "customer_visible_reply_without_approval"
+  - "paypal_dispute_message_without_approval"
+  - "refund_payment_billing_mutation_without_approval"
+  - "campaign_or_ad_publication_without_approval"
+  - "supplier_message_without_approval"
+  - "crm_mutation_without_approval"
+  - "drive_upload_without_approval"
+
+source_refs:
+  release_readiness: "/Users/moufdi/openclaw/docs/ops/agent-governance/release-readiness-matrix.yaml"
+  workflow_io: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-io-test-matrix.yaml"
+  runner_input_map: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-runner-input-map.yaml"
+  fixtures: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+  brand_scope_contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+  brand_scope_sidecars: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+
+status_values:
+  mission_status:
+    - "not_started"
+    - "in_progress"
+    - "passed"
+    - "passed_with_caveats"
+    - "blocked"
+  agent_final_status:
+    - "supervised_ready"
+    - "supervised_ready_with_caveats"
+    - "blocked_with_named_owner"
+
+entry_criteria:
+  v1_agent_inventory: "passed"
+  brand_scope_contract: "passed"
+  release_readiness_rollup: "passed"
+  legacy_brand_scope_sidecars: "passed"
+  no_external_mutation_default: "passed"
+  no_runtime_gateway_deploy_mm_scope: "passed"
+
+exit_criteria:
+  each_v1_agent_has_final_status: true
+  each_tested_route_has_proof_path: true
+  each_brand_linked_route_has_brand_scope: true
+  each_mutation_capable_surface_has_gate_state: true
+  final_render_sent_to_moufdi_per_route: true
+
+workstreams:
+  - id: "W0"
+    name: "Governance and repo hygiene"
+    status: "passed"
+    agents: ["jack"]
+    owner_lane: "governance"
+    tests:
+      - "YAML parse"
+      - "JSON parse where applicable"
+      - "path existence"
+      - "sidecar hash verification"
+      - "secret scan"
+      - "reserved-path collision scan"
+    proof_target: "validation command summary"
+  - id: "W1"
+    name: "Business prod route smoke"
+    status: "not_started"
+    agents: ["rosa", "jeff", "selena", "cortex", "alfred"]
+    target_routes:
+      - "rosa.offer-strategy.direct"
+      - "rosa.audit-performance-marketing"
+      - "rosa.veille-concurrentielle"
+      - "jeff.analyse-profil"
+      - "jeff.performance-report"
+      - "selena.paypal-dispute.phase1-audit"
+      - "selena.zendesk-feedback-review"
+      - "cortex.ads-observation"
+      - "alfred.visibility-audit"
+    safe_defaults:
+      upload_drive: false
+      external_mutation: false
+      days: 7
+      case_limit: 3
+      ticket_limit: 5
+      skip_comments: true
+    pass_condition:
+      - "report_or_summary_artifact_exists"
+      - "brand_scope_native_or_sidecar"
+      - "no_external_mutation"
+      - "moufdi_render_ready"
+  - id: "W2"
+    name: "Naya supply chain unblock"
+    status: "blocked"
+    agents: ["naya"]
+    target_routes:
+      - "naya.product-sourcing"
+      - "naya.stock-check"
+    blockers:
+      - "reviewed_sourcing_sheet_input_not_isolated"
+      - "stock_snapshot_or_known_sku_not_selected"
+    pass_condition:
+      - "reviewed_sourcing_input_path_and_hash"
+      - "known_sku_or_stock_snapshot_path"
+      - "no_supplier_order_payment_mutation"
+  - id: "W3"
+    name: "Alfred SEO/AEO unblock"
+    status: "blocked"
+    agents: ["alfred", "tony", "rosa"]
+    target_routes:
+      - "alfred.strategy-plan"
+      - "alfred.deployment-feedback-loop"
+    blockers:
+      - "brand_pack_id_runtime_store_key_mismatch"
+      - "phase3_waits_for_phase2"
+    pass_condition:
+      - "strategy_plan_report_workboard_manifest_result"
+      - "skip_drive_true"
+      - "no_site_theme_content_mutation"
+  - id: "W4"
+    name: "Technical and memory fixture smoke"
+    status: "not_started"
+    agents: ["jack", "jack-x", "mnemos", "tony"]
+    target_routes:
+      - "jack.protocol-missing"
+      - "jack.capability-missing"
+      - "jack.draft-protocol-runtime"
+      - "jack-x.registry-ingest"
+      - "jack-x.email-intake-pass0"
+      - "jack-x.lark-message-intake-pass0"
+      - "jack-x.lark-table-intake-pass0"
+      - "jack-x.whatsapp-intake-pass0"
+      - "jack-x.db-analysis"
+      - "jack-x.signal.extract"
+      - "mnemos.context-check"
+      - "tony.codebase-exploration"
+      - "tony.development-plan"
+      - "tony.development"
+    safe_defaults:
+      write_cursor: false
+      kg_commit: false
+      mission_manager_mutation: false
+      snapshot_repo: true
+    pass_condition:
+      - "fixture_only"
+      - "no_kg_commit"
+      - "no_mm_mutation"
+      - "tony_fixture_repo_only"
+  - id: "W5"
+    name: "Creative and ads media QA"
+    status: "not_started"
+    agents: ["kanye", "cortex", "alfred"]
+    target_routes:
+      - "kanye.higgsfield-generate.official-cli"
+      - "kanye.higgsfield-product-photoshoot.validation"
+      - "kanye.higgsfield-marketplace-cards.validation"
+      - "cortex.campaign-management"
+      - "cortex.feedback-loop"
+    safe_defaults:
+      publication: false
+      paid_delivery_mutation: false
+      identity_private_media_use: false
+    pass_condition:
+      - "local_media_manifest_or_dry_run_artifact"
+      - "brand_scope_native_or_sidecar_when_brand_linked"
+      - "no_publication"
+  - id: "W6"
+    name: "Safir email workflow prep"
+    status: "blocked"
+    agents: ["safir", "rosa", "kanye"]
+    target_routes:
+      - "safir.email-workflow"
+      - "safir.email-audit"
+      - "safir.mail-pole-audit"
+    blockers:
+      - "safir_email_workflow_brief_missing"
+    pass_condition:
+      - "brief_fixture_with_brand_scope"
+      - "render_only_html_pdf_json"
+      - "no_email_send"
+      - "no_crm_mutation"
+
+agent_targets:
+  jack:
+    final_target: "supervised_ready_with_caveats"
+    required_next: "fixture proof for protocol/capability/draft route handling"
+  jack-x:
+    final_target: "supervised_ready_with_caveats"
+    required_next: "memory candidates with source refs and no KG commit"
+  mnemos:
+    final_target: "supervised_ready"
+    required_next: "context-check fixture replay"
+  rosa:
+    final_target: "supervised_ready"
+    required_next: "upload-off prod route smoke with brand_scope"
+  jeff:
+    final_target: "supervised_ready_with_caveats"
+    required_next: "prod profile/report proof; keep candidate/outreach/collab gated"
+  naya:
+    final_target: "blocked_with_named_owner"
+    required_next: "isolate sourcing input and stock fixture"
+  selena:
+    final_target: "supervised_ready"
+    required_next: "PayPal/Zendesk reviewed proof and bounded live-read proof"
+  alfred:
+    final_target: "blocked_with_named_owner"
+    required_next: "fix brand_scope/store gate and rerun strategy-plan"
+  cortex:
+    final_target: "supervised_ready_with_caveats"
+    required_next: "ads observation and campaign dry-run only"
+  tony:
+    final_target: "supervised_ready_with_caveats"
+    required_next: "fixture repo exploration/plan/dev proof only"
+  kanye:
+    final_target: "supervised_ready_with_caveats"
+    required_next: "local media QA with brand_scope and no publication"
+  safir:
+    final_target: "blocked_with_named_owner"
+    required_next: "create render-only email workflow brief fixture"
+
+clean_push_policy:
+  dirty_worktree_observed: true
+  commit_scope_if_requested:
+    - "/Users/moufdi/openclaw/docs/ops/agent-governance"
+  excluded_from_commit:
+    - "runtime"
+    - "gateway"
+    - "deploy"
+    - "Mission Manager"
+    - "unrelated source changes"
+  push_requires_explicit_confirmation_after_diff: true

@@ -1,0 +1,89 @@
+version: 1
+last_updated: "2026-05-06"
+suite: "alfred-seo-aeo-rc1"
+run_root: "/Users/moufdi/.openclaw/workspace-alfred/seo-orchestration/20260506T125052Z"
+summary:
+  total_tests: 8
+  passed: 2
+  ready: 1
+  blocked: 5
+  failed: 0
+  external_mutations: 0
+  drive_uploads: 0
+
+tests:
+  - id: "ALF-T0"
+    name: "Phase 1 fixture exists and hashes resolve"
+    status: "passed"
+    agent: "alfred"
+    evidence:
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/reports/maybe_paris/2026-03-22-visibility-audit/visibility-audit.report-data.reviewed.json"
+        sha256: "b73d7cbfc1f6cf8d0100b61355fa2ac003eb091d0c0a269e247324933507a4f4"
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/reports/maybe_paris/2026-03-22-visibility-audit/strategy-plan.input.json"
+        sha256: "0a402c46ec1d46b775d39c0455f0d2e2a33e303db5b116e9ce40395630f9d733"
+    mutation: "none"
+  - id: "ALF-T1"
+    name: "Visibility audit output bundle exists"
+    status: "passed"
+    agent: "alfred"
+    evidence:
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/reports/maybe_paris/2026-03-22-visibility-audit/visibility-audit.html"
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/reports/maybe_paris/2026-03-22-visibility-audit/visibility-audit.pdf"
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/reports/maybe_paris/2026-03-22-visibility-audit/visibility-audit.manifest.json"
+    mutation: "local_read_only_check"
+  - id: "ALF-T2"
+    name: "Strategy-plan beta runner input gate"
+    status: "blocked"
+    agent: "alfred"
+    command: "python3 /Users/moufdi/openclaw/scripts/alfred-phase2.py strategy-plan --store maybe_paris --domain maybe-paris.co --date 2026-03-22 --skip-drive"
+    evidence:
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/reports/maybe_paris/2026-03-22-strategy-plan/strategy-plan.result.json"
+    observed_result:
+      status: "blocked_invalid_inputs"
+      reason: "Phase 1 manifest store mismatch."
+    mutation: "local_result_json_only"
+    required_fix: "Normalize Alfred store identifiers or add deterministic alias support in the resolver/manifest contract."
+  - id: "ALF-T3"
+    name: "SEO/AEO strategy dry-run from fixture"
+    status: "ready"
+    agent: "alfred"
+    evidence:
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/seo-orchestration/20260506T125052Z/strategy-plan-dry-run.json"
+    mutation: "local_governance_artifact_only"
+  - id: "ALF-T4"
+    name: "Implementation handoff to Tony"
+    status: "blocked"
+    agent: "tony"
+    blocker: "Requires approved exact surface scope after store canonicalization and strategy-plan pass."
+    mutation: "none"
+  - id: "ALF-T5"
+    name: "Drive/report delivery gate"
+    status: "blocked"
+    agent: "jack"
+    blocker: "Drive upload approval not requested and not granted for this run."
+    mutation: "none"
+  - id: "ALF-T6"
+    name: "Deployment feedback loop input gate"
+    status: "blocked"
+    agent: "alfred"
+    blocker: "Requires successful Phase 2 bundle and post-implementation evidence."
+    evidence:
+      - path: "/Users/moufdi/.openclaw/workspace-alfred/seo-orchestration/20260506T125052Z/deployment-feedback-dry-run.json"
+    mutation: "local_governance_artifact_only"
+  - id: "ALF-T7"
+    name: "Site/theme/publication mutation"
+    status: "blocked"
+    agent: "tony"
+    blocker: "Out of governance lane without explicit approval and implementation scope."
+    mutation: "none"
+
+decisions_needed:
+  - id: "ALF-D1"
+    question: "Canonical store id for Alfred route artifacts."
+    recommendation: "Use maybe-paris as brand_pack_id and maybe_paris as Alfred runtime_store_key."
+  - id: "ALF-D2"
+    question: "Whether Phase 2 may patch old manifests or only accept freshly regenerated Phase 1 bundles."
+    recommendation: "Prefer fresh normalized Phase 1 bundle or deterministic alias handling over manual manifest edits."
+  - id: "ALF-D3"
+    question: "First approved SEO implementation surface."
+    recommendation: "Start with read/render proof, then Tony-scoped robots.txt, llms.txt, and Organization schema only after approval."

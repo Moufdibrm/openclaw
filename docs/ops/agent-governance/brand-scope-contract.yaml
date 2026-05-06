@@ -1,0 +1,135 @@
+version: 1
+last_updated: "2026-05-06"
+scope: "brand-scope-contract"
+status: "required_for_brand_linked_deliverables"
+
+mandatory_for:
+  - "brand-linked requests"
+  - "brand-linked workflow runner inputs"
+  - "brand-linked manifests"
+  - "brand-linked result JSON"
+  - "brand-linked report-data JSON"
+  - "brand-linked delivery JSON"
+  - "brand-linked verification JSON"
+  - "brand-linked approval packets"
+  - "brand-linked generated media manifests"
+  - "brand-linked campaign briefs"
+  - "brand-linked workboards"
+  - "brand-linked handoff packets"
+  - "brand-linked memory candidates"
+
+non_brand_exception:
+  scope_id_format: "global:generic:<subject_id>"
+  brand_pack_id: null
+  mutable_surfaces: "disabled"
+
+field_contract:
+  scope_id:
+    required: true
+    format: "<brand_pack_id>:<focus_mode>:<subject_id>"
+    examples:
+      - "maybe-paris:brand_focus:cheveux-boucles"
+      - "maybe-paris:generic:cheveux-boucles"
+      - "global:generic:higgsfield-product-photoshoot"
+  brand_pack_id:
+    required_for_brand_work: true
+    source_of_truth: "brand pack brand_id"
+    examples:
+      - "maybe-paris"
+      - "blinx"
+      - "botanic"
+      - "magic-styler"
+      - "nailz"
+  focus_mode:
+    required: true
+    allowed_values:
+      - "brand_focus"
+      - "generic"
+  subject_id:
+    required: true
+    examples:
+      - "cheveux-boucles"
+      - "monoi-love-product-photoshoot"
+      - "paypal-dispute-audit"
+      - "email-workflow"
+  runtime_store_key:
+    required: false
+    meaning: "runner-safe or filesystem-safe key when different from brand_pack_id"
+    examples:
+      - "maybe_paris"
+      - "maybe-paris"
+  platform_keys:
+    required: false
+    source_of_truth:
+      - "/Users/moufdi/clawd/config/brands.json"
+      - "/Users/moufdi/clawd/config/brand-packs/*.json"
+
+deliverable_contract:
+  brand_linked_artifact_must_include:
+    - "brand_scope.scope_id"
+    - "brand_scope.brand_pack_id"
+    - "brand_scope.focus_mode"
+    - "brand_scope.subject_id"
+  optional_but_recommended:
+    - "brand_scope.runtime_store_key"
+    - "brand_scope.platform_keys"
+    - "brand_scope.allowed_surfaces"
+  legacy_handling:
+    rule: "If an existing proof bundle does not include brand_scope, attach a sidecar governance manifest instead of silently rewriting old proof."
+    sidecar_status: "partial_until_route_emits_brand_scope_natively"
+
+focus_modes:
+  brand_focus:
+    meaning: "Use the brand pack identity, voice, constraints, products, and platform keys."
+    mutable_surfaces: "approval_gated"
+  generic:
+    meaning: "Use the subject without forcing brand-specific voice or claims; the brand pack may still define workspace or permissions."
+    mutable_surfaces: "disabled_unless_separately_approved"
+
+canonical_examples:
+  maybe_paris_brand_focus:
+    scope_id: "maybe-paris:brand_focus:cheveux-boucles"
+    brand_pack_id: "maybe-paris"
+    focus_mode: "brand_focus"
+    subject_id: "cheveux-boucles"
+    runtime_store_key: "maybe_paris"
+  maybe_paris_generic:
+    scope_id: "maybe-paris:generic:cheveux-boucles"
+    brand_pack_id: "maybe-paris"
+    focus_mode: "generic"
+    subject_id: "cheveux-boucles"
+    runtime_store_key: "maybe_paris"
+  global_generic:
+    scope_id: "global:generic:higgsfield-product-photoshoot"
+    brand_pack_id: null
+    focus_mode: "generic"
+    subject_id: "higgsfield-product-photoshoot"
+    runtime_store_key: null
+
+validation_rules:
+  - id: "brand-linked-deliverable-scope-required"
+    rule: "Every brand-linked deliverable must include brand_scope or reference a sidecar manifest containing brand_scope."
+  - id: "brand-pack-id-required"
+    rule: "Brand-specific work must carry brand_pack_id from the brand pack brand_id field."
+  - id: "focus-mode-required"
+    rule: "focus_mode must be brand_focus or generic."
+  - id: "subject-required"
+    rule: "subject_id must be explicit for topic, product, campaign, route, and problem-specific work."
+  - id: "runtime-key-separated"
+    rule: "Do not compare brand_pack_id and runtime_store_key as the same raw value."
+  - id: "generic-no-mutation"
+    rule: "generic does not imply permission to mutate brand surfaces."
+  - id: "scope-consistency"
+    rule: "Runner input, manifest, result, delivery, and generated media manifest must not disagree on brand_scope for the same run."
+  - id: "legacy-sidecar-required"
+    rule: "Legacy brand-linked proof without native brand_scope must have a sidecar mapping before beta/prod validation."
+
+known_brand_pack_ids:
+  registry_path: "/Users/moufdi/clawd/config/brands.json"
+  brand_pack_dir: "/Users/moufdi/clawd/config/brand-packs"
+  ids:
+    - "maybe-paris"
+    - "blinx"
+    - "botanic"
+    - "magic-styler"
+    - "nailz"

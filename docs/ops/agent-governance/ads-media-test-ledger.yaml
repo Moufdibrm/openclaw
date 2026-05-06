@@ -1,0 +1,241 @@
+version: 1
+last_updated: "2026-05-06"
+purpose: "Execution ledger for the Cortex + Kanye ads/media release candidate."
+scope: "governance_only_no_live_campaign_mutation"
+
+status_values:
+  - ready
+  - passed
+  - passed_with_caveats
+  - partial
+  - blocked
+  - not_run
+
+global_hard_blocks:
+  - campaign_mutation
+  - ad_publication
+  - external_publication
+  - paid_delivery_mutation
+  - identity_or_private_media_use
+
+release_candidate:
+  id: ads-media.cortex-kanye.rc1
+  target_claim: "prod for read/draft/local asset generation; blocked for publication and spend."
+  brand_scope: maybe-paris
+  product_focus: "Monoi Love Voyage / Monoi Love product asset family"
+  lead_agent: cortex
+  creative_agent: kanye
+  governance_agent: jack
+
+tests:
+  - id: ads-media.t0.fixture-base
+    slice: ads-media.t0.fixture-base
+    status: ready
+    owner_agent: jack
+    input_summary: "Existing Cortex campaign fixtures plus Kanye Monoi media fixtures."
+    proof_artifacts:
+      - /Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml
+      - /Users/moufdi/openclaw/docs/ops/agent-governance/ADS_MEDIA_ORCHESTRATION_PLAN.md
+    approval_gates: []
+    next_action: "Use this ledger as the run tracker for the ads/media release candidate."
+
+  - id: ads-media.t1.cortex-ads-observation-replay
+    slice: ads-media.t1.cortex-observation
+    status: passed
+    owner_agent: cortex
+    input_summary: "Maybe Paris ads observation deliverable bundle, upload disabled."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/deliverables/maybe-paris/cortex-ads-observation/2026/2026-04-15__ads-observation-maybe-paris__mm-174__run-20260415t162850z/manifest.json
+      - /Users/moufdi/.openclaw/workspace-cortex/deliverables/maybe-paris/cortex-ads-observation/2026/2026-04-15__ads-observation-maybe-paris__mm-174__run-20260415t162850z/ads-observation.report-data.json
+    output_artifacts:
+      - ads-observation.html
+      - ads-observation.pdf
+      - ads-observation.report-data.json
+      - ads-observation.result.json
+      - manifest.json
+    approval_gates:
+      - campaign_mutation
+      - ad_publication
+    gaps_or_next_fix:
+      - "Visual analysis can degrade if Gemini API key is missing; treat as warning, not campaign mutation blocker."
+
+  - id: ads-media.t2.cortex-campaign-management-fixture
+    slice: ads-media.t2.cortex-creative-brief
+    status: partial
+    owner_agent: cortex
+    input_summary: "Existing plan-only campaign-management bundle with creative-briefs.json."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/reports/campaign-management/2026-04-03T21-04-02Z-maybe-paris/campaign-management.manifest.json
+      - /Users/moufdi/.openclaw/workspace-cortex/reports/campaign-management/2026-04-03T21-04-02Z-maybe-paris/creative-briefs.json
+    output_artifacts:
+      - creative-briefs.json
+      - ads-task-board.json
+      - budget-shift-plan.json
+      - audience-test-plan.json
+      - publication-feedback.input.json
+    approval_gates:
+      - campaign_mutation
+      - ad_publication
+      - paid_delivery_mutation
+    gaps_or_next_fix:
+      - "Normalize creative-briefs.json into kanye_asset_request_json before declaring beta."
+
+  - id: ads-media.t3.cortex-to-kanye-asset-request-contract
+    slice: ads-media.t3.cortex-to-kanye-asset-request
+    status: passed
+    owner_agent: cortex
+    input_summary: "Derive a Kanye request from the Maybe Paris creative-briefs fixture and Monoi source asset."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/reports/campaign-management/2026-04-03T21-04-02Z-maybe-paris/creative-briefs.json
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/monoi_love_detoure.png
+    output_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/ads-media-orchestration/20260506T012139Z/kanye-asset-request.json
+    approval_gates:
+      - campaign_mutation
+      - ad_publication
+    gaps_or_next_fix:
+      - "Request is approved for local generation/dry-run only; not a publication approval."
+
+  - id: ads-media.t4.kanye-product-photoshoot-helper
+    slice: ads-media.t4.kanye-asset-generation
+    status: passed
+    owner_agent: kanye
+    input_summary: "Monoi Love cutout, product_shot, 1:1, safe product-only prompt."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/20260505T232850Z/manifest.json
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/20260505T232850Z/attachments.json
+    output_artifacts:
+      - /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-runs/20260505T232850Z_monoi_love_helper_validation_product_shot_1.png
+    approval_gates:
+      - external_publication
+      - paid_delivery_mutation
+      - campaign_mutation
+      - ad_publication
+    gaps_or_next_fix:
+      - "Ready as beta asset-generation proof; not a publication approval."
+
+  - id: ads-media.t4.kanye-product-photoshoot-qa-variants
+    slice: ads-media.t4.kanye-asset-generation
+    status: passed_with_caveats
+    owner_agent: kanye
+    input_summary: "Monoi Love safe variants: hero_banner, conceptual_product, lifestyle_scene recovered."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-qa/20260505T230630Z/manifest.json
+    output_artifacts:
+      - /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-qa/20260505T230630Z_monoi_love_hero_safe.png
+      - /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-qa/20260505T230630Z_monoi_love_conceptual_safe.png
+      - /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-qa/20260505T230630Z_monoi_love_lifestyle_safe.png
+    approval_gates:
+      - external_publication
+      - paid_delivery_mutation
+      - campaign_mutation
+      - ad_publication
+    gaps_or_next_fix:
+      - "4:5 ratio rejected by CLI."
+      - "Lifestyle wrapper required generate get recovery."
+      - "Need Cortex QA before campaign dry-run use."
+
+  - id: ads-media.t4.kanye-marketplace-cards-probe
+    slice: ads-media.t4.kanye-asset-generation
+    status: partial
+    owner_agent: kanye
+    input_summary: "Marketplace cards skill installed and enhance-only CLI surface validated without media generation."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-marketplace-cards-validation/20260506T012139Z/manifest.json
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-marketplace-cards-validation/20260506T012139Z/tool-output.json
+    output_artifacts:
+      - enhanced_prompt_set
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-marketplace-cards-validation/20260506T012139Z/manifest.json
+    approval_gates:
+      - external_publication
+      - paid_delivery_mutation
+    gaps_or_next_fix:
+      - "No media generated yet; marketplace cards remain draft_test_pending for real assets."
+      - "Enhanced prompt described a jar; source/product identity must be visually verified before any generation run."
+
+  - id: ads-media.t5.cortex-media-qa-over-monoi-assets
+    slice: ads-media.t5.cortex-media-qa
+    status: passed_with_caveats
+    owner_agent: cortex
+    input_summary: "QA Kanye Monoi assets against Cortex creative brief and brand constraints."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/reports/campaign-management/2026-04-03T21-04-02Z-maybe-paris/creative-briefs.json
+      - /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-qa/20260505T230630Z/manifest.json
+    output_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/ads-media-orchestration/20260506T012139Z/creative-qa-report.json
+      - selected_asset_refs
+      - rejected_asset_refs
+      - iteration_requests
+    approval_gates:
+      - campaign_mutation
+      - ad_publication
+    gaps_or_next_fix:
+      - "QA is metadata/provenance/brief-fit based; human visual approval remains required before live publication."
+
+  - id: ads-media.t6.campaign-dry-run-with-local-assets
+    slice: ads-media.t6.cortex-campaign-dry-run
+    status: passed
+    owner_agent: cortex
+    input_summary: "Use QA-selected local assets in campaign-management dry-run only."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/reports/campaign-management/2026-04-03T21-04-02Z-maybe-paris/campaign-management.manifest.json
+      - /Users/moufdi/.openclaw/workspace-cortex/ads-media-orchestration/20260506T012139Z/creative-qa-report.json
+    output_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/ads-media-orchestration/20260506T012139Z/campaign-dry-run.json
+      - ads_task_board_json
+      - approval_request
+    approval_gates:
+      - campaign_mutation
+      - ad_publication
+      - paid_delivery_mutation
+    gaps_or_next_fix:
+      - "Dry-run only; no platform target, spend delta, or final copy approved."
+
+  - id: ads-media.t7.approval-packet
+    slice: ads-media.t7.approval-packet
+    status: passed
+    owner_agent: jack
+    input_summary: "Assemble campaign dry-run, selected media refs, QA verdict, platform targets, requested mutations."
+    proof_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/ads-media-orchestration/20260506T012139Z/campaign-dry-run.json
+      - /Users/moufdi/.openclaw/workspace-cortex/ads-media-orchestration/20260506T012139Z/creative-qa-report.json
+    output_artifacts:
+      - /Users/moufdi/.openclaw/workspace-cortex/ads-media-orchestration/20260506T012139Z/approval-packet.json
+      - resolved_gate_list
+      - post_mutation_readback_plan
+    approval_gates:
+      - campaign_mutation
+      - ad_publication
+      - external_publication
+      - paid_delivery_mutation
+    gaps_or_next_fix:
+      - "Packet is draft_not_submitted_for_live_approval because live targets, copy, budget delta, and explicit approval are missing."
+
+  - id: ads-media.t8.live-publication
+    slice: ads-media.t8.live-publication
+    status: blocked
+    owner_agent: "operator_or_integrator_lane"
+    input_summary: "Live paid media publication or spend mutation."
+    proof_artifacts: []
+    output_artifacts:
+      - post_mutation_readback
+    approval_gates:
+      - explicit_moufdi_approval
+      - campaign_mutation
+      - ad_publication
+      - paid_delivery_mutation
+    gaps_or_next_fix:
+      - "Out of scope until explicit approval and target resolution."
+
+  - id: ads-media.t9.feedback-loop
+    slice: ads-media.t9.feedback-loop
+    status: blocked
+    owner_agent: cortex
+    input_summary: "Post-publication metrics and campaign readback."
+    proof_artifacts: []
+    output_artifacts:
+      - feedback_report
+      - next_cycle_input
+    approval_gates: []
+    gaps_or_next_fix:
+      - "Requires a live publication readback, so it remains future-gated."

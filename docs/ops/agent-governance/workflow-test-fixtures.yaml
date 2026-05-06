@@ -1,0 +1,327 @@
+version: 1
+last_updated: "2026-05-06"
+purpose: "Fixture checklist required to test governed workflows after runtime deployment."
+scope: "governance_test_fixtures_only"
+
+fixture_status_values:
+  - needed
+  - available
+  - partial
+  - blocked
+
+common_fixture_rules:
+  - "Prefer reviewed artifacts before live reads."
+  - "Record local path and hash for attachments where possible."
+  - "Use upload_drive=false unless explicitly approved."
+  - "Use tiny limits for live reads."
+  - "Never use a fixture that requires external mutation to prove a read-only workflow."
+  - "Treat prior deliverables as golden output fixtures, not as proof that a runner input exists."
+
+default_live_limits:
+  days: 7
+  case_limit: 3
+  ticket_limit: 5
+  skip_comments: true
+  upload_drive: false
+
+canonical_brand_scope:
+  registry_path: /Users/moufdi/clawd/config/brands.json
+  registry_sha256: f9e1b4e209753223a1086383fcd47a870411695d97f2d566eddd79379adac989
+  contract_path: /Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml
+  focus_modes:
+    - brand_focus
+    - generic
+  priority_brands:
+    - maybe-paris
+    - blinx
+    - botanic
+
+waves:
+  - id: phase0.fixture-prep
+    goal: "Collect and hash fixtures before post-deploy tests."
+    fixtures:
+      - id: brand_scope_maybe_paris
+        status: available
+        brand_id: maybe-paris
+        brand_pack_id: maybe-paris
+        default_scope_id: maybe-paris:brand_focus:default
+        supported_focus_modes: [brand_focus, generic]
+        store_key: maybe-paris
+        runtime_store_key_examples: [maybe-paris, maybe_paris]
+        canonical_domain: maybe-paris.co
+        brand_pack_status: partial
+        brand_pack_path: /Users/moufdi/clawd/config/brand-packs/maybe-paris.json
+        brand_pack_sha256: 251529d40b6c427e18e8d7ace638179b511e392c0984104fbe80254f568a9768
+        used_by: [rosa, naya, selena, alfred, cortex, safir, kanye]
+        required_fields: [brand_id, store_key, canonical_domain]
+        notes:
+          - "Required identity fields exist."
+          - "Some marketing/analytics/Hiboo surfaces remain partial, but unrelated workflows are not blocked."
+      - id: brand_scope_blinx
+        status: available
+        brand_id: blinx
+        brand_pack_id: blinx
+        default_scope_id: blinx:brand_focus:default
+        supported_focus_modes: [brand_focus, generic]
+        store_key: blinx
+        runtime_store_key_examples: [blinx]
+        canonical_domain: blinxunderwear.com
+        brand_pack_status: partial
+        brand_pack_path: /Users/moufdi/clawd/config/brand-packs/blinx.json
+        brand_pack_sha256: 899947387f137dae4bf122330230a36cfa3406e1f37f0723f5b19969c6208a7c
+        used_by: [rosa, naya, selena, alfred, cortex, safir]
+        required_fields: [brand_id, store_key, canonical_domain]
+        notes:
+          - "Required identity fields exist."
+          - "Canonical logistics route is still unknown."
+      - id: brand_scope_botanic
+        status: available
+        brand_id: botanic
+        brand_pack_id: botanic
+        default_scope_id: botanic:brand_focus:default
+        supported_focus_modes: [brand_focus, generic]
+        store_key: botanic
+        runtime_store_key_examples: [botanic]
+        canonical_domain: trybotanic.com
+        brand_pack_status: partial
+        brand_pack_path: /Users/moufdi/clawd/config/brand-packs/botanic.json
+        brand_pack_sha256: 80200cf0026d9366c1dc736f498acffb156312a365deac93df78bd735ee57137
+        used_by: [rosa, naya, selena, alfred, cortex, safir]
+        required_fields: [brand_id, store_key, canonical_domain]
+        notes:
+          - "Required identity fields exist."
+          - "GA4, Hiboo ids, and logistics remain incomplete; those surfaces should be skipped or asked for when needed."
+      - id: paypal_reviewed_dispute_export
+        status: available
+        store: maybe-paris
+        local_path: /Users/moufdi/.openclaw/workspace-selena/fixtures/paypal-dispute-audit-001.json
+        sha256: ecd68fe5b10791156a9ce7096b62c705b70e085cca2e3ebde824bf12df021b99
+        proof_manifest_path: /Users/moufdi/.openclaw/workspace-selena/deliverables/maybe-paris/selena-paypal-dispute-phase1-audit/2026/2026-04-15__paypal-dispute-audit__mm-182__run-paypal-dispute-audit-001/manifest.json
+        used_by: [selena.paypal-dispute.phase1-audit]
+        required_fields: [local_path, store, sha256]
+        notes:
+          - "Reviewed local fixture exists; external PayPal/dispute messages remain approval-gated."
+      - id: zendesk_reviewed_export
+        status: available
+        store: maybe-paris
+        local_path: /Users/moufdi/.openclaw/workspace-selena/fixtures/zendesk-feedback-review-001.json
+        sha256: 51044779bb9709d4ff7c25eee55c31787872dd0154ea54fcbaf0f5b757da450c
+        proof_manifest_path: /Users/moufdi/.openclaw/workspace-selena/deliverables/maybe-paris/selena-zendesk-feedback-review/2026/2026-04-15__zendesk-feedback-review__mm-185__run-maybe-paris-zendesk-export-20260405t001622z/manifest.json
+        used_by: [selena.zendesk-feedback-review]
+        required_fields: [local_path, store, sha256]
+        notes:
+          - "Reviewed local fixture exists; customer-visible replies remain approval-gated."
+      - id: reviewed_sourcing_sheet
+        status: partial
+        store: maybe-paris
+        candidate_manifest_path: /Users/moufdi/.openclaw/workspace-naya-test/deliverables/maybe-paris/naya-product-sourcing/2026/2026-04-14__sourcing-accessories__mm-none__run-2026-04-03-accessories/manifest.json
+        candidate_manifest_sha256: 6a52b06907d1cc8251798d3335c49bcc744fb6cf331892757ee5ad38e2829a42
+        used_by: [naya.product-sourcing]
+        required_fields: [local_path, sha256]
+        gap: "Prior deliverable exists, but a reviewed runner input sheet/path is not yet isolated."
+      - id: seo_report_data_bundle
+        status: available
+        store: maybe-paris
+        report_data_path: /Users/moufdi/.openclaw/workspace-alfred/reports/maybe_paris/2026-03-22-visibility-audit/visibility-audit.report-data.reviewed.json
+        sha256: b73d7cbfc1f6cf8d0100b61355fa2ac003eb091d0c0a269e247324933507a4f4
+        proof_manifest_path: /Users/moufdi/.openclaw/workspace-alfred/deliverables/maybe-paris/alfred-visibility-audit/2026/2026-04-15__visibility-audit-maybe-paris__mm-179__run-20260415t014631z/manifest.json
+        used_by: [alfred.visibility-audit]
+        required_fields: [report_data_path, store, sha256]
+      - id: stock_snapshot_or_known_sku
+        status: partial
+        store: maybe-paris
+        dispatch_path: /Users/moufdi/.openclaw/jack-handoff-sweep-2026-04-14-full/naya__stock-check/dispatch.json
+        used_by: [naya.stock-check]
+        required_fields: [store, product_query]
+        gap: "Dispatch/transcript exists, but no reviewed stock snapshot or known SKU fixture was found."
+      - id: creator_profile_fixture
+        status: available
+        store: maybe-paris
+        creator_handle: romi_allata
+        proof_manifest_path: /Users/moufdi/.openclaw/workspace-jeff/deliverables/maybe-paris/jeff-analyse-profil/2026/2026-04-15__analyse-profil-romi-allata__mm-176__run-20260415t110759z/manifest.json
+        proof_manifest_sha256: 5d589093f04afaddff43b9ae193edcede63973d552706b0b4d5da8a09cb5a064
+        used_by: [jeff.analyse-profil, jeff.candidate-intake]
+        required_fields: [creator_handle, store]
+        notes:
+          - "Candidate-intake still lacks a normalized business deliverable, but this creator input is usable for profile analysis."
+      - id: jack_protocol_fixture_pack
+        status: partial
+        protocol_corpus_path: /Users/moufdi/hermes-runtime/contracts/jack-protocol-corpus-001.md
+        protocol_corpus_sha256: 0a51e31d079b29e96ca3feafcaa15498a0f97688d1ebaac07fe0ab42ae5cce9b
+        expected_output_path: /Users/moufdi/hermes-runtime/contracts/jack-protocol-corpus-001.expected.json
+        expected_output_sha256: 17af22fa6471225989a1c417c3936e174d9c5084e2382d7eb00826c2a9421874
+        route_templates_path: /Users/moufdi/hermes-runtime/contracts/jack-route-templates.v1.json
+        route_templates_sha256: f78a6404c820a01353c587693e60fb12f15416849b91530cf1839ea2cac71aa2
+        capability_registry_path: /Users/moufdi/hermes-runtime/contracts/jack-capability-registry.v1.json
+        capability_registry_sha256: ceac1da675ab09a1385603e7dfaa31ff696b7016fe4c4aa52ff77452b05bf936
+        capability_healthchecks_path: /Users/moufdi/hermes-runtime/contracts/jack-capability-healthchecks.v1.json
+        capability_healthchecks_sha256: c9697bc36911736e5ea728235d645d682766385d51c492d6f367bca0f22a5b47
+        used_by: [jack.protocol-missing, jack.capability-missing, jack.draft-protocol-runtime]
+        gap: "Contracts and corpus exist, but no post-deploy Jack run artifact was found in the audited paths."
+      - id: tony_fixture_repo
+        status: available
+        path: /Users/moufdi/hermes-runtime/fixtures/tony-dev-fixture-template
+        package_sha256: a9e84d1292b10d84da5c6aa630e3f7431086ebf2bda414cc9ab6a6ee7316286d
+        used_by: [tony.codebase-exploration, tony.development-plan, tony.development]
+        notes:
+          - "Fixture repo is intentionally minimal; it is sufficient for smoke tests, not for complex dev regression coverage."
+      - id: kanye_monoi_product_cutout
+        status: available
+        path: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/monoi_love_detoure.png
+        sha256: ee1cb1ff571fba83d1b395e59670c3613bb17bf00f32ae29a7f62e6e591cf329
+        used_by: [kanye.higgsfield-product-photoshoot.validation, kanye.higgsfield-marketplace-cards.validation]
+        notes:
+          - "Public product cutout provided by Moufdi and mirrored locally for attachment-safe tests."
+      - id: kanye_reference_edit_safe_image
+        status: available
+        path: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/20260505T232850Z/attachments/monoi_love_helper_validation.png
+        sha256: ee1cb1ff571fba83d1b395e59670c3613bb17bf00f32ae29a7f62e6e591cf329
+        used_by: [kanye.reference-edit]
+        notes:
+          - "Uses the same non-private Monoi source image; safe for reference-edit smoke tests."
+      - id: safir_email_workflow_brief
+        status: needed
+        used_by: [safir.email-workflow]
+        required_fields: [brand, campaign_goal, offer, audience]
+        gap: "No Safir business fixture with manifest/result/report-data/delivery/html/pdf was found."
+      - id: jack_x_memory_fixture_pack
+        status: available
+        registry_fixture: /Users/moufdi/hermes-runtime/contracts/jack-x-batch-3-corpus-001.json
+        registry_fixture_sha256: be638c8baab0964cbd700b3fbd520d34c1bec291aa6e83217af172de63bee02d
+        email_fixture: /Users/moufdi/hermes-runtime/contracts/jack-x-email-intake-pass0.context.example.json
+        lark_message_fixture: /Users/moufdi/hermes-runtime/contracts/jack-x-lark-message-intake-pass0.context.example.json
+        lark_table_fixture: /Users/moufdi/hermes-runtime/contracts/jack-x-lark-table-intake-pass0.context.example.json
+        whatsapp_fixture: /Users/moufdi/hermes-runtime/contracts/jack-x-whatsapp-intake-pass0.context.example.json
+        db_projection_baseline: /Users/moufdi/.openclaw/workspace-jack-x/runtime-baselines/kg-upgrade-slice-001/runtime/working-state.json
+        signal_corpus: /Users/moufdi/.openclaw/workspace-jack-x/runtime-baselines/kg-upgrade-slice-001/runtime/graph-candidates/cand-jack-x-lark-message-intake-20260411T225337Z.json
+        used_by: [jack-x.registry-ingest, jack-x.email-intake-pass0, jack-x.lark-message-intake-pass0, jack-x.lark-table-intake-pass0, jack-x.whatsapp-intake-pass0, jack-x.db-analysis, jack-x.signal.extract]
+        required_fields: [registry_fixture, mail_fixture, lark_fixture, whatsapp_snapshot, db_copy, signal_corpus]
+        notes:
+          - "Prefer contract examples and runtime-baseline slice for fixture tests; live snapshots are available but noisy."
+      - id: mnemos_context_snapshot
+        status: available
+        session_id: jack-live-compaction-smoke
+        profile: jack
+        context_snapshot_path: /Users/moufdi/hermes-runtime/contracts/mnemos-context-check.context.example.json
+        context_snapshot_sha256: 9c2146460ecf9f2e742c2c42f1782cfbade5afb57befa14e826704d0005e7119
+        proof_result_path: /Users/moufdi/.openclaw/workspace-mnemos/reports/context-check/jack/20260414t210434302927z-jack-live-compaction-smoke/context-check.result.json
+        proof_result_sha256: 1a5c335e0052e29b4184921897617a4c3a1fad45489da9f3377044f8faf86dda
+        used_by: [mnemos.context-check]
+        required_fields: [session_id, profile, context_window_tokens, context_snapshot_path]
+
+  - id: phase1.prod-artifact-fed
+    goal: "Prove prod workflows on reviewed artifacts with zero mutation."
+    workflows:
+      - selena.paypal-dispute.phase1-audit
+      - selena.zendesk-feedback-review
+      - naya.product-sourcing
+      - alfred.visibility-audit
+      - naya.stock-check
+    required_fixture_ids:
+      - paypal_reviewed_dispute_export
+      - zendesk_reviewed_export
+      - reviewed_sourcing_sheet
+      - seo_report_data_bundle
+      - stock_snapshot_or_known_sku
+    blockers:
+      - "naya.product-sourcing has golden output but not an isolated reviewed input sheet."
+      - "naya.stock-check still needs a reviewed stock snapshot or known SKU/product query."
+
+  - id: phase2.prod-reports-upload-off
+    goal: "Prove report/decision workflows with upload disabled."
+    workflows:
+      - rosa.offer-strategy.direct
+      - rosa.audit-performance-marketing
+      - rosa.veille-concurrentielle
+      - jeff.analyse-profil
+      - jeff.performance-report
+    required_fixture_ids:
+      - brand_scope_maybe_paris
+      - creator_profile_fixture
+    safe_defaults:
+      upload_drive: false
+
+  - id: phase3.prod-live-read-bounded
+    goal: "Prove live reads with tiny limits and no mutation."
+    workflows:
+      - selena.paypal-dispute.phase1-live
+      - selena.zendesk-feedback-live
+      - cortex.ads-observation
+      - naya.stock-check
+    required_fixture_ids:
+      - brand_scope_maybe_paris
+    safe_defaults:
+      days: 7
+      case_limit: 3
+      ticket_limit: 5
+      skip_comments: true
+      upload_drive: false
+
+  - id: phase4.beta-technical-fixtures
+    goal: "Prove technical/memory/dev beta routes against fixtures only."
+    workflows:
+      - jack.protocol-missing
+      - jack.capability-missing
+      - jack.draft-protocol-runtime
+      - mnemos.context-check
+      - tony.codebase-exploration
+      - tony.development-plan
+      - tony.development
+      - jack-x.registry-ingest
+      - jack-x.email-intake-pass0
+      - jack-x.lark-message-intake-pass0
+      - jack-x.lark-table-intake-pass0
+      - jack-x.whatsapp-intake-pass0
+      - jack-x.db-analysis
+      - jack-x.signal.extract
+    required_fixture_ids:
+      - jack_protocol_fixture_pack
+      - tony_fixture_repo
+      - jack_x_memory_fixture_pack
+      - mnemos_context_snapshot
+    hard_blocks:
+      - mission_manager_mutation
+      - kg_commit
+      - live_vps_whatsapp
+      - cursor_write
+
+  - id: phase5.creative-beta
+    goal: "Prove creative beta workflows with media and manifests."
+    workflows:
+      - kanye.still-generate
+      - kanye.reference-edit
+      - kanye.higgsfield-generate.official-cli
+      - kanye.higgsfield-product-photoshoot.validation
+      - kanye.higgsfield-marketplace-cards.validation
+      - kanye.higgsfield-soul-id.validation
+    required_fixture_ids:
+      - kanye_monoi_product_cutout
+      - kanye_reference_edit_safe_image
+    hard_blocks:
+      - external_publication
+      - paid_delivery_mutation
+      - identity_or_private_media_use_without_approval
+
+  - id: phase6.draft-dry-run
+    goal: "Render planned/draft workflows as drafts or blocked results only."
+    workflows:
+      - safir.email-workflow
+      - naya.supplier-comm
+      - jeff.email-digest
+      - jeff.outreach-pipeline
+      - jeff.ajout-collaboration
+      - jeff.collab-management
+      - cortex.campaign-management
+      - cortex.feedback-loop
+      - jack.higgsfield-skill-supervision
+    required_fixture_ids:
+      - safir_email_workflow_brief
+      - brand_scope_maybe_paris
+    hard_blocks:
+      - external_message_send
+      - crm_mutation
+      - collaboration_mutation
+      - campaign_mutation
+      - supplier_message_send
+    blockers:
+      - "Safir email workflow still needs a business brief fixture before meaningful dry-run testing."

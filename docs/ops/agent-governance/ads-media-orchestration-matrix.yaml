@@ -1,0 +1,346 @@
+version: 1
+last_updated: "2026-05-06"
+purpose: "Machine-readable orchestration contract for ads/media slices across Cortex and Kanye."
+scope: "governance_only_no_runtime_mutation"
+
+status_values:
+  - draft
+  - beta
+  - prod
+  - blocked
+
+approval_gates:
+  campaign_mutation:
+    meaning: "Any live campaign/ad/adset creation, edit, pause, budget, targeting, or platform write."
+    required_before_live: true
+  ad_publication:
+    meaning: "Any action that publishes, schedules, or activates an ad on a paid media platform."
+    required_before_live: true
+  external_publication:
+    meaning: "Any public distribution of generated creative outside local proof artifacts."
+    required_before_live: true
+  paid_delivery_mutation:
+    meaning: "Any paid delivery, boost, spend, or distribution mutation."
+    required_before_live: true
+  identity_or_private_media_use:
+    meaning: "Any use of identity/private media, likeness, Soul ID, or non-public personal assets."
+    required_before_live: true
+
+artifact_layout:
+  planned_cortex_orchestration_run_layout: "workspace-cortex/ads-media-orchestration/<run_id>/"
+  cortex_reports_root: /Users/moufdi/.openclaw/workspace-cortex/reports
+  kanye_workspace_root: /Users/moufdi/.openclaw/workspace-kanye
+  kanye_generated_media_root: /Users/moufdi/.brm-hermes/profiles/kanye/generated_media
+  required_manifest: manifest.json
+  note: "Cortex owns orchestration/report artifacts. Kanye owns generated media artifacts."
+
+agents:
+  cortex:
+    role: "Lead ads strategist and media QA owner."
+    allowed_toolboxes:
+      - hiboo-ads-read
+      - meta-ads-read
+      - google-ads-read
+      - creative-observation
+      - creative-asset-request-via-kanye
+      - filesystem-reporting
+    forbidden_direct_tools:
+      - direct-higgsfield-generation
+      - live-campaign-write-without-approval
+      - ad-publication-without-approval
+    outputs_owned:
+      - ads_observation_report
+      - creative_briefs_json
+      - asset_request_json
+      - creative_qa_report
+      - campaign_dry_run
+      - approval_request
+  kanye:
+    role: "Creative generation and local media artifact owner."
+    allowed_toolboxes:
+      - creative-generation
+      - image-edit
+      - video-generation
+      - higgsfield-ai-official-skill
+      - reference-media-read
+      - filesystem-media-artifacts
+    forbidden_direct_tools:
+      - campaign-mutation
+      - ad-publication
+      - paid-delivery-mutation
+      - identity-private-media-use-without-approval
+    outputs_owned:
+      - generated_media
+      - media_manifest
+      - attachment_provenance
+      - generation_caveats
+  jack:
+    role: "Governance and approval boundary only unless explicitly asked to supervise."
+    outputs_owned:
+      - approval_packet
+      - route_decision
+      - final_operator_render
+
+canonical_inputs:
+  brand_scope:
+    required_fields: [brand_id, store_key, canonical_domain]
+    priority_brands: [maybe-paris, blinx, botanic]
+  campaign_objective:
+    required_fields: [objective, funnel_stage, target_audience, success_metric]
+  budget_scope:
+    required_fields: [spend_delta, platform, guardrails]
+    approval_required: true
+  product_or_offer:
+    required_fields: [product_focus, offer_context, claims_allowed, claims_forbidden]
+  source_assets:
+    required_fields: [local_path, sha256, role, sensitivity]
+  generated_asset:
+    required_fields: [local_path, sha256, dimensions, manifest_path, usage_allowed]
+
+standard_artifacts:
+  creative_briefs_json:
+    current_fixture_path: /Users/moufdi/.openclaw/workspace-cortex/reports/campaign-management/2026-04-03T21-04-02Z-maybe-paris/creative-briefs.json
+    sha256: 0b8b20fca2a2be213fa98d443355ea18a52bd069c14e40d0ebd79ebb1ee3f94d
+    owner_agent: cortex
+  campaign_management_report_data:
+    current_fixture_path: /Users/moufdi/.openclaw/workspace-cortex/reports/campaign-management/2026-04-03T21-04-02Z-maybe-paris/campaign-management.report-data.json
+    sha256: bd565f9901b45d255a6653a906bd44b16cf673f199f8faf6146b2f03b06f78dc
+    owner_agent: cortex
+  ads_observation_report_data:
+    current_fixture_path: /Users/moufdi/.openclaw/workspace-cortex/deliverables/maybe-paris/cortex-ads-observation/2026/2026-04-15__ads-observation-maybe-paris__mm-174__run-20260415t162850z/ads-observation.report-data.json
+    sha256: 0a6cbc0f2893124de8fc3d29345790046f7a17eca8106177a6a4a539792b6e93
+    owner_agent: cortex
+  monoi_product_source:
+    current_fixture_path: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/monoi_love_detoure.png
+    sha256: ee1cb1ff571fba83d1b395e59670c3613bb17bf00f32ae29a7f62e6e591cf329
+    owner_agent: kanye
+  monoi_generated_asset_set:
+    manifest_path: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-qa/20260505T230630Z/manifest.json
+    owner_agent: kanye
+    assets:
+      - id: hero_safe
+        path: /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-qa/20260505T230630Z_monoi_love_hero_safe.png
+        sha256: 3a6f358aadaf84c207097d7d240bbcd589aaf21a9376e1bcba7d3dd528161d83
+        dimensions: {width: 2688, height: 1520}
+      - id: conceptual_safe
+        path: /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-qa/20260505T230630Z_monoi_love_conceptual_safe.png
+        sha256: bd6263ecdc1917b9e3d396dd2cc9f2b027c85e27438c2940bbfb5c6168409aaa
+        dimensions: {width: 2048, height: 2048}
+      - id: lifestyle_safe
+        path: /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-qa/20260505T230630Z_monoi_love_lifestyle_safe.png
+        sha256: 3240fcb009acbc0dcb6e75c3cab78cb488745e9f1a0d1bb796c2aeca689757f2
+        dimensions: {width: 1744, height: 2336}
+  monoi_product_shot_helper_asset:
+    manifest_path: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/20260505T232850Z/manifest.json
+    path: /Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-runs/20260505T232850Z_monoi_love_helper_validation_product_shot_1.png
+    sha256: 8ad8c7018a09480bf98cd5ed23abf1233c0bf8838767bda421bbf70df77d38c2
+    dimensions: {width: 2048, height: 2048}
+    owner_agent: kanye
+  marketplace_cards_enhance_only_manifest:
+    current_fixture_path: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-marketplace-cards-validation/20260506T012139Z/manifest.json
+    owner_agent: kanye
+    note: "Enhance-only validation passed with caveats; no generated media yet."
+
+slices:
+  - id: ads-media.t0.fixture-base
+    status: prod
+    lead_agent: jack
+    mode: governance_inventory_only
+    inputs_required: [brand_scope]
+    outputs_expected: [fixture_paths, hashes, blockers]
+    proof_required:
+      - ads-media-orchestration-matrix.yaml
+      - ads-media-test-ledger.yaml
+    hard_blocks: []
+
+  - id: ads-media.t1.cortex-observation
+    status: prod
+    lead_agent: cortex
+    mode: read_only
+    source_workflow: cortex.ads-observation
+    inputs_required: [brand_scope]
+    inputs_optional: [upload_drive]
+    safe_defaults:
+      upload_drive: false
+    outputs_expected:
+      - ads_observation_report
+      - ads_observation_report_data
+      - verification_json
+      - delivery_json
+    proof_required:
+      - report_bundle
+      - verification_json
+    hard_blocks:
+      - campaign_mutation
+      - ad_publication
+
+  - id: ads-media.t2.cortex-creative-brief
+    status: beta
+    lead_agent: cortex
+    mode: dry_run_only
+    source_workflow: cortex.campaign-management
+    inputs_required:
+      - brand_scope
+      - campaign_objective
+      - campaign_management_report_data
+    inputs_optional:
+      - rosa_offer_context
+      - naya_stock_context
+      - alfred_landing_context
+    outputs_expected:
+      - creative_briefs_json
+      - kanye_asset_request_json
+    proof_required:
+      - creative_briefs_json
+      - source_report_data
+    next_gap: "Normalize kanye_asset_request_json from existing creative-briefs.json."
+    hard_blocks:
+      - campaign_mutation
+      - ad_publication
+
+  - id: ads-media.t3.cortex-to-kanye-asset-request
+    status: beta
+    lead_agent: cortex
+    creative_agent: kanye
+    mode: handoff_contract
+    inputs_required:
+      - creative_briefs_json
+      - product_or_offer
+      - source_assets
+      - brand_constraints
+    outputs_expected:
+      - accepted_asset_request
+      - missing_fields_if_rejected
+    proof_required:
+      - kanye_asset_request_json
+    hard_blocks:
+      - direct_higgsfield_by_cortex
+      - campaign_mutation
+      - ad_publication
+
+  - id: ads-media.t4.kanye-asset-generation
+    status: beta
+    lead_agent: kanye
+    mode: local_media_generation
+    allowed_workflows:
+      - kanye.still-generate
+      - kanye.reference-edit
+      - kanye.higgsfield-generate.official-cli
+      - kanye.higgsfield-product-photoshoot.validation
+    draft_workflows:
+      - kanye.higgsfield-marketplace-cards.validation
+      - kanye.higgsfield-soul-id.validation
+    inputs_required:
+      - accepted_asset_request
+      - source_assets
+      - generation_route
+    outputs_expected:
+      - generated_media
+      - media_manifest
+      - attachment_provenance
+      - generation_caveats
+    proof_required:
+      - manifest
+      - local_media_file
+      - attachment_metadata
+    hard_blocks:
+      - external_publication
+      - paid_delivery_mutation
+      - campaign_mutation
+      - ad_publication
+      - identity_or_private_media_use
+
+  - id: ads-media.t5.cortex-media-qa
+    status: beta
+    lead_agent: cortex
+    mode: internal_review
+    inputs_required:
+      - creative_briefs_json
+      - media_manifest
+      - generated_media
+      - brand_constraints
+    outputs_expected:
+      - creative_qa_report
+      - selected_asset_refs
+      - rejected_asset_refs
+      - iteration_requests
+    checks:
+      - brief_match
+      - brand_fit
+      - product_accuracy
+      - offer_claim_safety
+      - dimensions_and_ratios
+      - source_provenance
+      - no_external_publication
+    hard_blocks:
+      - campaign_mutation
+      - ad_publication
+
+  - id: ads-media.t6.cortex-campaign-dry-run
+    status: beta
+    lead_agent: cortex
+    mode: dry_run_only
+    source_workflow: cortex.campaign-management
+    inputs_required:
+      - creative_qa_report
+      - selected_asset_refs
+      - campaign_objective
+      - budget_scope
+    outputs_expected:
+      - campaign_dry_run_json
+      - ads_task_board_json
+      - approval_request
+    proof_required:
+      - campaign_dry_run
+      - explicit_hard_blocks
+    hard_blocks:
+      - campaign_mutation
+      - ad_publication
+      - paid_delivery_mutation
+
+  - id: ads-media.t7.approval-packet
+    status: beta
+    lead_agent: jack
+    mode: approval_request_only
+    inputs_required:
+      - campaign_dry_run_json
+      - selected_asset_refs
+      - media_manifest
+      - platform_targets
+      - requested_mutations
+    outputs_expected:
+      - approval_packet
+      - resolved_gate_list
+      - post_mutation_readback_plan
+    hard_blocks:
+      - live_execution_without_explicit_approval
+
+  - id: ads-media.t8.live-publication
+    status: blocked
+    lead_agent: "operator_or_integrator_lane"
+    mode: out_of_scope_until_explicit_approval
+    inputs_required:
+      - explicit_moufdi_approval
+      - platform_targets
+      - campaign_or_ad_ids
+      - readback_plan
+    outputs_expected:
+      - post_mutation_readback
+    hard_blocks:
+      - no_explicit_approval
+      - ambiguous_target_or_delta
+
+  - id: ads-media.t9.feedback-loop
+    status: draft
+    lead_agent: cortex
+    mode: after_live_publication_only
+    source_workflow: cortex.feedback-loop
+    inputs_required:
+      - post_publication_metrics
+      - approved_media_manifest
+      - campaign_readback
+    outputs_expected:
+      - feedback_report
+      - next_cycle_input
+    hard_blocks:
+      - missing_live_publication_readback

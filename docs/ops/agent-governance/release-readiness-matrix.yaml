@@ -1,0 +1,367 @@
+version: 1
+last_updated: "2026-05-06"
+purpose: "Global release/prep rollup for governed V1 BRM/Hermes agents."
+scope: "governance_release_readiness_only_no_deploy"
+
+status_values:
+  governance_status:
+    - draft
+    - beta
+    - prod
+  release_prep_status:
+    - ready_for_prod_route_smoke
+    - ready_for_beta_fixture
+    - partial
+    - blocked
+    - approval_blocked
+    - out_of_scope_for_release
+
+source_matrices:
+  agent_governance: "/Users/moufdi/openclaw/docs/ops/agent-governance/AGENT_GOVERNANCE_MATRIX.md"
+  agent_toolbox: "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-toolbox-matrix.yaml"
+  agent_environment: "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-environment-matrix.yaml"
+  agent_protocol: "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
+  workflow_io: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-io-test-matrix.yaml"
+  runner_input_map: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-runner-input-map.yaml"
+  fixture_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+  brand_scope_contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+  brand_scope_sidecars: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+  ads_media_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml"
+  ads_media_ledger: "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml"
+  alfred_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-orchestration-matrix.yaml"
+  alfred_ledger: "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-test-ledger.yaml"
+
+global_summary:
+  v1_agents_total: 12
+  globally_prod_ready_agents: 0
+  governance_beta_agents: 12
+  ready_for_prod_route_smoke: 3
+  ready_for_beta_fixture: 3
+  partial: 4
+  blocked: 2
+  primary_blockers:
+    - "native brand_scope missing from legacy brand-linked proof bundles"
+    - "Naya reviewed sourcing input and stock SKU/snapshot are still partial"
+    - "Alfred strategy-plan blocked by brand_pack_id/runtime_store_key mismatch"
+    - "Safir email workflow needs a business brief fixture"
+    - "Jack fresh post-deploy proof and Jack-X/Mnemos package route harness gaps remain"
+
+agents:
+  - id: "jack"
+    governance_status: "beta"
+    release_prep_status: "partial"
+    readiness_claim: "Beta route prep exists for protocol/capability/draft protocol work, but no complete prod surface."
+    supported_release_modes: ["fixture_beta", "generic_governance"]
+    route_counts:
+      prod: 0
+      beta: 5
+      draft: 1
+      specialist_route_registry: 3
+      package_only: 2
+      planned: 1
+    fixture_status: "partial"
+    current_blockers:
+      - "jack_protocol_fixture_pack has contracts/corpus but no fresh post-deploy run artifact in audited paths"
+      - "jack.higgsfield-skill-supervision remains draft"
+    approval_gates: ["external_message_send", "mission_or_platform_mutation", "publication"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    next_validation: "Run fixture-only beta checks for jack.protocol-missing, jack.capability-missing, and jack.draft-protocol-runtime."
+
+  - id: "jack-x"
+    governance_status: "beta"
+    release_prep_status: "partial"
+    readiness_claim: "Memory/intake routes have fixture packs but are package-backed, not full shipped registry routes."
+    supported_release_modes: ["fixture_beta", "memory_candidate_review"]
+    route_counts:
+      prod: 0
+      beta: 7
+      draft: 0
+      specialist_route_registry: 0
+      package_only: 7
+      planned: 0
+    fixture_status: "available"
+    current_blockers:
+      - "package-only route coverage"
+      - "no KG commit allowed in governance smoke"
+      - "brand-linked memory candidates must emit brand_scope"
+    approval_gates: ["kg_commit", "external_reply", "business_system_mutation"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    next_validation: "Run frozen fixture suite with write_cursor=false and no KG commit."
+
+  - id: "mnemos"
+    governance_status: "beta"
+    release_prep_status: "ready_for_beta_fixture"
+    readiness_claim: "Context-check has fixture and prior proof, suitable for beta fixture replay."
+    supported_release_modes: ["fixture_beta", "local_continuity_only"]
+    route_counts:
+      prod: 0
+      beta: 1
+      draft: 0
+      specialist_route_registry: 0
+      package_only: 1
+      planned: 0
+    fixture_status: "available"
+    current_blockers:
+      - "package-only route coverage"
+    approval_gates: ["none_for_local_fixture"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    next_validation: "Replay mnemos.context-check against the existing context snapshot fixture."
+
+  - id: "rosa"
+    governance_status: "beta"
+    release_prep_status: "ready_for_prod_route_smoke"
+    readiness_claim: "Three prod report/decision routes have golden proofs and can be smoked with upload disabled."
+    supported_release_modes: ["prod_route_smoke", "brand_focus_report"]
+    route_counts:
+      prod: 3
+      beta: 1
+      draft: 0
+      specialist_route_registry: 4
+      package_only: 0
+      planned: 0
+    fixture_status: "available"
+    current_blockers:
+      - "legacy proofs need sidecar or native brand_scope"
+      - "market-graph-refresh remains beta"
+    approval_gates: ["campaign_publication", "external_message_send", "crm_or_storefront_mutation", "drive_upload"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    next_validation: "Run Rosa prod-route smoke with upload_drive=false and attach sidecar brand_scope."
+
+  - id: "jeff"
+    governance_status: "beta"
+    release_prep_status: "partial"
+    readiness_claim: "Two prod routes are ready for smoke; candidate/outreach/collab routes remain beta/planned."
+    supported_release_modes: ["prod_route_smoke", "creator_analysis"]
+    route_counts:
+      prod: 2
+      beta: 5
+      draft: 0
+      specialist_route_registry: 3
+      package_only: 0
+      planned: 4
+    fixture_status: "available_for_profile_partial_for_candidate"
+    current_blockers:
+      - "legacy proofs need sidecar or native brand_scope"
+      - "candidate-intake lacks normalized business deliverable maturity"
+      - "outreach/collab mutations approval-gated"
+    approval_gates: ["creator_contact_send", "collaboration_mutation", "contract_or_payment_mutation", "drive_upload"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    next_validation: "Smoke analyse-profil/performance-report, then normalize candidate-intake proof."
+
+  - id: "naya"
+    governance_status: "beta"
+    release_prep_status: "blocked"
+    readiness_claim: "Prod route claims exist, but key fixtures are not isolated enough for full smoke."
+    supported_release_modes: ["blocked_until_fixture_ready", "brand_focus_ops"]
+    route_counts:
+      prod: 2
+      beta: 1
+      draft: 1
+      specialist_route_registry: 2
+      package_only: 0
+      planned: 2
+    fixture_status: "partial"
+    current_blockers:
+      - "reviewed_sourcing_sheet has golden output but no isolated reviewed runner input"
+      - "stock_snapshot_or_known_sku still partial"
+      - "legacy sourcing proof needs sidecar or native brand_scope"
+    approval_gates: ["supplier_message_send", "order_or_purchase_mutation", "payment_mutation"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+    next_validation: "Isolate one reviewed sourcing input sheet and one known SKU/product stock fixture."
+
+  - id: "selena"
+    governance_status: "beta"
+    release_prep_status: "ready_for_prod_route_smoke"
+    readiness_claim: "PayPal/Zendesk reviewed and bounded live read routes are production-usable for read/audit only."
+    supported_release_modes: ["prod_route_smoke", "bounded_live_read"]
+    route_counts:
+      prod: 4
+      beta: 0
+      draft: 0
+      specialist_route_registry: 4
+      package_only: 0
+      planned: 0
+    fixture_status: "available"
+    current_blockers:
+      - "legacy proofs need sidecar or native brand_scope"
+      - "live reads must keep tiny limits and no customer/dispute mutation"
+    approval_gates: ["zendesk_reply", "paypal_dispute_message", "refund_or_payment_mutation"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+    next_validation: "Run reviewed export smoke, then bounded live read with days=7 and tiny limits."
+
+  - id: "alfred"
+    governance_status: "beta"
+    release_prep_status: "blocked"
+    readiness_claim: "Visibility audit is prod, but strategy/feedback release candidate is blocked on brand scope key separation."
+    supported_release_modes: ["visibility_prod_smoke", "blocked_seo_aeo_rc"]
+    route_counts:
+      prod: 1
+      beta: 2
+      draft: 0
+      specialist_route_registry: 1
+      package_only: 0
+      planned: 2
+    fixture_status: "available_for_phase1_blocked_for_phase2"
+    current_blockers:
+      - "alfred.strategy-plan blocked_invalid_inputs from brand_pack_id/runtime_store_key mismatch"
+      - "deployment-feedback-loop blocked until Phase 2 passes"
+    approval_gates: ["drive_upload", "site_or_theme_mutation", "content_publication"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-orchestration-matrix.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-test-ledger.yaml"
+    next_validation: "Normalize Alfred route contract around brand_scope, then rerun strategy-plan with skip-drive."
+
+  - id: "cortex"
+    governance_status: "beta"
+    release_prep_status: "partial"
+    readiness_claim: "Ads observation is prod; campaign management and feedback loop remain draft/dry-run only."
+    supported_release_modes: ["prod_read_smoke", "draft_campaign_dry_run"]
+    route_counts:
+      prod: 1
+      beta: 0
+      draft: 2
+      specialist_route_registry: 1
+      package_only: 0
+      planned: 2
+    fixture_status: "available_for_ads_observation"
+    current_blockers:
+      - "campaign mutation and publication are approval-gated"
+      - "feedback loop needs post-publication evidence"
+      - "legacy ads proof needs native brand_scope or sidecar"
+    approval_gates: ["campaign_mutation", "ad_publication", "paid_delivery_mutation"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml"
+    next_validation: "Keep Cortex in read/dry-run mode; feed landing/media readiness from Alfred/Kanye."
+
+  - id: "tony"
+    governance_status: "beta"
+    release_prep_status: "ready_for_beta_fixture"
+    readiness_claim: "Dev routes are registry-backed beta and can run against fixture repo only."
+    supported_release_modes: ["fixture_beta", "dev_fixture_only"]
+    route_counts:
+      prod: 0
+      beta: 3
+      draft: 0
+      specialist_route_registry: 3
+      package_only: 0
+      planned: 0
+    fixture_status: "available_minimal"
+    current_blockers:
+      - "fixture repo is smoke-level, not deep regression coverage"
+      - "production deploy/restart/release control outside governance lane"
+    approval_gates: ["push_or_pr_when_not_requested", "production_deploy", "service_restart"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
+    next_validation: "Run exploration -> development-plan -> development on fixture repo with tests/build proof."
+
+  - id: "kanye"
+    governance_status: "beta"
+    release_prep_status: "ready_for_beta_fixture"
+    readiness_claim: "Higgsfield still/product photoshoot local beta proof exists; marketplace and Soul ID remain gated."
+    supported_release_modes: ["creative_beta", "local_media_artifacts"]
+    route_counts:
+      prod: 0
+      beta: 6
+      draft: 2
+      specialist_route_registry: 2
+      package_only: 0
+      planned: 6
+    fixture_status: "available"
+    current_blockers:
+      - "polling 502 recovery must be standardized before prod"
+      - "marketplace cards still draft/partial"
+      - "Soul ID requires explicit approval, identity consent, and paid-plan check"
+      - "brand-linked media manifests need brand_scope"
+    approval_gates: ["external_publication", "paid_delivery_mutation", "identity_or_private_media_use"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/HIGGSFIELD_VALIDATION_REPORT.md"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+    next_validation: "Continue owner-reviewed product/media QA and marketplace card validation with brand_scope manifest."
+
+  - id: "safir"
+    governance_status: "beta"
+    release_prep_status: "blocked"
+    readiness_claim: "Email audit routes are beta; email workflow remains draft until a business brief fixture exists."
+    supported_release_modes: ["blocked_until_fixture_ready", "email_render_dry_run"]
+    route_counts:
+      prod: 0
+      beta: 2
+      draft: 1
+      specialist_route_registry: 2
+      package_only: 0
+      planned: 1
+    fixture_status: "needed"
+    current_blockers:
+      - "safir_email_workflow_brief missing"
+      - "no Safir business deliverable manifest found"
+      - "external email send and CRM mutation approval-gated"
+    approval_gates: ["external_email_send", "crm_mutation", "drive_upload"]
+    source_refs:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md"
+    next_validation: "Create a render-only Safir email workflow brief fixture with brand_scope, campaign_goal, offer, audience, and template reference."
+
+release_candidates:
+  - id: "business-prod-route-smoke"
+    status: "partial"
+    agents: ["rosa", "jeff", "selena", "naya", "alfred", "cortex"]
+    target_claim: "Run prod read/report routes with upload off and no external mutation."
+    evidence_ledgers:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    blocked_surfaces: ["drive_upload", "external_message_send", "payment_mutation", "campaign_mutation", "site_or_theme_mutation"]
+  - id: "technical-beta-fixture"
+    status: "partial"
+    agents: ["jack", "jack-x", "mnemos", "tony"]
+    target_claim: "Run fixture-only beta workflows with no MM/KG/runtime mutation."
+    evidence_ledgers:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    blocked_surfaces: ["mission_manager_mutation", "kg_commit", "production_deploy", "service_restart"]
+  - id: "ads-media-cortex-kanye"
+    status: "partial"
+    agents: ["cortex", "kanye", "alfred"]
+    target_claim: "Prepare ads/media dry-run and local media proof without publication."
+    evidence_ledgers:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml"
+    blocked_surfaces: ["campaign_publication", "paid_delivery_mutation", "identity_or_private_media_use"]
+  - id: "alfred-seo-aeo"
+    status: "blocked"
+    agents: ["alfred", "tony", "rosa"]
+    target_claim: "Advance SEO/AEO from visibility audit into strategy and feedback loop."
+    evidence_ledgers:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-test-ledger.yaml"
+    blocked_surfaces: ["site_or_theme_mutation", "content_publication", "drive_upload"]
+  - id: "safir-email-workflow"
+    status: "blocked"
+    agents: ["safir", "rosa", "kanye"]
+    target_claim: "Prepare render-only email workflow proof."
+    evidence_ledgers:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+    blocked_surfaces: ["external_email_send", "crm_mutation"]
+
+validation:
+  last_checked: "2026-05-06"
+  checks:
+    - "YAML must parse for release-readiness-matrix.yaml and all source YAML files."
+    - "V1 agent set must be exactly jack, jack-x, mnemos, rosa, jeff, naya, selena, alfred, cortex, tony, kanye, safir."
+    - "No deferred agent may appear in the V1 release rollup."
+    - "Every readiness claim must cite at least one source_ref."
+    - "Brand-linked rows must reference brand-scope-contract.yaml or brand-scope-sidecars.yaml."
+    - "Approval-gated surfaces remain blocked unless explicit approval evidence is referenced."
+    - "Referenced proof paths must exist where a row claims existing proof."
+

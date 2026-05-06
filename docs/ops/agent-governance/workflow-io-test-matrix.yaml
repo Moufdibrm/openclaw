@@ -1,0 +1,588 @@
+version: 1
+last_updated: "2026-05-06"
+purpose: "Input/output and post-deployment test expectations for governed BRM/Hermes workflows."
+scope: "governance_test_contracts_only_no_runtime_deploy"
+
+standard_render_to_moufdi:
+  required_fields:
+    - workflow_id
+    - status
+    - brand_scope_when_brand_linked
+    - input_summary
+    - output_artifacts
+    - proof_artifacts
+    - approval_gates
+    - gaps_or_next_fix
+  conditional_required_fields:
+    brand_scope:
+      when: "workflow input, output, proof, or deliverable is tied to a brand"
+      source_contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+  statuses:
+    - passed
+    - passed_with_warnings
+    - failed
+    - blocked
+
+brand_linked_deliverable_rule:
+  required: true
+  contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+  applies_to:
+    - runner_input
+    - manifest_json
+    - result_json
+    - report_data_json
+    - delivery_json
+    - verification_json
+    - approval_packet
+    - generated_media_manifest
+    - campaign_brief
+    - workboard
+    - handoff_packet
+    - memory_candidate
+  validation_gap_if_missing: true
+
+global_approval_gates:
+  - outbound_external_message
+  - customer_visible_support_reply
+  - paypal_or_dispute_message
+  - refund_payment_billing_or_financial_mutation
+  - campaign_publication_or_paid_delivery_mutation
+  - ambiguous_target_or_delta
+  - identity_or_private_media_use
+
+workflows:
+  - id: jack.protocol-missing
+    agent: jack
+    status: beta
+    inputs_required: [request_text, target_agent]
+    inputs_optional: [source_channel, reason_code, mentioned_agents, upload_drive]
+    outputs_expected: [compact_json, protocol_candidate_bundle, final_summary]
+    proof_required: [compact_json, candidate_path]
+    render_to_moufdi: "candidate path, target agent, missing route reason, next decision"
+    post_deploy_test: "Submit a specialist request with no matching route and confirm a reviewable protocol candidate is produced."
+  - id: jack.capability-missing
+    agent: jack
+    status: beta
+    inputs_required: [request_text, capability_slug]
+    inputs_optional: [capability_label, coverage_hint, suggested_agents, framework_layers]
+    outputs_expected: [compact_json, coverage_matrix, protocol_bundle_candidate]
+    proof_required: [compact_json, coverage_matrix_path]
+    render_to_moufdi: "capability gap, suggested owner, proposed next workflow"
+    post_deploy_test: "Submit a capability design ask and confirm Jack produces a matrix instead of executing ad hoc work."
+  - id: jack.draft-protocol-runtime
+    agent: jack
+    status: beta
+    inputs_required: [bundle_path, draft_mode]
+    inputs_optional: [prompt]
+    outputs_expected: [compact_json, verification_report]
+    proof_required: [bundle_path, verification_report]
+    render_to_moufdi: "draft lifecycle status, verification path, blocker"
+    post_deploy_test: "Run a safe draft bundle through observe/confirm mode and verify no governed registry mutation."
+  - id: jack.direct.mm-supervision
+    agent: jack
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [mission_context, intended_change]
+    inputs_optional: [current_mm_state]
+    outputs_expected: [decision_json, mission_patch, final_summary]
+    proof_required: [decision_json, mission_patch]
+    render_to_moufdi: "proposed Mission Manager patch only; no hidden mutation"
+    approval_gates: [mission_manager_mutation]
+    post_deploy_test: "Use a fixture mission and verify patch generation without applying it."
+  - id: jack.email-digest
+    agent: jack
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [jack_x_mail_artifact]
+    inputs_optional: [operator_scope]
+    outputs_expected: [digest_summary, delivery_summary]
+    proof_required: [source_artifact, final_summary]
+    render_to_moufdi: "digest bullets, source artifact path, delivery blocked unless approved"
+    approval_gates: [outbound_external_message]
+    post_deploy_test: "Feed a Jack-X artifact and verify digest without sending."
+  - id: jack.higgsfield-skill-supervision
+    agent: jack
+    status: draft
+    inputs_required: [creative_prompt]
+    inputs_optional: [source_image, route_intent]
+    outputs_expected: [skill_surface_summary, auth_presence, generated_media_manifest]
+    proof_required: [manifest_or_handoff]
+    render_to_moufdi: "media paths or explicit handoff to Kanye"
+    approval_gates: [external_publication, paid_delivery_mutation]
+    post_deploy_test: "Run only after supervised route references Kanye Higgsfield procedure."
+
+  - id: jack-x.registry-ingest
+    agent: jack-x
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [registry_source]
+    inputs_optional: [channel_scope]
+    outputs_expected: [runtime_summary, verification_json]
+    proof_required: [verification_json]
+    render_to_moufdi: "ingested count, rejected records, proof path"
+    post_deploy_test: "Ingest a small registry fixture and verify accepted/rejected counts."
+  - id: jack-x.email-intake-pass0
+    agent: jack-x
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [mailbox_scope]
+    inputs_optional: [store, time_window]
+    outputs_expected: [compact_json, memory_candidate]
+    proof_required: [compact_json, memory_candidate]
+    render_to_moufdi: "memory candidates, source refs, freshness"
+    post_deploy_test: "Run on a bounded mailbox window and verify candidate provenance."
+  - id: jack-x.lark-message-intake-pass0
+    agent: jack-x
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [lark_channel_or_thread]
+    inputs_optional: [time_window]
+    outputs_expected: [compact_json, memory_candidate]
+    proof_required: [compact_json, memory_candidate]
+    render_to_moufdi: "signals extracted, source refs, ambiguities"
+    post_deploy_test: "Run on a small Lark fixture and verify no reply/mutation."
+  - id: jack-x.lark-table-intake-pass0
+    agent: jack-x
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [lark_table_or_view]
+    inputs_optional: [filter]
+    outputs_expected: [compact_json, memory_candidate]
+    proof_required: [compact_json, memory_candidate]
+    render_to_moufdi: "rows considered, candidate records, rejected rows"
+    post_deploy_test: "Run on a bounded table/view and verify candidate shape."
+  - id: jack-x.whatsapp-intake-pass0
+    agent: jack-x
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [whatsapp_snapshot]
+    inputs_optional: [contact_scope, time_window]
+    outputs_expected: [compact_json, memory_candidate]
+    proof_required: [compact_json, memory_candidate]
+    render_to_moufdi: "signals, source refs, ambiguity list"
+    post_deploy_test: "Run on a snapshot fixture and verify no external message send."
+  - id: jack-x.db-analysis
+    agent: jack-x
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [memory_db_scope]
+    inputs_optional: [projection_scope]
+    outputs_expected: [memory_projection, runtime_summary]
+    proof_required: [memory_projection]
+    render_to_moufdi: "memory health, conflicts, stale data"
+    post_deploy_test: "Run a read-only DB projection and verify stale/conflict detection."
+  - id: jack-x.signal.extract
+    agent: jack-x
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [bounded_signal_artifact]
+    inputs_optional: [mission_context]
+    outputs_expected: [handoff_packet, mission_patch, memory_candidate]
+    proof_required: [handoff_packet, memory_candidate]
+    render_to_moufdi: "action/memory split and proposed patch"
+    post_deploy_test: "Feed a mixed signal artifact and verify extraction split."
+
+  - id: mnemos.context-check
+    agent: mnemos
+    status: beta
+    registry_coverage: package_only
+    inputs_required: [context_snapshot]
+    inputs_optional: [pressure_threshold]
+    outputs_expected: [memory_observation, verification_json]
+    proof_required: [memory_observation, verification_json]
+    render_to_moufdi: "pressure state, reinjection need, capsule path"
+    post_deploy_test: "Run on a long-context fixture and verify capsule recommendation."
+
+  - id: rosa.offer-strategy.direct
+    agent: rosa
+    status: prod
+    inputs_required: [prompt]
+    inputs_optional: [store, upload_drive]
+    outputs_expected: [decision_json, verification_json, final_summary]
+    proof_required: [decision_json, verification_json]
+    render_to_moufdi: "recommendation, assumptions, artifact paths"
+    post_deploy_test: "Run a known offer prompt and compare decision/proof shape."
+  - id: rosa.audit-performance-marketing
+    agent: rosa
+    status: prod
+    inputs_required: [store]
+    inputs_optional: [period_days, end_date, upload_drive]
+    outputs_expected: [report_bundle, verification_json]
+    proof_required: [report_bundle, verification_json]
+    render_to_moufdi: "report path, top findings, data gaps"
+    post_deploy_test: "Run a bounded store/period audit and verify report bundle exists."
+  - id: rosa.veille-concurrentielle
+    agent: rosa
+    status: prod
+    inputs_required: [store, domain]
+    inputs_optional: [refresh_market_graph]
+    outputs_expected: [report_bundle, verification_json]
+    proof_required: [report_bundle, verification_json]
+    render_to_moufdi: "competitive findings, report paths, graph freshness"
+    post_deploy_test: "Run with a known domain and verify report plus graph reference."
+  - id: rosa.market-graph-refresh
+    agent: rosa
+    status: beta
+    inputs_required: [store_or_market_scope]
+    inputs_optional: [seo_capture]
+    outputs_expected: [graph_snapshot, verification_json]
+    proof_required: [graph_snapshot, verification_json]
+    render_to_moufdi: "promoted snapshot path, freshness, blocked gaps"
+    post_deploy_test: "Run graph compile from reviewed capture and verify deterministic snapshot."
+
+  - id: jeff.analyse-profil
+    agent: jeff
+    status: prod
+    inputs_required: [creator_handle, store]
+    inputs_optional: []
+    outputs_expected: [pass0_bundle, report_bundle, verification_json]
+    proof_required: [pass0_bundle, report_bundle, verification_json]
+    render_to_moufdi: "creator verdict, report path, confidence"
+    post_deploy_test: "Run a known creator handle and verify pass0 plus report."
+  - id: jeff.performance-report
+    agent: jeff
+    status: prod
+    inputs_required: [store, period_days]
+    inputs_optional: [upload_drive]
+    outputs_expected: [report_bundle, verification_json, delivery_json]
+    proof_required: [report_bundle, verification_json]
+    render_to_moufdi: "performance summary, report path, delivery status"
+    approval_gates: [drive_delivery]
+    post_deploy_test: "Run store/period report with upload disabled first."
+  - id: jeff.candidate-intake
+    agent: jeff
+    status: beta
+    inputs_required: [candidate_profile_or_source]
+    inputs_optional: [store, campaign_scope]
+    outputs_expected: [candidate_intake_bundle, verification_json]
+    proof_required: [candidate_intake_bundle]
+    render_to_moufdi: "candidate record, graph readiness, gaps"
+    post_deploy_test: "Feed a reviewed creator candidate and verify candidate bundle."
+  - id: jeff.email-digest
+    agent: jeff
+    status: beta
+    registry_coverage: planned
+    inputs_required: [inbox_artifact]
+    inputs_optional: [time_window]
+    outputs_expected: [digest_artifact]
+    proof_required: [digest_artifact]
+    render_to_moufdi: "digest path and contact-send gate"
+    approval_gates: [creator_contact_send]
+    post_deploy_test: "Run digest fixture and confirm no outbound contact."
+  - id: jeff.outreach-pipeline
+    agent: jeff
+    status: beta
+    registry_coverage: planned
+    inputs_required: [creator_context, campaign_context]
+    inputs_optional: []
+    outputs_expected: [outreach_artifact]
+    proof_required: [outreach_artifact]
+    render_to_moufdi: "draft outreach plan and approval gate"
+    approval_gates: [creator_contact_send]
+    post_deploy_test: "Create outreach draft only; no send."
+  - id: jeff.ajout-collaboration
+    agent: jeff
+    status: beta
+    registry_coverage: planned
+    inputs_required: [collaboration_target, collaboration_delta]
+    inputs_optional: []
+    outputs_expected: [pre_mutation_evidence, post_mutation_evidence]
+    proof_required: [pre_mutation_evidence]
+    render_to_moufdi: "pre-mutation summary; mutation blocked without approval"
+    approval_gates: [collaboration_mutation]
+    post_deploy_test: "Dry-run target resolution and block actual mutation."
+  - id: jeff.collab-management
+    agent: jeff
+    status: beta
+    registry_coverage: planned
+    inputs_required: [collaboration_id, action_delta]
+    inputs_optional: []
+    outputs_expected: [pre_mutation_evidence, post_mutation_evidence]
+    proof_required: [pre_mutation_evidence]
+    render_to_moufdi: "proposed update and approval/readback status"
+    approval_gates: [collaboration_mutation]
+    post_deploy_test: "Dry-run update/archive and verify approval gate."
+
+  - id: naya.stock-check
+    agent: naya
+    status: prod
+    inputs_required: [store, product_query]
+    inputs_optional: [reviewed_stock_snapshot]
+    outputs_expected: [stock_check_json, final_summary]
+    proof_required: [stock_check_json]
+    render_to_moufdi: "stock verdict, source snapshot, risk"
+    post_deploy_test: "Run a known SKU/product query and verify bounded stock verdict."
+  - id: naya.product-sourcing
+    agent: naya
+    status: prod
+    inputs_required: [reviewed_sourcing_sheet]
+    inputs_optional: [upload_drive]
+    outputs_expected: [report_bundle, verification_json]
+    proof_required: [report_bundle, verification_json]
+    render_to_moufdi: "sourcing recommendation and report path"
+    post_deploy_test: "Run a reviewed sheet fixture and verify report bundle."
+  - id: naya.campaign-support
+    agent: naya
+    status: beta
+    registry_coverage: planned
+    inputs_required: [campaign_scope, product_or_sku_scope]
+    inputs_optional: []
+    outputs_expected: [campaign_support_artifact]
+    proof_required: [campaign_support_artifact]
+    render_to_moufdi: "feasibility verdict and stock blocker"
+    post_deploy_test: "Run campaign feasibility from SKU fixture."
+  - id: naya.supplier-comm
+    agent: naya
+    status: draft
+    registry_coverage: planned
+    inputs_required: [supplier_target, communication_intent]
+    inputs_optional: []
+    outputs_expected: [draft_message, approval_record]
+    proof_required: [draft_message]
+    render_to_moufdi: "draft only; no supplier send"
+    approval_gates: [supplier_message_send]
+    post_deploy_test: "Generate supplier draft and verify send is blocked."
+
+  - id: selena.paypal-dispute.phase1-audit
+    agent: selena
+    status: prod
+    inputs_required: [reviewed_dispute_export, store]
+    inputs_optional: []
+    outputs_expected: [paypal_dispute_audit, final_summary]
+    proof_required: [paypal_dispute_audit]
+    render_to_moufdi: "dispute risk summary and artifact path"
+    post_deploy_test: "Run reviewed export fixture and verify no PayPal mutation."
+  - id: selena.paypal-dispute.phase1-live
+    agent: selena
+    status: prod
+    inputs_required: [store]
+    inputs_optional: [days, case_limit, reviewed_dispute_export]
+    outputs_expected: [paypal_dispute_live_audit, final_summary]
+    proof_required: [paypal_dispute_live_audit]
+    render_to_moufdi: "fetched case count, risks, no dispute message"
+    approval_gates: [paypal_or_dispute_message, payment_mutation]
+    post_deploy_test: "Run live read with tiny case limit and verify read-only output."
+  - id: selena.zendesk-feedback-review
+    agent: selena
+    status: prod
+    inputs_required: [zendesk_export, store]
+    inputs_optional: []
+    outputs_expected: [zendesk_feedback_review, final_summary]
+    proof_required: [zendesk_feedback_review]
+    render_to_moufdi: "feedback themes and artifact path"
+    post_deploy_test: "Run export fixture and verify feedback artifact."
+  - id: selena.zendesk-feedback-live
+    agent: selena
+    status: prod
+    inputs_required: [store]
+    inputs_optional: [days, ticket_limit, skip_comments, zendesk_export]
+    outputs_expected: [zendesk_feedback_live_review, final_summary]
+    proof_required: [zendesk_feedback_live_review]
+    render_to_moufdi: "fetched ticket count, risks, no customer reply"
+    approval_gates: [customer_visible_support_reply]
+    post_deploy_test: "Run live read with tiny ticket limit and verify no reply."
+
+  - id: alfred.visibility-audit
+    agent: alfred
+    status: prod
+    inputs_required: [report_data_path, store]
+    inputs_optional: [date, domain, upload_drive]
+    outputs_expected: [html_report, pdf_report, json_report, verification_json]
+    proof_required: [report_bundle, verification_json]
+    render_to_moufdi: "report paths, top SEO actions, data gaps"
+    post_deploy_test: "Render from reviewed report-data bundle and verify all formats."
+  - id: alfred.strategy-plan
+    agent: alfred
+    status: beta
+    registry_coverage: planned
+    inputs_required: [phase1_audit_artifact, strategy_scope]
+    inputs_optional: []
+    outputs_expected: [strategy_report, workboard]
+    proof_required: [strategy_report]
+    render_to_moufdi: "strategy path and workboard summary"
+    post_deploy_test: "Run from a known visibility audit artifact."
+  - id: alfred.deployment-feedback-loop
+    agent: alfred
+    status: beta
+    registry_coverage: planned
+    inputs_required: [deployment_feedback_artifacts]
+    inputs_optional: []
+    outputs_expected: [feedback_report, queue_artifacts]
+    proof_required: [feedback_report]
+    render_to_moufdi: "feedback summary and next-cycle queue"
+    post_deploy_test: "Run from deployment feedback fixture; no deploy action."
+
+  - id: cortex.ads-observation
+    agent: cortex
+    status: prod
+    inputs_required: [store]
+    inputs_optional: [workspace, mission_id, mission_code, task_slug, upload_drive]
+    outputs_expected: [report_bundle, verification_json, delivery_json]
+    proof_required: [report_bundle, verification_json]
+    render_to_moufdi: "paid-media findings, report path, delivery status"
+    approval_gates: [ad_publication, campaign_mutation]
+    post_deploy_test: "Run observation with upload disabled and verify read-only bundle."
+  - id: cortex.campaign-management
+    agent: cortex
+    status: draft
+    registry_coverage: planned
+    inputs_required: [campaign_objective, budget_scope, brand_scope]
+    inputs_optional: []
+    outputs_expected: [campaign_management_report, task_board]
+    proof_required: [campaign_management_report]
+    render_to_moufdi: "proposed plan only; no live campaign mutation"
+    approval_gates: [campaign_mutation, ad_publication]
+    post_deploy_test: "Generate plan from fixture and block live mutation."
+  - id: cortex.feedback-loop
+    agent: cortex
+    status: draft
+    registry_coverage: planned
+    inputs_required: [post_publication_metrics]
+    inputs_optional: [creative_artifacts]
+    outputs_expected: [feedback_report, next_cycle_input]
+    proof_required: [feedback_report]
+    render_to_moufdi: "feedback path and next test recommendations"
+    post_deploy_test: "Run from metrics fixture and verify next-cycle input."
+
+  - id: tony.codebase-exploration
+    agent: tony
+    status: beta
+    inputs_required: [prompt]
+    inputs_optional: [target_repo, upload_drive]
+    outputs_expected: [compact_json, final_summary]
+    proof_required: [compact_json]
+    render_to_moufdi: "topology/findings, files inspected, blockers"
+    post_deploy_test: "Run on a harmless repo fixture and verify no writes."
+  - id: tony.development-plan
+    agent: tony
+    status: beta
+    inputs_required: [target_repo, task_request, exploration_artifact]
+    inputs_optional: [prompt, upload_drive]
+    outputs_expected: [compact_json, verification_report]
+    proof_required: [development_plan, verification_report]
+    render_to_moufdi: "plan path, risk, test plan"
+    post_deploy_test: "Run from exploration artifact and verify no code write."
+  - id: tony.development
+    agent: tony
+    status: beta
+    inputs_required: [target_repo, task_request, exploration_artifact, development_plan]
+    inputs_optional: [snapshot_repo, upload_drive]
+    outputs_expected: [code_delta, verification_report, final_summary]
+    proof_required: [changed_files, verification_report]
+    render_to_moufdi: "changed files, tests, remaining risk"
+    approval_gates: [prod_deploy_or_restart]
+    post_deploy_test: "Run on fixture repo and verify tests/build/lint evidence."
+
+  - id: kanye.still-generate
+    agent: kanye
+    status: beta
+    inputs_required: [prompt]
+    inputs_optional: [route, intent, source_image]
+    outputs_expected: [generated_media, manifest]
+    proof_required: [manifest, media_file]
+    render_to_moufdi: "media paths, manifest, route used"
+    post_deploy_test: "Generate one low-risk still and verify media plus manifest."
+  - id: kanye.reference-edit
+    agent: kanye
+    status: beta
+    inputs_required: [prompt, source_image]
+    inputs_optional: [route]
+    outputs_expected: [edited_media, manifest]
+    proof_required: [manifest, media_file, source_image]
+    render_to_moufdi: "media paths, manifest, source image"
+    post_deploy_test: "Edit one safe reference image and verify attachment provenance."
+  - id: kanye.higgsfield-skill-exploration
+    agent: kanye
+    status: beta
+    registry_coverage: planned
+    inputs_required: [skill_package_scope]
+    inputs_optional: []
+    outputs_expected: [skill_surface_summary, auth_presence, command_help_surface, risk_gap_list]
+    proof_required: [exploration_report]
+    render_to_moufdi: "installed skills, CLI status, gaps"
+    post_deploy_test: "Inspect installed skill/CLI without printing secrets."
+  - id: kanye.higgsfield-skill-validation
+    agent: kanye
+    status: beta
+    registry_coverage: planned
+    inputs_required: [bounded_prompt]
+    inputs_optional: [source_media]
+    outputs_expected: [test_artifacts, manifest, cost_error_notes]
+    proof_required: [manifest]
+    render_to_moufdi: "pass/fail, artifact paths, caveats"
+    post_deploy_test: "Run one bounded validation and verify manifest."
+  - id: kanye.higgsfield-generate.official-cli
+    agent: kanye
+    status: beta
+    registry_coverage: planned
+    inputs_required: [prompt]
+    inputs_optional: [model, source_media]
+    outputs_expected: [prompt_file, job_json, downloaded_media, manifest]
+    proof_required: [manifest, media_file]
+    render_to_moufdi: "media path, job id, recovery status"
+    post_deploy_test: "Run still generation and recover with generate get if polling fails."
+  - id: kanye.higgsfield-product-photoshoot.validation
+    agent: kanye
+    status: beta
+    registry_coverage: planned
+    inputs_required: [product_image, mode, prompt]
+    inputs_optional: [aspect_ratio, brand_context, product_context]
+    outputs_expected: [attachments_json, generated_media, manifest]
+    proof_required: [manifest, media_file]
+    render_to_moufdi: "media paths, manifest, caveats"
+    helper: /Users/moufdi/.openclaw/workspace-kanye/bin/higgsfield-product-photoshoot-run
+    post_deploy_test: "Run helper with product_shot 1:1 and verify passed manifest."
+  - id: kanye.higgsfield-marketplace-cards.validation
+    agent: kanye
+    status: draft
+    registry_coverage: planned
+    inputs_required: [product_image, marketplace_scope, brand_constraints]
+    inputs_optional: [category, count]
+    outputs_expected: [media_set, manifest, compliance_notes]
+    proof_required: [manifest, compliance_notes]
+    render_to_moufdi: "media set paths and compliance verdict"
+    approval_gates: [external_publication]
+    post_deploy_test: "Generate one main-image scoped set and verify no publication."
+  - id: kanye.higgsfield-soul-id.validation
+    agent: kanye
+    status: draft
+    registry_coverage: planned
+    inputs_required: [explicit_approval, identity_consent, identity_photos, model_check]
+    inputs_optional: [reuse_prompt]
+    outputs_expected: [approval_record, input_photo_manifest, soul_id_status, reuse_test_manifest]
+    proof_required: [approval_record, input_photo_manifest]
+    render_to_moufdi: "blocked unless approval/consent; no silent identity run"
+    approval_gates: [identity_or_private_media_use]
+    post_deploy_test: "Do not run until explicit approval and consent artifacts exist."
+
+  - id: safir.email-audit
+    agent: safir
+    status: beta
+    inputs_required: [store, parent_record_id]
+    inputs_optional: []
+    outputs_expected: [safir_email_audit, final_summary]
+    proof_required: [safir_email_audit]
+    render_to_moufdi: "audit path, issues, no send"
+    approval_gates: [external_email_send]
+    post_deploy_test: "Run read-only audit from known parent record."
+  - id: safir.mail-pole-audit
+    agent: safir
+    status: beta
+    inputs_required: [store]
+    inputs_optional: [period_days]
+    outputs_expected: [safir_mail_pole_audit, final_summary]
+    proof_required: [safir_mail_pole_audit]
+    render_to_moufdi: "audit path, pole summary, no Drive mutation unless approved"
+    approval_gates: [drive_delivery, external_email_send]
+    post_deploy_test: "Run render-only audit with skip-drive."
+  - id: safir.email-workflow
+    agent: safir
+    status: draft
+    registry_coverage: planned
+    inputs_required: [brand, campaign_goal, offer, audience]
+    inputs_optional: [assets, brand_voice, creative_handoff]
+    outputs_expected: [draft_email_workflow, html_render, pdf_or_image_proof, approval_request]
+    proof_required: [render_proof, draft_artifact]
+    render_to_moufdi: "HTML/PDF/render path, subject/body summary, send blocked"
+    approval_gates: [external_email_send, crm_mutation]
+    post_deploy_test: "Render a draft email artifact and verify no send or CRM mutation."

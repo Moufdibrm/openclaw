@@ -1,0 +1,376 @@
+version: 1
+last_updated: "2026-05-06"
+scope:
+  v1_agents:
+    - jack
+    - jack-x
+    - mnemos
+    - rosa
+    - jeff
+    - naya
+    - selena
+    - alfred
+    - cortex
+    - tony
+    - kanye
+    - safir
+  later_agents:
+    - jackette
+    - jhin
+    - walter
+
+status_values:
+  - draft
+  - beta
+  - prod
+
+autonomy_levels:
+  audit_read:
+    description: "Read, inspect, summarize, compare, and report."
+    may_mutate_external: false
+  discussion_approval:
+    description: "Discuss, plan, draft, and prepare action. Ask before real external or business mutation."
+    may_mutate_external: false
+  autonomous_e2e_validated_route:
+    description: "Execute end-to-end only on an already validated route, using the route tool allowlist and proof contract."
+    may_mutate_external: "only_if_route_allows_and_global_approval_gates_pass"
+
+global_approval_required:
+  - outbound_external_message
+  - customer_visible_support_reply
+  - paypal_or_dispute_message
+  - refund_payment_billing_or_financial_mutation
+  - ambiguous_target_or_delta
+
+central_skill_policy:
+  install_strategy: centralized_skills
+  enforcement_strategy: agent_route_allowlist
+  note: "The same broad skill tree is currently installed in every Hermes profile. Permission must come from this matrix and route packages, not from skill presence."
+  common_denied_skill_families_unless_explicit_route:
+    - red-teaming
+    - smart-home
+    - gaming
+    - leisure
+    - social-media-posting
+    - unrelated-apple-personal-tools
+    - devops-deploy
+    - payment-mutation
+    - external-message-send
+
+agents:
+  jack:
+    status: beta
+    role: "Transversal operator, route resolver, direct executor when governed."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - mission-manager
+      - knowledge-graph
+      - specialist-dispatch
+      - higgsfield-ai-official-skill-governance
+      - whatsapp-operator-surface
+      - lark
+      - ms365-mail
+      - shopify
+      - bigblue
+      - klaviyo
+      - hiboo
+      - paid-media-read
+      - analytics-read
+      - google-drive-approval-gated
+      - browser-verification
+      - filesystem-governance
+    installed_skill_packages:
+      - package: "higgsfield-ai/skills"
+        installed_profiles:
+          - jack
+        installed_skills:
+          - higgsfield-generate
+          - higgsfield-marketplace-cards
+          - higgsfield-product-photoshoot
+          - higgsfield-soul-id
+        status: installed_hf_api_and_cli_live_test_passed
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+        owner_agent: kanye
+        jack_scope: "May supervise, update governance, and execute direct governed creative work when requested; Kanye remains the preferred specialist owner."
+        key_policy: "Confirm API key presence only; never print, copy, or commit the key."
+        skill_access:
+          - skill: higgsfield-generate
+            status: beta
+            jack_permission: explicit_supervision_or_direct_governed_exception
+          - skill: higgsfield-product-photoshoot
+            status: beta
+            evidence: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/manifest.json
+            jack_permission: explicit_supervision_or_direct_governed_exception
+          - skill: higgsfield-marketplace-cards
+            status: draft_test_pending
+            jack_permission: governance_only_until_kanye_validation
+          - skill: higgsfield-soul-id
+            status: draft_gated
+            jack_permission: governance_only_explicit_approval_required
+    preferred_use: "Use Jack for transversal decisions, routing, supervision, and direct governed execution when no specialist should own the work."
+    forbidden_or_gated:
+      - runtime-gateway-deploy-service-edits
+      - mission-manager-code-edits
+      - hidden-production-mutation
+      - external-message-send-without-approval
+      - payment-or-billing-mutation-without-approval
+
+  jack-x:
+    status: beta
+    role: "Long-term memory, channel intake, KG and memory updates."
+    approved_autonomy:
+      - audit_read
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - ms365-mail-read
+      - lark-read
+      - whatsapp-snapshot-read
+      - mission-manager-agent-session-read
+      - memory-wiki
+      - kg-memory-update-governed
+      - filesystem-memory-artifacts
+    preferred_use: "Use Jack-X for durable memory and multi-channel extraction, not for operator replies."
+    forbidden_or_gated:
+      - external-message-send
+      - payment-or-support-mutation
+      - business-system-mutation
+    open_design_gap: "Needs downstream refinement/dedup/quality layer after Jack-X validation."
+
+  mnemos:
+    status: beta
+    role: "Continuity, context pressure, compaction and reinjection capsules."
+    approved_autonomy:
+      - audit_read
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - local-session-state
+      - context-metering
+      - continuity-artifacts
+      - filesystem-local
+    preferred_use: "Use Mnemos for continuity artifacts only."
+    forbidden_or_gated:
+      - external-read
+      - external-write
+      - business-execution
+      - durable-kg-ownership
+
+  rosa:
+    status: beta
+    role: "Marketing, offers, performance, market intelligence."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - shopify-read
+      - klaviyo-read
+      - hiboo-read
+      - lark-read
+      - ga4-read
+      - gsc-read
+      - dataforseo-read
+      - creative-asset-request-via-kanye
+      - filesystem-reporting
+    forbidden_or_gated:
+      - direct-higgsfield-generation
+      - campaign-publication-without-approval
+      - external-message-send-without-approval
+      - storefront-or-crm-mutation-without-route
+
+  jeff:
+    status: beta
+    role: "Influence, creator operations, outreach, collaboration analysis."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - hiboo-creators
+      - creator-profile-read
+      - inbox-signal-read
+      - candidate-registry
+      - filesystem-reporting
+      - google-drive-approval-gated
+    forbidden_or_gated:
+      - creator-contact-send-without-approval
+      - collaboration-mutation-without-approval
+      - payment-or-contract-mutation-without-approval
+
+  naya:
+    status: beta
+    role: "Stock, sourcing, supply chain and operational feasibility."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - shopify-read
+      - bigblue-read
+      - stock-telemetry
+      - sourcing-sheets
+      - filesystem-reporting
+      - google-drive-approval-gated
+    forbidden_or_gated:
+      - supplier-message-send-without-approval
+      - order-or-purchase-mutation-without-approval
+      - payment-mutation-without-approval
+
+  selena:
+    status: beta
+    role: "Support risk, PayPal disputes, Zendesk feedback review."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - paypal-read
+      - zendesk-read
+      - reviewed-export-analysis
+      - filesystem-reporting
+    forbidden_or_gated:
+      - zendesk-reply-without-approval
+      - paypal-dispute-message-without-approval
+      - refund-or-payment-mutation-without-approval
+
+  alfred:
+    status: beta
+    role: "SEO visibility, strategy plan, deployment feedback artifacts."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - gsc-read
+      - dataforseo-read
+      - ga4-read
+      - site-audit-read
+      - filesystem-reporting
+      - google-drive-approval-gated
+    forbidden_or_gated:
+      - site-or-theme-mutation-without-route
+      - external-publication-without-approval
+
+  cortex:
+    status: beta
+    role: "Paid media observation and campaign handoff."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - hiboo-ads-read
+      - meta-ads-read
+      - google-ads-read
+      - creative-observation
+      - creative-asset-request-via-kanye
+      - filesystem-reporting
+    forbidden_or_gated:
+      - direct-higgsfield-generation
+      - live-campaign-mutation-without-approval
+      - ad-publication-without-approval
+
+  tony:
+    status: beta
+    role: "Development owner: codebase exploration, planning, implementation, git."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - repository-filesystem
+      - terminal
+      - git
+      - github
+      - package-managers
+      - tests-build-lint
+      - browser-dev-verification
+    preferred_use: "If the task is code or git, route to Tony by default."
+    forbidden_or_gated:
+      - production-deploy-or-restart-without-explicit-delegation
+      - gateway-runtime-systemd-edits-in-this-governance-lane
+      - mission-manager-product-lane-ownership
+
+  kanye:
+    status: beta
+    role: "Creative generation and reference edits."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - creative-generation
+      - image-edit
+      - video-generation
+      - higgsfield-ai-official-skill
+      - reference-media-read
+      - filesystem-media-artifacts
+    installed_skill_packages:
+      - package: "higgsfield-ai/skills"
+        install_hint: "npx skills add higgsfield-ai/skills"
+        installed_profiles:
+          - kanye
+        installed_skills:
+          - higgsfield-generate
+          - higgsfield-marketplace-cards
+          - higgsfield-product-photoshoot
+          - higgsfield-soul-id
+        status: installed_hf_api_and_cli_live_test_passed
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+        owner_agent: kanye
+        purpose: "Use the official Higgsfield skill for specialist creative generation after bounded auth and output validation."
+        key_policy: "Confirm API key presence only; never print, copy, or commit the key."
+        initial_autonomy: discussion_approval
+        skill_access:
+          - skill: higgsfield-generate
+            status: beta
+            evidence: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+            gate_before_prod: "Standardize polling 502 recovery and review multiple owner-run still/video outputs."
+          - skill: higgsfield-product-photoshoot
+            status: beta
+            evidence: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/manifest.json
+            qa_evidence: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-qa/20260505T230630Z/manifest.json
+            helper_validation: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/20260505T232850Z/manifest.json
+            gate_before_prod: "QA more owner-run outputs and review visual quality across brand/product scenarios."
+          - skill: higgsfield-marketplace-cards
+            status: draft_test_pending
+            gate_before_beta: "Validate at least one marketplace main-image scope and inspect compliance."
+          - skill: higgsfield-soul-id
+            status: draft_gated
+            gate_before_beta: "Explicit operator approval, identity consent, paid-plan check, model-name verification, and manifest."
+        promotion_gate: "Move official CLI route to prod only after polling 502 recovery is standardized, retry/get behavior is documented, and multiple owner-reviewed outputs pass."
+    forbidden_or_gated:
+      - external-campaign-publication-without-approval
+      - paid-delivery-or-platform-mutation-without-approval
+
+  safir:
+    status: beta
+    role: "Email and CRM audit, email workflow design and drafting."
+    approved_autonomy:
+      - audit_read
+      - discussion_approval
+      - autonomous_e2e_validated_route
+    allowed_skill_families:
+      - ms365-mail-read
+      - klaviyo-read
+      - email-template-analysis
+      - image-design-for-email
+      - creative-asset-request-via-kanye
+      - filesystem-reporting
+    forbidden_or_gated:
+      - direct-higgsfield-generation
+      - external-email-send-without-approval
+      - crm-mutation-without-route-and-approval
+
+deferred_agents:
+  jackette:
+    status: draft
+    reason: "Legacy ops assistant profile. Not in V1 governed route scope."
+  jhin:
+    status: draft
+    reason: "Legacy creative execution profile. Not in V1 governed route scope."
+  walter:
+    status: draft
+    reason: "Legacy B2B profile. Not in V1 governed route scope."

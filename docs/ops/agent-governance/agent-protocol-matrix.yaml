@@ -1,0 +1,364 @@
+version: 1
+last_updated: "2026-05-06"
+
+route_status_values:
+  - draft
+  - beta
+  - prod
+
+registry_coverage_values:
+  - specialist_route_registry
+  - package_only
+  - planned
+
+common_proof_rules:
+  discussion:
+    - "short confirmation of actions taken"
+    - "explicit blocker or assumption when present"
+  protocol:
+    - "route/package id"
+    - "structured artifact or report bundle"
+    - "validation/replay evidence for prod route claims"
+  external_mutation:
+    - "resolved target before mutation"
+    - "explicit approval"
+    - "post-mutation readback or platform confirmation"
+
+agents:
+  jack:
+    protocols:
+      - id: jack.protocol-missing
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Create reviewable protocol candidate when no governed specialist route exists."
+        proof_target: "compact_json plus final_summary"
+      - id: jack.capability-missing
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Open capability gap instead of improvising unsupported tool use."
+        proof_target: "compact_json plus final_summary"
+      - id: jack.draft-protocol-runtime
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Draft protocol runtime bridge."
+        proof_target: "compact_json plus verification_report"
+      - id: jack.direct.mm-supervision
+        status: beta
+        registry_coverage: package_only
+        purpose: "Direct canonical Mission Manager supervision."
+        proof_target: "decision_json, mission_patch, final_summary"
+      - id: jack.email-digest
+        status: beta
+        registry_coverage: package_only
+        purpose: "Operator email digest from qualified Jack-X mail artifacts."
+        proof_target: "final_summary and delivery_summary"
+      - id: jack.higgsfield-skill-supervision
+        status: draft
+        registry_coverage: planned
+        purpose: "Supervise or directly run bounded Higgsfield creative work when Jack is explicitly asked, while keeping Kanye as preferred specialist owner."
+        proof_target: "installed skill surface summary, auth-presence check without secret output, generated artifact manifest when tested"
+        open_gap: "Jack direct execution remains an explicit exception until a supervised route references the Higgsfield CLI recovery procedure."
+        phases:
+          - "confirm installed Jack profile skill files"
+          - "confirm Higgsfield CLI and auth presence without printing secrets"
+          - "route repeated creative patterns back to Kanye protocol candidates"
+          - "keep publication or delivery mutation approval-gated"
+
+  jack-x:
+    protocols:
+      - id: jack-x.registry-ingest
+        status: beta
+        registry_coverage: package_only
+        purpose: "Governed channel registry ingest."
+        proof_target: "runtime_summary and verification_json"
+      - id: jack-x.email-intake-pass0
+        status: beta
+        registry_coverage: package_only
+        purpose: "MS365 mail intake into compact memory candidates."
+        proof_target: "compact_json and memory_candidate"
+      - id: jack-x.lark-message-intake-pass0
+        status: beta
+        registry_coverage: package_only
+        purpose: "Lark message intake into compact memory candidates."
+        proof_target: "compact_json and memory_candidate"
+      - id: jack-x.lark-table-intake-pass0
+        status: beta
+        registry_coverage: package_only
+        purpose: "Lark table intake into compact memory candidates."
+        proof_target: "compact_json and memory_candidate"
+      - id: jack-x.whatsapp-intake-pass0
+        status: beta
+        registry_coverage: package_only
+        purpose: "WhatsApp runtime snapshot intake into memory candidates."
+        proof_target: "compact_json and memory_candidate"
+      - id: jack-x.db-analysis
+        status: beta
+        registry_coverage: package_only
+        purpose: "Memory projection, review and DB analysis."
+        proof_target: "memory_projection and runtime_summary"
+      - id: jack-x.signal.extract
+        status: beta
+        registry_coverage: package_only
+        purpose: "Extract mission/memory candidates from bounded signal."
+        proof_target: "handoff_packet, mission_patch, memory_candidate"
+
+  mnemos:
+    protocols:
+      - id: mnemos.context-check
+        status: beta
+        registry_coverage: package_only
+        purpose: "Context pressure and continuity capsule check."
+        proof_target: "memory_observation and verification_json"
+
+  rosa:
+    protocols:
+      - id: rosa.offer-strategy.direct
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Offer strategy direct route."
+        proof_target: "decision_json, verification_json, final_summary"
+      - id: rosa.audit-performance-marketing
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Performance marketing audit."
+        proof_target: "report_bundle and verification_json"
+      - id: rosa.veille-concurrentielle
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Competitive watch report."
+        proof_target: "report_bundle and verification_json"
+      - id: rosa.market-graph-refresh
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Market graph refresh and promotion."
+        proof_target: "graph_snapshot and verification_json"
+
+  jeff:
+    protocols:
+      - id: jeff.analyse-profil
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Creator profile analysis."
+        proof_target: "pass0 bundle, report_bundle, verification_json"
+      - id: jeff.performance-report
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Influence portfolio performance report."
+        proof_target: "report_bundle, verification_json, delivery_json"
+      - id: jeff.candidate-intake
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Creator candidate intake and graph-oriented enrichment."
+        proof_target: "candidate_intake_bundle and verification_json"
+      - id: jeff.email-digest
+        status: beta
+        registry_coverage: planned
+        purpose: "Influencer inbox signal reading."
+        proof_target: "digest artifact"
+      - id: jeff.outreach-pipeline
+        status: beta
+        registry_coverage: planned
+        purpose: "Outreach preparation and follow-up decisions."
+        proof_target: "outreach artifact"
+      - id: jeff.ajout-collaboration
+        status: beta
+        registry_coverage: planned
+        purpose: "Create collaboration, approval-gated."
+        proof_target: "pre/post mutation evidence"
+      - id: jeff.collab-management
+        status: beta
+        registry_coverage: planned
+        purpose: "Update/archive collaboration, approval-gated."
+        proof_target: "pre/post mutation evidence"
+
+  naya:
+    protocols:
+      - id: naya.stock-check
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "SKU stock and reorder risk check."
+        proof_target: "stock_check_json and final_summary"
+      - id: naya.product-sourcing
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Sourcing report from reviewed sourcing sheet."
+        proof_target: "report_bundle and verification_json"
+      - id: naya.campaign-support
+        status: beta
+        registry_coverage: planned
+        purpose: "Campaign feasibility under stock constraints."
+        proof_target: "campaign support artifact"
+      - id: naya.supplier-comm
+        status: draft
+        registry_coverage: planned
+        purpose: "Supplier communication, approval-gated."
+        proof_target: "draft and explicit approval"
+
+  selena:
+    protocols:
+      - id: selena.paypal-dispute.phase1-audit
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "PayPal dispute export audit."
+        proof_target: "paypal_dispute_audit and final_summary"
+      - id: selena.paypal-dispute.phase1-live
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Live PayPal fetch plus audit replay."
+        proof_target: "paypal_dispute_live_audit and final_summary"
+      - id: selena.zendesk-feedback-review
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Reviewed Zendesk export analysis."
+        proof_target: "zendesk_feedback_review and final_summary"
+      - id: selena.zendesk-feedback-live
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Live Zendesk fetch plus review replay."
+        proof_target: "zendesk_feedback_live_review and final_summary"
+
+  alfred:
+    protocols:
+      - id: alfred.visibility-audit
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "SEO visibility audit."
+        proof_target: "HTML/PDF/JSON report bundle and verification_json"
+      - id: alfred.strategy-plan
+        status: beta
+        registry_coverage: planned
+        purpose: "Strategy plan from phase1 artifacts."
+        proof_target: "strategy report and workboard"
+      - id: alfred.deployment-feedback-loop
+        status: beta
+        registry_coverage: planned
+        purpose: "Deployment feedback loop artifacts."
+        proof_target: "feedback report and queue artifacts"
+
+  cortex:
+    protocols:
+      - id: cortex.ads-observation
+        status: prod
+        registry_coverage: specialist_route_registry
+        purpose: "Paid ads observation."
+        proof_target: "report_bundle, verification_json, delivery_json"
+      - id: cortex.campaign-management
+        status: draft
+        registry_coverage: planned
+        purpose: "Campaign management plan and handoff."
+        proof_target: "campaign-management report and task board"
+      - id: cortex.feedback-loop
+        status: draft
+        registry_coverage: planned
+        purpose: "Post-publication feedback loop."
+        proof_target: "feedback report and next-cycle input"
+
+  tony:
+    protocols:
+      - id: tony.codebase-exploration
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Bounded codebase read and topology extraction."
+        proof_target: "compact_json and final_summary"
+      - id: tony.development-plan
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Implementation plan from exploration artifact."
+        proof_target: "compact_json and verification_report"
+      - id: tony.development
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Code changes and validation."
+        proof_target: "code_delta, verification_report, final_summary"
+
+  kanye:
+    protocols:
+      - id: kanye.still-generate
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Still image generation through selected route."
+        proof_target: "generated media file and manifest"
+      - id: kanye.reference-edit
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Reference image edit through selected route."
+        proof_target: "generated media file and manifest"
+      - id: kanye.higgsfield-skill-exploration
+        status: beta
+        registry_coverage: planned
+        purpose: "Explore the official Higgsfield skill now installed in the Kanye profile."
+        proof_target: "installed skill surface summary, auth-presence check without secret output, command/help surface, risks and gaps"
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+        phases:
+          - "confirm install path and command surface"
+          - "confirm API key presence without printing value"
+          - "map official skill operations to Kanye generation policy lanes"
+          - "produce a short exploration report"
+      - id: kanye.higgsfield-skill-validation
+        status: beta
+        registry_coverage: planned
+        purpose: "Bounded test phase for Higgsfield official skill before production use."
+        proof_target: "test artifacts, manifest, cost/error notes, comparison with current kanye-generate path"
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+        open_gap: "generate create --wait returned HTTP 502 during polling once; generate get recovered the completed job. Standardize this recovery before route promotion."
+        phases:
+          - "one low-risk still generation test"
+          - "one reference/edit or motion test if supported"
+          - "verify output file, manifest, and failure handling"
+          - "recommend keep, wrap, or reject"
+      - id: kanye.higgsfield-generate.official-cli
+        status: beta
+        registry_coverage: planned
+        purpose: "Official Higgsfield CLI still/video generation through the installed higgsfield-generate skill."
+        proof_target: "prompt.txt, higgsfield job json, downloaded media, manifest.json"
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+        open_gap: "Polling recovery must be standardized before prod."
+      - id: kanye.higgsfield-product-photoshoot.validation
+        status: beta
+        registry_coverage: planned
+        purpose: "Validate product-focused Higgsfield photoshoot modes before beta use."
+        proof_target: "enhance-only output if used, generated media, manifest.json"
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/manifest.json
+        qa_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-qa/20260505T230630Z/manifest.json
+        helper_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/20260505T232850Z/manifest.json
+        open_gap: "product_shot, hero_banner, conceptual_product, recovered lifestyle_scene, and helper validation succeeded. Remaining gaps: first lifestyle_scene returned nsfw, 4:5 ratio rejected by CLI, and more owner-reviewed QA is needed before prod."
+      - id: kanye.higgsfield-marketplace-cards.validation
+        status: draft
+        registry_coverage: planned
+        purpose: "Validate marketplace card generation and visual compliance before beta use."
+        proof_target: "generated media set, manifest.json, compliance notes"
+      - id: kanye.higgsfield-soul-id.validation
+        status: draft
+        registry_coverage: planned
+        purpose: "Validate Soul ID only after explicit operator approval, identity consent, and paid-plan check."
+        proof_target: "approval record, input photo manifest, soul id status, reuse test manifest"
+        approval_required: true
+
+  safir:
+    protocols:
+      - id: safir.email-audit
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Email audit report."
+        proof_target: "safir_email_audit and final_summary"
+      - id: safir.mail-pole-audit
+        status: beta
+        registry_coverage: specialist_route_registry
+        purpose: "Mail pole audit."
+        proof_target: "safir_mail_pole_audit and final_summary"
+      - id: safir.email-workflow
+        status: draft
+        registry_coverage: planned
+        purpose: "Email workflow generation and design. Reopen with improved GPT Image / Claude design model floor."
+        proof_target: "draft email workflow artifact, render proof, approval before send"
+
+deferred_agents:
+  jackette:
+    status: draft
+    reason: "Later scope. Legacy protocols exist but no V1 Hermes route package."
+  jhin:
+    status: draft
+    reason: "Later scope. Legacy creative protocols exist but no V1 Hermes route package."
+  walter:
+    status: draft
+    reason: "Later scope. Legacy B2B protocols exist but no V1 Hermes route package."

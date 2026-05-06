@@ -1,0 +1,143 @@
+version: 1
+last_updated: "2026-05-06"
+mission_id: "spv-2026-05-06"
+purpose: "Execution ledger for supervised production validation."
+status: "prepared_not_executed"
+
+global_defaults:
+  upload_drive: false
+  external_mutation: false
+  customer_reply: false
+  payment_or_refund_mutation: false
+  campaign_publication: false
+  site_or_theme_mutation: false
+  crm_mutation: false
+  deploy_or_restart: false
+  mission_manager_mutation: false
+
+ledger_rules:
+  - "Every executed test must add status, inputs, outputs, proof path, approval gates, and final render summary."
+  - "Every brand-linked test must include native or sidecar brand_scope."
+  - "Blocked tests must name the missing fixture, owner, and next action."
+  - "Do not mark an agent supervised_ready from chat-only output."
+
+entries:
+  - id: "W0-GOV-001"
+    workstream: "W0"
+    agents: ["jack"]
+    workflow_id: "governance.validation"
+    status: "passed"
+    input_summary: "Validate governance docs, matrices, sidecars, and mission docs."
+    output_summary:
+      - "YAML OK"
+      - "PATHS OK"
+      - "LEDGER_WORKFLOW_IDS_OK"
+      - "MISSION_AGENT_SET_OK"
+      - "SECRET_SCAN_OK"
+      - "RESERVED_SCOPE_OK"
+    proof_artifacts:
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/supervised-production-validation-mission.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/supervised-production-validation-ledger.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/release-readiness-matrix.yaml"
+      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+    approval_gates: []
+  - id: "W1-ROSA-001"
+    workstream: "W1"
+    agents: ["rosa"]
+    workflow_id: "rosa.offer-strategy.direct"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#rosa-offer-strategy-direct-maybe-paris-20260415"
+    mutation_policy: "upload_off_no_external_mutation"
+  - id: "W1-ROSA-002"
+    workstream: "W1"
+    agents: ["rosa"]
+    workflow_id: "rosa.audit-performance-marketing"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#rosa-audit-performance-marketing-maybe-paris-20260415"
+    mutation_policy: "upload_off_no_external_mutation"
+  - id: "W1-ROSA-003"
+    workstream: "W1"
+    agents: ["rosa"]
+    workflow_id: "rosa.veille-concurrentielle"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#rosa-veille-concurrentielle-maybe-paris-20260415"
+    mutation_policy: "upload_off_no_external_mutation"
+  - id: "W1-JEFF-001"
+    workstream: "W1"
+    agents: ["jeff"]
+    workflow_id: "jeff.analyse-profil"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#jeff-analyse-profil-romi-allata-maybe-paris-20260415"
+    mutation_policy: "no_creator_contact_no_collab_mutation"
+  - id: "W1-JEFF-002"
+    workstream: "W1"
+    agents: ["jeff"]
+    workflow_id: "jeff.performance-report"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#jeff-performance-report-maybe-paris-20260414"
+    mutation_policy: "upload_off_no_creator_contact"
+  - id: "W1-SELENA-001"
+    workstream: "W1"
+    agents: ["selena"]
+    workflow_id: "selena.paypal-dispute.phase1-audit"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#selena-paypal-dispute-audit-maybe-paris-20260415"
+    mutation_policy: "no_dispute_message_no_payment_mutation"
+  - id: "W1-SELENA-002"
+    workstream: "W1"
+    agents: ["selena"]
+    workflow_id: "selena.zendesk-feedback-review"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#selena-zendesk-feedback-review-maybe-paris-20260415"
+    mutation_policy: "no_customer_reply"
+  - id: "W1-CORTEX-001"
+    workstream: "W1"
+    agents: ["cortex"]
+    workflow_id: "cortex.ads-observation"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#cortex-ads-observation-maybe-paris-20260415"
+    mutation_policy: "no_campaign_mutation_no_publication"
+  - id: "W1-ALFRED-001"
+    workstream: "W1"
+    agents: ["alfred"]
+    workflow_id: "alfred.visibility-audit"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#alfred-visibility-audit-maybe-paris-20260415"
+    mutation_policy: "skip_drive_no_site_mutation"
+  - id: "W2-NAYA-001"
+    workstream: "W2"
+    agents: ["naya"]
+    workflow_id: "naya.product-sourcing"
+    status: "blocked"
+    blocker: "reviewed_sourcing_sheet_input_not_isolated"
+  - id: "W2-NAYA-002"
+    workstream: "W2"
+    agents: ["naya"]
+    workflow_id: "naya.stock-check"
+    status: "blocked"
+    blocker: "stock_snapshot_or_known_sku_not_selected"
+  - id: "W3-ALFRED-001"
+    workstream: "W3"
+    agents: ["alfred", "tony"]
+    workflow_id: "alfred.strategy-plan"
+    status: "blocked"
+    blocker: "brand_pack_id_runtime_store_key_mismatch"
+  - id: "W4-TECH-001"
+    workstream: "W4"
+    agents: ["jack", "jack-x", "mnemos", "tony"]
+    workflow_id: "technical-beta-fixture"
+    status: "prepared"
+    mutation_policy: "fixture_only_no_mm_no_kg_no_deploy"
+  - id: "W5-KANYE-001"
+    workstream: "W5"
+    agents: ["kanye", "cortex"]
+    workflow_id: "kanye.higgsfield-product-photoshoot.validation"
+    status: "prepared"
+    brand_scope_ref: "brand-scope-sidecars.yaml#kanye-product-photoshoot-helper-monoi-love-20260505"
+    mutation_policy: "local_media_only_no_publication"
+  - id: "W6-SAFIR-001"
+    workstream: "W6"
+    agents: ["safir", "rosa", "kanye"]
+    workflow_id: "safir.email-workflow"
+    status: "blocked"
+    blocker: "safir_email_workflow_brief_missing"

@@ -1,0 +1,267 @@
+version: 1
+last_updated: "2026-05-06"
+
+canonical_roots:
+  local_authoring:
+    - /Users/moufdi/hermes-runtime
+    - /Users/moufdi/openclaw
+    - /Users/moufdi/clawd
+  local_profiles: /Users/moufdi/.brm-hermes/profiles
+  local_workspaces: /Users/moufdi/.openclaw
+  prod_profiles: /home/ubuntu/.brm-hermes/profiles
+  mission_manager_truth: "hosted ECS/ALB Mission Manager, not local Mac behavior"
+
+brand_truth:
+  registry: /Users/moufdi/clawd/config/brands.json
+  brand_packs: /Users/moufdi/clawd/config/brand-packs
+  priority_brands:
+    - maybe-paris
+    - blinx
+    - botanic
+  rule: "A missing surface blocks only that surface. It does not block unrelated work on the brand."
+  completion_policy: "Missing brand-pack fields should become guided completion tasks or autonomous discovery tasks when safe."
+
+agents:
+  jack:
+    profile: /Users/moufdi/.brm-hermes/profiles/jack
+    config: /Users/moufdi/.brm-hermes/profiles/jack/config.yaml
+    workdir: ~/clawd
+    canonical_environment: "operator/control-plane"
+    readable_external_surfaces:
+      - mission-manager
+      - kg
+      - brand-packs
+      - route-registry
+      - platform-skills-when-governed
+      - higgsfield-skill-surface-when-governed
+    mutable_external_surfaces:
+      - mission-manager-governed
+      - kg-governed
+      - platform-skills-route-governed
+      - higgsfield-generated-media-artifacts-when-requested
+    approval_gated:
+      - external-message-send
+      - payment-or-billing-mutation
+      - customer-visible-support-action
+      - external-publication
+    installed_skill_packages:
+      - package: "higgsfield-ai/skills"
+        profile_install_path: /Users/moufdi/.brm-hermes/profiles/jack/skills
+        status: installed_hf_api_and_cli_live_test_passed
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+        owner_agent: kanye
+        notes:
+          - "Jack may supervise, update governance, and execute bounded creative work when requested."
+          - "Kanye remains the preferred specialist for creative generation routes."
+          - "Do not expose API key values in logs or docs."
+
+  jack-x:
+    profile: /Users/moufdi/.brm-hermes/profiles/jack-x
+    config: /Users/moufdi/.brm-hermes/profiles/jack-x/config.yaml
+    workdir: /Users/moufdi/.openclaw/workspace-jack-x
+    canonical_environment: "memory/intake"
+    readable_external_surfaces:
+      - ms365-mail-prod-slices
+      - lark-prod-slices
+      - whatsapp-remote-snapshot
+      - mission-manager-agent-sessions
+    mutable_external_surfaces:
+      - local-memory-artifacts
+      - memory-wiki
+      - kg-memory-update-governed
+    approval_gated: []
+
+  mnemos:
+    profile: /Users/moufdi/.brm-hermes/profiles/mnemos
+    config: /Users/moufdi/.brm-hermes/profiles/mnemos/config.yaml
+    workdir: /Users/moufdi/.openclaw/workspace-mnemos
+    canonical_environment: "continuity/local-session"
+    readable_external_surfaces: []
+    mutable_external_surfaces:
+      - continuity-journal
+      - compaction-capsules
+    approval_gated: []
+
+  rosa:
+    profile: /Users/moufdi/.brm-hermes/profiles/rosa
+    config: /Users/moufdi/.brm-hermes/profiles/rosa/config.yaml
+    workdir: ~/.openclaw/workspace-rosa
+    canonical_environment: "marketing"
+    readable_external_surfaces:
+      - shopify
+      - klaviyo
+      - hiboo
+      - lark
+      - ga4
+      - gsc
+      - dataforseo
+    mutable_external_surfaces:
+      - local-report-artifacts
+    approval_gated:
+      - campaign-publication
+      - external-message-send
+      - crm-or-storefront-mutation
+
+  jeff:
+    profile: /Users/moufdi/.brm-hermes/profiles/jeff
+    config: /Users/moufdi/.brm-hermes/profiles/jeff/config.yaml
+    workdir: ~/.openclaw/workspace-jeff
+    canonical_environment: "influence/creator-ops"
+    readable_external_surfaces:
+      - hiboo
+      - creator-profile-inputs
+      - inbox-signal-inputs
+      - candidate-registry
+    mutable_external_surfaces:
+      - local-report-artifacts
+      - candidate-registry-local
+    approval_gated:
+      - creator-contact-send
+      - collaboration-create-update-archive
+
+  naya:
+    profile: /Users/moufdi/.brm-hermes/profiles/naya
+    config: /Users/moufdi/.brm-hermes/profiles/naya/config.yaml
+    workdir: ~/.openclaw/workspace-naya
+    canonical_environment: "supply-chain"
+    readable_external_surfaces:
+      - shopify
+      - bigblue
+      - stock-telemetry
+      - sourcing-sheets
+    mutable_external_surfaces:
+      - local-report-artifacts
+    approval_gated:
+      - supplier-message-send
+      - order-or-purchase-mutation
+      - payment-mutation
+
+  selena:
+    profile: /Users/moufdi/.brm-hermes/profiles/selena
+    config: /Users/moufdi/.brm-hermes/profiles/selena/config.yaml
+    workdir: ~/.openclaw/workspace-selena
+    canonical_environment: "support-risk"
+    readable_external_surfaces:
+      - paypal
+      - zendesk
+      - reviewed-support-exports
+    mutable_external_surfaces:
+      - local-report-artifacts
+    approval_gated:
+      - zendesk-reply
+      - paypal-dispute-message
+      - refund-or-payment-mutation
+
+  alfred:
+    profile: /Users/moufdi/.brm-hermes/profiles/alfred
+    config: /Users/moufdi/.brm-hermes/profiles/alfred/config.yaml
+    workdir: ~/.openclaw/workspace-alfred
+    canonical_environment: "seo"
+    readable_external_surfaces:
+      - gsc
+      - dataforseo
+      - ga4
+      - site-rendering
+    mutable_external_surfaces:
+      - local-report-artifacts
+    approval_gated:
+      - drive-upload
+      - site-or-theme-mutation
+
+  cortex:
+    profile: /Users/moufdi/.brm-hermes/profiles/cortex
+    config: /Users/moufdi/.brm-hermes/profiles/cortex/config.yaml
+    workdir: ~/.openclaw/workspace-cortex
+    canonical_environment: "paid-media"
+    readable_external_surfaces:
+      - hiboo-ads
+      - meta-ads
+      - google-ads
+      - creative-reference-artifacts
+    mutable_external_surfaces:
+      - local-report-artifacts
+    approval_gated:
+      - campaign-mutation
+      - ad-publication
+
+  tony:
+    profile: /Users/moufdi/.brm-hermes/profiles/tony
+    config: /Users/moufdi/.brm-hermes/profiles/tony/config.yaml
+    workdir: ~/.openclaw/workspace-tony
+    sidecar_profiles:
+      exploration: /Users/moufdi/.brm-hermes/profiles/tony-kimi
+      execution: /Users/moufdi/.brm-hermes/profiles/tony-dev
+    canonical_environment: "development"
+    readable_external_surfaces:
+      - repositories
+      - github-when-requested
+      - package-registries-when-needed
+    mutable_external_surfaces:
+      - repository-files
+      - git-local
+      - github-when-requested
+    approval_gated:
+      - push-or-pr-when-not-requested
+      - production-deploy
+      - service-restart
+
+  kanye:
+    profile: /Users/moufdi/.brm-hermes/profiles/kanye
+    config: /Users/moufdi/.brm-hermes/profiles/kanye/config.yaml
+    workdir: ~/.openclaw/workspace-kanye
+    canonical_environment: "creative-generation"
+    readable_external_surfaces:
+      - reference-media
+      - creative-inputs
+      - higgsfield-api-auth-presence
+    mutable_external_surfaces:
+      - generated-media-artifacts
+      - higgsfield-generated-media-test-artifacts
+    approval_gated:
+      - external-publication
+      - paid-delivery-platform-mutation
+    installed_skill_packages:
+      - package: "higgsfield-ai/skills"
+        install_hint: "npx skills add higgsfield-ai/skills"
+        profile_install_path: /Users/moufdi/.brm-hermes/profiles/kanye/skills
+        status: installed_hf_api_and_cli_live_test_passed
+        latest_validation_manifest: /Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json
+        notes:
+          - "Do not expose API key values in logs or docs."
+          - "HF API key pair is configured through the profile env loader."
+          - "Official Higgsfield CLI is installed and authenticated locally."
+          - "Bounded live still generation passed and wrote artifacts under Kanye workspace plus generated_media."
+          - "Polling via generate create --wait returned HTTP 502 once; recovery through generate get succeeded and must be standardized before prod route promotion."
+
+  safir:
+    profile: /Users/moufdi/.brm-hermes/profiles/safir
+    config: /Users/moufdi/.brm-hermes/profiles/safir/config.yaml
+    workdir: ~/.openclaw/workspace-safir
+    canonical_environment: "email-crm"
+    readable_external_surfaces:
+      - ms365-mail
+      - klaviyo
+      - email-template-inputs
+    mutable_external_surfaces:
+      - local-report-artifacts
+      - local-email-drafts
+    approval_gated:
+      - external-email-send
+      - crm-mutation
+
+deferred_agents:
+  jackette:
+    status: draft
+    profile: /Users/moufdi/.brm-hermes/profiles/jackette
+    workdir: /Users/moufdi/BRMXHERMES/clawd
+    note: "Later scope. Legacy local workdir is not canonical V1."
+  jhin:
+    status: draft
+    profile: /Users/moufdi/.brm-hermes/profiles/jhin
+    declared_workdir_status: "legacy_missing_locally"
+    note: "Later scope. Profile config declares a legacy BRMXHERMES creative workdir that is not canonical V1 and was not present during audit."
+  walter:
+    status: draft
+    profile: /Users/moufdi/.brm-hermes/profiles/walter
+    declared_workdir_status: "legacy_missing_locally"
+    note: "Later scope. Profile config declares a legacy BRMXHERMES B2B workdir that is not canonical V1 and was not present during audit."

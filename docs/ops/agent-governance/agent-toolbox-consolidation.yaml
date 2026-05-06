@@ -1,0 +1,206 @@
+version: 1
+last_updated: "2026-05-06"
+purpose: "Working backlog for turning agent toolboxes into hardened skills, scripts, docs, and protocol candidates."
+permission_source:
+  - agent-toolbox-matrix.yaml
+  - agent-protocol-matrix.yaml
+  - global_approval_gates
+note: "This file plans consolidation work. It does not grant access by itself."
+
+status_values:
+  - draft
+  - draft_test_pending
+  - draft_gated
+  - beta
+  - prod
+
+agents:
+  jack:
+    owner_scope: "transversal routing, supervision, and governed direct execution"
+    primary_toolboxes:
+      - mission-manager-supervision
+      - knowledge-graph
+      - specialist-dispatch
+      - governed-platform-skills
+      - higgsfield-supervision
+      - browser-verification
+      - filesystem-governance
+    write_policy: "governed routes plus approval gates"
+    consolidation_focus: "precise toolbox change records with owner, route, proof, and approval gate"
+  jack-x:
+    owner_scope: "long-term memory and channel intake"
+    primary_toolboxes:
+      - ms365-mail-read
+      - lark-read
+      - whatsapp-snapshot-read
+      - mission-manager-session-read
+      - memory-wiki
+      - kg-memory-update-governed
+    write_policy: "validated memory and KG updates only"
+    consolidation_focus: "memory refinement, dedup, and stale-data cleanup"
+  mnemos:
+    owner_scope: "continuity and compaction"
+    primary_toolboxes:
+      - local-session-state
+      - context-metering
+      - continuity-artifacts
+    write_policy: "local continuity artifacts only"
+    consolidation_focus: "narrow continuity contract"
+  rosa:
+    owner_scope: "marketing, offers, performance, and market intelligence"
+    primary_toolboxes:
+      - shopify-read
+      - klaviyo-read
+      - hiboo-read
+      - lark-read
+      - ga4-read
+      - gsc-read
+      - dataforseo-read
+      - creative-asset-request-via-kanye
+    write_policy: "campaign, storefront, and CRM mutations approval-gated"
+    consolidation_focus: "analytics read helpers and creative handoff format"
+  jeff:
+    owner_scope: "influence, creators, outreach, and collaboration ops"
+    primary_toolboxes:
+      - hiboo-creators
+      - creator-profile-read
+      - inbox-signal-read
+      - candidate-registry
+    write_policy: "contact, collaboration, contract, and payment mutations approval-gated"
+    consolidation_focus: "creator intake and outreach draft proof"
+  naya:
+    owner_scope: "stock, sourcing, supply chain, and feasibility"
+    primary_toolboxes:
+      - shopify-read
+      - bigblue-read
+      - stock-telemetry
+      - sourcing-sheets
+    write_policy: "supplier, order, purchase, and payment mutations approval-gated"
+    consolidation_focus: "stock evidence and supplier question packs"
+  selena:
+    owner_scope: "support risk, PayPal disputes, and Zendesk feedback"
+    primary_toolboxes:
+      - paypal-read
+      - zendesk-read
+      - reviewed-export-analysis
+    write_policy: "customer replies, dispute messages, refunds, and payments approval-gated"
+    consolidation_focus: "strict read/write separation and customer-visible action checklist"
+  alfred:
+    owner_scope: "SEO visibility and strategy artifacts"
+    primary_toolboxes:
+      - gsc-read
+      - dataforseo-read
+      - ga4-read
+      - site-audit-read
+      - canonical-alfred-runners
+      - seo-strategy-reporting
+    write_policy: "site, theme, Drive delivery, and publication mutations approval-gated"
+    consolidation_focus: "report bundle, strategy-plan inputs, store slug normalization, and deployment feedback proof"
+  cortex:
+    owner_scope: "paid-media observation and campaign handoff"
+    primary_toolboxes:
+      - hiboo-ads-read
+      - meta-ads-read
+      - google-ads-read
+      - creative-observation
+      - creative-asset-request-via-kanye
+    write_policy: "live campaign and ad publication approval-gated"
+    consolidation_focus: "campaign feedback protocol candidates"
+  tony:
+    owner_scope: "development and git"
+    primary_toolboxes:
+      - repository-filesystem
+      - terminal
+      - git
+      - github
+      - package-managers
+      - tests-build-lint
+      - browser-dev-verification
+    write_policy: "code/git as requested; deploy/restart/release only by explicit delegation outside this governance lane"
+    consolidation_focus: "script hardening and verification commands when delegated"
+  kanye:
+    owner_scope: "creative generation and reference edits"
+    primary_toolboxes:
+      - hermes-creative-generate
+      - higgsfield-ai-official-cli
+      - image-generation
+      - video-generation
+      - reference-media-read
+      - filesystem-media-artifacts
+    write_policy: "local generated media artifacts allowed; publication and delivery mutation approval-gated"
+    consolidation_focus: "Higgsfield wrappers, manifests, model caveats, and product photoshoot validation"
+  safir:
+    owner_scope: "email/CRM audit and workflow design"
+    primary_toolboxes:
+      - ms365-mail-read
+      - klaviyo-read
+      - email-template-analysis
+      - email-design-draft-generation
+      - creative-asset-request-via-kanye
+    write_policy: "external send and CRM mutation approval-gated"
+    consolidation_focus: "email workflow with render proof and approval before send"
+
+skill_consolidation_queue:
+  - id: higgsfield-generate
+    owner_agent: kanye
+    maturity: beta
+    backend_focus: "wrap polling recovery and download flow"
+    documentation_focus: "command surface, model caveats, failure recovery"
+    proof_target: "prompt, job JSON, media, manifest"
+  - id: higgsfield-product-photoshoot
+    owner_agent: kanye
+    maturity: beta
+    backend_focus: "use local helper for attachment provenance, accepted ratios, recovery, downloads, and manifest"
+    documentation_focus: "input requirements, safe prompts, image constraints, attachment metadata, QA checklist"
+    proof_target: "generated media and manifest"
+  - id: higgsfield-marketplace-cards
+    owner_agent: kanye
+    maturity: draft_test_pending
+    backend_focus: "validate scoped marketplace generation"
+    documentation_focus: "compliance notes and forbidden publication paths"
+    proof_target: "media set, manifest, compliance notes"
+  - id: higgsfield-soul-id
+    owner_agent: kanye
+    maturity: draft_gated
+    backend_focus: "verify model id and training flow after approval"
+    documentation_focus: "consent, photo manifest, cost check"
+    proof_target: "approval record and manifest"
+  - id: ads-media-cortex-kanye-orchestration
+    owner_agent: cortex
+    support_agent: kanye
+    maturity: draft
+    backend_focus: "normalize Cortex creative briefs into Kanye asset requests, then feed media QA and campaign dry-run without platform mutation"
+    documentation_focus: "agent ownership, approval gates, asset provenance, QA verdicts, and approval packet"
+    proof_target: "ads-media-test-ledger entry, creative briefs, Kanye media manifest, Cortex QA report, campaign dry-run packet"
+  - id: email-workflow
+    owner_agent: safir
+    maturity: draft
+    backend_focus: "renderable email draft pipeline and asset handoff"
+    documentation_focus: "business requirements, brand voice, approval before send"
+    proof_target: "HTML/PDF/render proof and final summary"
+  - id: shopify-read-write-split
+    owner_agent: rosa-naya
+    maturity: beta
+    backend_focus: "product, order, and stock read helpers before mutation wrappers"
+    documentation_focus: "read versus mutation rules and brand scoping"
+    proof_target: "JSON readback or report bundle"
+  - id: zendesk-paypal-support-surfaces
+    owner_agent: selena
+    maturity: prod
+    backend_focus: "stable read/fetch paths and no customer-visible mutation without approval"
+    documentation_focus: "reply, dispute, and refund approval checklist"
+    proof_target: "pre/post readback and approval record"
+  - id: memory-refinement-layer
+    owner_agent: jack-x
+    maturity: draft
+    backend_focus: "dedup and stale-data cleanup after validation"
+    documentation_focus: "source confidence and memory quality rules"
+    proof_target: "memory candidate and validation summary"
+
+next_iterations:
+  - "Kanye: harden higgsfield-generate wrapper and run additional product photoshoot QA variants."
+  - "Cortex/Kanye: run ads-media release candidate from creative brief to asset QA and campaign dry-run."
+  - "Safir: reopen email workflow with render proof and approval gates."
+  - "Rosa/Naya: normalize Shopify reads and separate mutation paths."
+  - "Selena: document exact customer-visible approval checklist."
+  - "Jack-X: define memory refinement layer."
