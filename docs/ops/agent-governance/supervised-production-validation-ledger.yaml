@@ -2,11 +2,16 @@ version: 1
 last_updated: "2026-05-07"
 mission_id: "spv-2026-05-06"
 purpose: "Execution ledger for supervised production validation."
-status: "executed_with_blockers"
+status: "executed_with_followup_blockers"
 latest_run:
   run_id: "spv-20260507T135248Z"
   report: "docs/ops/agent-governance/SUPERVISED_VALIDATION_RUN_20260507T135248Z.md"
   machine_readable: "docs/ops/agent-governance/supervised-validation-run-20260507T135248Z.yaml"
+latest_credential_followup:
+  run_id: "cred-20260507T142320Z"
+  report: "docs/ops/agent-governance/CREDENTIAL_STANDARDIZATION_AUDIT_20260507.md"
+  machine_readable: "docs/ops/agent-governance/credential-standardization-audit.yaml"
+  diagnosis: "business credentials exist; runner credential loading/source-of-truth is not standardized"
 
 global_defaults:
   upload_drive: false
@@ -112,8 +117,11 @@ entries:
       proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/selena-paypal-dispute-phase1-audit/manifest.json"
       summary: "3 open disputes, 363 EUR exposed, HIGH risk."
     live_read_probe:
-      status: "blocked"
-      blocker: "PayPal credentials missing for maybe-paris."
+      status: "passed"
+      run_id: "cred-20260507T142320Z-selena-paypal-live"
+      proof: "/Users/moufdi/.openclaw/credential-validation/cred-20260507T142320Z/selena-paypal-live/manifest.json"
+      summary: "PayPal Maybe Paris live read-only route passed: 3 open disputes, 127.05 EUR exposed, MEDIUM risk."
+      approval_note: "Any dispute message, refund, payment, or billing mutation remains approval-gated."
   - id: "W1-SELENA-002"
     workstream: "W1"
     agents: ["selena"]
@@ -126,8 +134,11 @@ entries:
       proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/selena-zendesk-feedback-review/manifest.json"
       summary: "5 tickets, CSAT 3.0, dominant persona high_value_customer, main gap reopened_cases."
     live_read_probe:
-      status: "blocked"
-      blocker: "Zendesk credentials missing for maybe-paris."
+      status: "passed"
+      run_id: "cred-20260507T142320Z-selena-zendesk-live"
+      proof: "/Users/moufdi/.openclaw/credential-validation/cred-20260507T142320Z/selena-zendesk-live/manifest.json"
+      summary: "Zendesk Maybe Paris live read-only route passed: 5 tickets, CSAT 0.0, dominant persona prospect, gap slow_resolution."
+      approval_note: "Any customer-visible reply remains approval-gated."
   - id: "W1-CORTEX-001"
     workstream: "W1"
     agents: ["cortex"]
@@ -160,12 +171,17 @@ entries:
     workstream: "W2"
     agents: ["naya"]
     workflow_id: "naya.stock-check"
-    status: "blocked"
-    blocker: "bigblue_inventory_permission_denied"
+    status: "passed"
+    blocker: null
     latest_execution:
-      run_id: "spv-20260507T135248Z-naya-stock"
-      product_query: "Monoi Love"
-      summary: "Live pass0 attempted BigBlue ListInventories and failed with 403 permission_denied."
+      run_id: "cred-20260507T142320Z-naya-stock"
+      product_query: "MONOI LOVE 100mL"
+      proof: "/Users/moufdi/.openclaw/credential-validation/cred-20260507T142320Z/naya-stock-check-monoi-love/manifest.json"
+      summary: "Canonical env live read passed: 7258 units, 34.4/day velocity, 211.0 days coverage, alert OK."
+    reclassification:
+      previous_blocker: "bigblue_inventory_permission_denied"
+      current_finding: "BigBlue works when /Users/moufdi/.brm-hermes/.env is loaded; stale local BigBlue config fallback caused 403."
+      remaining_gap: "Normalize fuzzy product queries such as Monoi Love to the canonical BigBlue product name."
   - id: "W3-ALFRED-001"
     workstream: "W3"
     agents: ["alfred", "tony"]
@@ -209,5 +225,7 @@ entries:
     blocker: "safir_email_workflow_brief_missing"
     latest_probe:
       workflow_id: "safir.mail-pole-audit"
-      status: "blocked"
-      blocker: "Missing KLAVIYO_API_KEY_MAYBE_PARIS."
+      status: "blocked_rendering"
+      blocker: "PDF rendering failed after Klaviyo Maybe Paris credential loaded successfully."
+      proof: "/Users/moufdi/.openclaw/workspace-safir/reports/mail-pole-audit/2026-05-07T14-25-08Z-maybe_paris/mail-pole-audit.html"
+      credential_finding: "Klaviyo Maybe Paris key exists and account API probe passed from canonical env."

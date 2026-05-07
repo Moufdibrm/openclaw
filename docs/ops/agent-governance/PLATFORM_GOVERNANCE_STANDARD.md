@@ -35,6 +35,26 @@ Use this order when platform information conflicts:
 
 If a platform is missing from the registry, the agent must classify it as `unclear` and open a platform addition request before relying on it for production work.
 
+## Credential Source Standard
+
+Governance records source-of-truth and expected loading behavior, but does not mutate secrets.
+
+Current standard for agent-level business platform keys:
+
+1. Upstream source: AWS Secrets Manager `brm-api-keys`.
+2. Local materialized source: `/Users/moufdi/.brm-hermes/.env`.
+3. Runtime use: agent runner process env.
+4. Skill helper use: platform-specific helper resolves from process env first, then non-secret config metadata.
+
+SSM Parameter Store must not be assumed for agent-level Klaviyo, PayPal, BigBlue, or Zendesk keys unless an explicit migration says so. Current SSM Zendesk parameters are runtime/org/OAuth-shaped and are not the same contract as the env-key names consumed by Selena helpers.
+
+Local skill `config.json` files must not become a second secret truth. They may hold account metadata, placeholders, and non-secret defaults only.
+
+Credential audit reference:
+
+- `CREDENTIAL_STANDARDIZATION_AUDIT_20260507.md`
+- `credential-standardization-audit.yaml`
+
 ## Platform Vs Skill Vs Protocol
 
 Keep these concepts separate:

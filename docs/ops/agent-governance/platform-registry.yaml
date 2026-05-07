@@ -49,6 +49,13 @@ global_rules:
   external_write_policy: "route_or_explicit_approval_required"
   secret_policy: "record env key names or secret source only; never record secret values"
   brand_partial_policy: "missing brand surface blocks only that surface"
+credential_source_standard:
+  upstream_source: "aws_secretsmanager:brm-api-keys"
+  local_materialization: "/Users/moufdi/.brm-hermes/.env"
+  runner_contract: "load local_materialization before platform helper credential resolution"
+  ssm_parameter_store_current_role: "runtime/MM/OAuth-shaped parameters only unless an explicit migration is designed"
+  local_skill_config_policy: "metadata/placeholders only; must not shadow canonical env secrets"
+  audit_reference: "docs/ops/agent-governance/credential-standardization-audit.yaml"
 approval_gates:
   - outbound_external_message
   - customer_visible_support_reply
@@ -223,8 +230,9 @@ platforms:
     forbidden_surfaces: [send_without_approval, crm_mutation_without_route]
     auth:
       required: true
-      secret_source: "shared Hermes/business env"
+      secret_source: "aws_secretsmanager:brm-api-keys -> /Users/moufdi/.brm-hermes/.env"
       env_keys: [KLAVIYO_API_KEY_BY_BRAND]
+      observed_env_keys: [KLAVIYO_API_KEY_MAYBE_PARIS, KLAVIFY_API_KEY_MAYBE_PARIS]
       secret_values_in_docs_allowed: false
     skills_or_toolboxes: [klaviyo-read, klaviyo-email-design, email-render]
     direct_tool_use_policy:
@@ -296,8 +304,9 @@ platforms:
     forbidden_surfaces: [reply_without_approval, refund_or_payment_decision_without_approval]
     auth:
       required: true
-      secret_source: "AWS brm-api-keys / business sync metadata"
-      env_keys: [ZENDESK_API_TOKEN, ZENDESK_SUBDOMAIN]
+      secret_source: "aws_secretsmanager:brm-api-keys -> /Users/moufdi/.brm-hermes/.env"
+      env_keys: [ZENDESK_SUBDOMAIN_BY_BRAND, ZENDESK_EMAIL_BY_BRAND, ZENDESK_API_TOKEN_BY_BRAND]
+      observed_env_keys: [ZENDESK_SUBDOMAIN_MAYBE_PARIS, ZENDESK_EMAIL_MAYBE_PARIS, ZENDESK_API_TOKEN_MAYBE_PARIS]
       secret_values_in_docs_allowed: false
     skills_or_toolboxes: [zendesk-read, support-risk-report]
     direct_tool_use_policy:
@@ -332,8 +341,9 @@ platforms:
     forbidden_surfaces: [unapproved_refund, unapproved_dispute_message]
     auth:
       required: true
-      secret_source: "AWS brm-api-keys / business sync metadata"
-      env_keys: [PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET]
+      secret_source: "aws_secretsmanager:brm-api-keys -> /Users/moufdi/.brm-hermes/.env"
+      env_keys: [PAYPAL_CLIENT_ID_BY_BRAND, PAYPAL_CLIENT_SECRET_BY_BRAND, PAYPAL_ENV_BY_BRAND]
+      observed_env_keys: [PAYPAL_CLIENT_ID_MAYBE_PARIS, PAYPAL_CLIENT_SECRET_MAYBE_PARIS, PAYPAL_ENV_MAYBE_PARIS]
       secret_values_in_docs_allowed: false
     skills_or_toolboxes: [paypal-read, dispute-audit]
     direct_tool_use_policy:
@@ -370,7 +380,7 @@ platforms:
     forbidden_surfaces: [unapproved_order_or_shipment_mutation]
     auth:
       required: true
-      secret_source: "shared Hermes/business env"
+      secret_source: "aws_secretsmanager:brm-api-keys -> /Users/moufdi/.brm-hermes/.env"
       env_keys: [BIGBLUE_API_KEY]
       secret_values_in_docs_allowed: false
     skills_or_toolboxes: [bigblue-read, stock-telemetry]

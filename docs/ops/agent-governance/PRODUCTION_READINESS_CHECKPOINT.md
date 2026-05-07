@@ -90,7 +90,7 @@ Installed skills are still not permissions. Platform visibility does not grant b
 
 Current ledger: `docs/ops/agent-governance/supervised-production-validation-ledger.yaml`
 
-Status: `executed_with_blockers`
+Status: `executed_with_followup_blockers`
 
 Latest run:
 
@@ -99,9 +99,10 @@ Latest run:
 
 | Ledger state | Count |
 | --- | ---: |
-| `passed` | 6 |
+| `passed` | 9 |
 | `passed_with_warnings` | 5 |
-| `blocked` | 4 |
+| `blocked` | 3 |
+| `blocked_rendering` | 1 |
 | `failed` | 1 |
 
 Validated routes from the latest supervised run:
@@ -113,16 +114,23 @@ Validated routes from the latest supervised run:
 - Alfred: visibility audit.
 - Kanye/Cortex: Higgsfield product photoshoot validation.
 - Mnemos: context-check freshness proof.
+- Naya: BigBlue-backed stock check after canonical env load.
+- Selena: PayPal and Zendesk live-read routes after canonical env load.
 
-Blocked routes need missing inputs or schema alignment:
+Blocked routes need missing inputs, schema alignment, or rendering fixes:
 
 - Naya product sourcing: reviewed sourcing sheet input is not isolated.
-- Naya stock check: BigBlue inventory access returned `403 permission_denied` on live pass0.
 - Alfred strategy plan: brand pack id vs runtime store key mismatch.
 - Safir email workflow: business brief is missing.
-- Safir mail-pole audit: `KLAVIYO_API_KEY_MAYBE_PARIS` missing.
-- Selena live reads: PayPal and Zendesk credentials missing for `maybe-paris`.
+- Safir mail-pole audit: Klaviyo Maybe Paris credential works; PDF rendering failed.
 - Tony technical fixture: `tony.codebase-exploration` failed its JSON output contract.
+
+Credential follow-up:
+
+- `docs/ops/agent-governance/CREDENTIAL_STANDARDIZATION_AUDIT_20260507.md`
+- `docs/ops/agent-governance/credential-standardization-audit.yaml`
+
+The follow-up confirms that BigBlue, Klaviyo Maybe Paris, PayPal Maybe Paris, and Zendesk Maybe Paris credentials exist and work when `/Users/moufdi/.brm-hermes/.env` is loaded. The remaining issue is source-of-truth and runner env-loading standardization, not missing business credentials.
 
 ## Mission, Hypotheses, And Results
 
@@ -184,8 +192,8 @@ Do not call all agents production-ready yet.
 The next practical move is to close the blockers exposed by the supervised validation wave in this order:
 
 1. Fix Tony route output contract and fixture mapping.
-2. Restore Naya BigBlue read permission or provide a reviewed stock snapshot.
-3. Add Safir Klaviyo credential or create an email-workflow brief for render-only testing.
-4. Add Selena live-read credentials if live support reads should be promoted.
+2. Standardize credential loading so all runners load `/Users/moufdi/.brm-hermes/.env` before local skill config fallback.
+3. Fix Safir PDF rendering and create an email-workflow brief for render-only testing.
+4. Keep Selena live reads in read-only beta; any customer reply, dispute, payment, or billing mutation remains approval-gated.
 5. Fix Alfred Hermes wrapper parity with the direct route.
 6. Continue Jack-X/Mnemos memory closure once review gate and wiki bridge are implemented.

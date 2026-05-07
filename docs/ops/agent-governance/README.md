@@ -36,6 +36,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - standard for platform ownership, read/write split, agent access, approvals, proof, and platform onboarding
 - `platform-registry.yaml`
   - machine-readable registry of current governed platforms/surfaces and the standard required fields for adding a platform
+- `CREDENTIAL_STANDARDIZATION_AUDIT_20260507.md`
+  - read-only audit of BigBlue, Klaviyo Maybe Paris, PayPal Maybe Paris, Zendesk Maybe Paris, SSM/Secrets Manager source-of-truth status, and runner env-loading gaps
+- `credential-standardization-audit.yaml`
+  - machine-readable credential audit and blocker reclassification; no secret values
 - `SKILL_ATTACHMENT_POLICY.md`
   - shared attachment/reference-file contract for skills and protocol manifests
 - `BRAND_SCOPE_CONTRACT.md`

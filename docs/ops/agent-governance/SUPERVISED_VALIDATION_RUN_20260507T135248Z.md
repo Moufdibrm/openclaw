@@ -20,13 +20,21 @@ Passed or passed with warnings:
 - Kanye Higgsfield product photoshoot generation
 - Mnemos fresh context-check
 
-Blocked or failed:
+Initially blocked or failed:
 
 - Tony `tony.codebase-exploration` route failed its output JSON contract.
 - Naya stock-check live pass0 failed BigBlue inventory access with `403 permission_denied`.
-- Safir mail-pole audit failed because `KLAVIYO_API_KEY_MAYBE_PARIS` is missing.
-- Selena live PayPal/Zendesk reads failed because live credentials are missing.
+- Safir mail-pole audit failed because `KLAVIYO_API_KEY_MAYBE_PARIS` was not loaded in that runner context.
+- Selena live PayPal/Zendesk reads failed because live credentials were not loaded in that runner context.
 - Alfred Hermes wrapper failed, but the direct OpenClaw route rendered successfully.
+
+Credential follow-up:
+
+- BigBlue, Klaviyo Maybe Paris, PayPal Maybe Paris, and Zendesk Maybe Paris were retested after loading `/Users/moufdi/.brm-hermes/.env`.
+- Naya `naya.stock-check` passed live read-only for `MONOI LOVE 100mL`.
+- Selena PayPal and Zendesk live-read routes passed.
+- Safir Klaviyo credentialing passed; the remaining blocker is PDF rendering plus the full email-workflow business brief.
+- The corrected diagnosis is credential loading/source-of-truth standardization, not missing business credentials.
 
 ## Rendered Results
 
@@ -43,6 +51,9 @@ Blocked or failed:
 | Jeff | `jeff.performance-report` | passed | Report rendered with `8` required sections and no Drive upload | `/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/jeff-performance-report/manifest.json` |
 | Kanye | `kanye.higgsfield-product-photoshoot.validation` | passed_with_warnings | Higgsfield generated `1` local product image; QA warning: strong premium render but tight crop, request a full-pack variant before final ads use | `/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/spv-20260507T135248Z-kanye-product/manifest.json` |
 | Mnemos | `mnemos.context-check` | passed | Fresh May proof: `1.3%` saturation, `12958/1000000` estimated tokens, band `normal` | `/Users/moufdi/.openclaw/workspace-mnemos/reports/context-check/jack/20260507t140729036088z-20260402_202308_021170/context-check.result.json` |
+| Naya | `naya.stock-check` credential follow-up | passed | `MONOI LOVE 100mL`: `7258` units, `34.4`/day velocity, `211.0` days coverage, alert `OK` | `/Users/moufdi/.openclaw/credential-validation/cred-20260507T142320Z/naya-stock-check-monoi-love/manifest.json` |
+| Selena | `selena.paypal-dispute.phase1-live` credential follow-up | passed | Live read-only fetch: `3` open disputes, `127.05 EUR` exposed, risk `MEDIUM` | `/Users/moufdi/.openclaw/credential-validation/cred-20260507T142320Z/selena-paypal-live/manifest.json` |
+| Selena | `selena.zendesk-feedback-live` credential follow-up | passed | Live read-only fetch: `5` tickets, CSAT `0.0`, dominant persona `prospect`, main gap `slow_resolution` | `/Users/moufdi/.openclaw/credential-validation/cred-20260507T142320Z/selena-zendesk-live/manifest.json` |
 
 Kanye generated media:
 
@@ -53,11 +64,16 @@ Kanye generated media:
 | Agent | Workflow | Status | Finding |
 | --- | --- | --- | --- |
 | Tony | `tony.codebase-exploration` | failed | Runner failed with `No valid JSON object found in tony.codebase-exploration output`. The route did not persist raw output on failure. The contract is also hardcoded to an OpenClaw TypeScript/runtime slice while the governance mapping advertises a fixture repo test. |
-| Naya | `naya.stock-check` | blocked | Live pass0 attempted `BigBlue ListInventories` and failed with `403 permission_denied`. |
-| Safir | `safir.mail-pole-audit` | blocked | Missing `KLAVIYO_API_KEY_MAYBE_PARIS`. |
-| Selena | `selena.paypal-dispute.phase1-live` | blocked | Missing PayPal credentials for `maybe-paris`. Artifact-fed PayPal audit still passed. |
-| Selena | `selena.zendesk-feedback-live` | blocked | Missing Zendesk credentials for `maybe-paris`. Artifact-fed Zendesk review still passed. |
+| Naya | `naya.stock-check` | reclassified_passed | Initial `403 permission_denied` came from stale/non-canonical BigBlue credential loading. Canonical env live read passed. Remaining gap: fuzzy product-query normalization. |
+| Safir | `safir.mail-pole-audit` | blocked_rendering | Klaviyo Maybe Paris credential works. HTML rendered, but PDF rendering failed. Full `safir.email-workflow` still needs a business brief. |
+| Selena | `selena.paypal-dispute.phase1-live` | reclassified_passed | PayPal Maybe Paris credential works when canonical env is loaded. Live read-only route passed; any dispute/payment mutation still requires approval. |
+| Selena | `selena.zendesk-feedback-live` | reclassified_passed | Zendesk Maybe Paris credential works when canonical env is loaded. Live read-only route passed; any customer-visible reply still requires approval. |
 | Alfred | Hermes wrapper `alfred-visibility-audit.py` | failed_wrapper | Wrapper failed with `AttributeError: 'AlfredRuntimePaths' object has no attribute 'workspace_root'`. Direct OpenClaw route passed. |
+
+Credential standardization evidence:
+
+- `docs/ops/agent-governance/CREDENTIAL_STANDARDIZATION_AUDIT_20260507.md`
+- `docs/ops/agent-governance/credential-standardization-audit.yaml`
 
 ## Mutation Tests Needed With Zero Business Impact
 
@@ -86,9 +102,7 @@ Validated for supervised production start:
 Not production-closed:
 
 - Tony route output contract
-- Naya stock access
-- Safir/Klaviyo credentialing and email workflow brief
-- Selena live support credentials
+- credential loading/source-of-truth standardization across runners
+- Safir PDF rendering and email workflow brief
 - Alfred Hermes wrapper parity
 - Jack-X durable KG write closure
-
