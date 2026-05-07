@@ -66,6 +66,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - global agent readiness rollup and next parallel batches
 - `release-readiness-matrix.yaml`
   - machine-readable global release/prep rollup; references source matrices instead of duplicating them
+- `PRODUCTION_READINESS_CHECKPOINT.md`
+  - dated checkpoint answering current production readiness, latest Jack-X/LLM Wiki/Mnemos evidence, agent profile health, and next closure sequence
+- `production-readiness-checkpoint.yaml`
+  - machine-readable production readiness checkpoint with memory evidence, agent platform snapshot, validation ledger status, and blockers
 - `SUPERVISED_PRODUCTION_VALIDATION_MISSION.md`
   - mission plan to validate V1 agents for supervised production start
 - `supervised-production-validation-mission.yaml`

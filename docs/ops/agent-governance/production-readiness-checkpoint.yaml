@@ -1,0 +1,119 @@
+version: 1
+last_updated: "2026-05-07"
+scope: "BRM/Hermes V1 agent governance production readiness checkpoint"
+status: "supervised_validation_ready_not_global_prod_ready"
+guardrails:
+  deploy_restart_gateway_runtime_mm: "out_of_scope"
+  external_mutation_default: "blocked_without_route_and_explicit_approval"
+  installed_skills_are_permissions: false
+memory:
+  status: "beta_validated_not_prod_closed"
+  latest_checked:
+    jack_x_whatsapp_pass0:
+      path: "/Users/moufdi/.openclaw/workspace-jack-x/whatsapp/live/whatsapp-intake-pass0-20260507T130712495849Z.json"
+      status: "ok"
+      candidate_count: 0
+    jack_x_event_db:
+      path: "/Users/moufdi/.openclaw/workspace-jack-x/runtime/jack_x_events.db"
+      events_processed: 271
+      snapshots_processed: 14
+      processed_surfaces:
+        mail: 73
+        messages: 198
+    jack_x_review_queue:
+      path: "/Users/moufdi/.openclaw/workspace-jack-x/runtime/memory_reviews.db"
+      pending_reviews: 61
+      pending_by_type:
+        identity_merge: 15
+        kg_candidate: 19
+        uncertain_relation: 27
+      pending_by_priority:
+        P1: 15
+        P2: 6
+        P3: 40
+    llm_wiki:
+      path: "/Users/moufdi/.openclaw/memory-wiki/latest.json"
+      run_id: "memwiki_20260506T233525Z_1c3d1c21"
+      generated_at: "2026-05-06T23:35:25Z"
+      source_report_count: 173
+      selected_channel_count: 9
+      page_count: 40
+      kg_operations: 40
+      review_items: 37
+      semantic_mode: "active"
+      semantic_provider: "gemini"
+      semantic_failures: 0
+    mnemos:
+      latest_found_path: "/Users/moufdi/.openclaw/workspace-mnemos/reports/context-check/jack/20260414t210434302927z-jack-live-compaction-smoke/context-check.result.json"
+      latest_found_status: "review_ready"
+      latest_found_session_id: "jack-live-compaction-smoke"
+      freshness_gap: "no May 2026 Mnemos proof found"
+  blockers:
+    - "jack_x_commit_candidate_apply_review_gate"
+    - "llm_wiki_kg_operations_to_jack_x_review_bridge"
+    - "memory_wiki_relation_rendering"
+    - "jack_x_memory_feedback_loop_route"
+    - "fresh_mnemos_context_check"
+    - "supervised_low_risk_live_kg_commit_after_gate"
+    - "jack_retrieval_proof_after_live_memory_update"
+    - "triage_or_clear_pending_p1_memory_reviews"
+agents:
+  status: "profiles_materialized_and_parse_ok"
+  required_local_sidecars:
+    - "SOUL.md"
+    - "ROLE_PERMISSIONS.json"
+    - "ROLE_PERMISSIONS.md"
+    - "ENVIRONMENT_MAP.md"
+    - "ROUTE_MATRIX.md"
+    - "PROCEDURES.md"
+    - "config.yaml"
+  platform_snapshot:
+    jack: {visible: 49, read: 49, write_conditional: 46, routes: 8}
+    jack-x: {visible: 9, read: 9, write_conditional: 9, routes: 10}
+    tony: {visible: 22, read: 13, write_conditional: 12, routes: 3}
+    mnemos: {visible: 1, read: 1, write_conditional: 1, routes: 1}
+    rosa: {visible: 14, read: 14, write_conditional: 13, routes: 4}
+    jeff: {visible: 5, read: 5, write_conditional: 5, routes: 7}
+    selena: {visible: 4, read: 4, write_conditional: 4, routes: 4}
+    naya: {visible: 9, read: 9, write_conditional: 9, routes: 4}
+    alfred: {visible: 9, read: 9, write_conditional: 7, routes: 3}
+    cortex: {visible: 8, read: 8, write_conditional: 8, routes: 3}
+    kanye: {visible: 6, read: 6, write_conditional: 6, routes: 8}
+    safir: {visible: 8, read: 8, write_conditional: 8, routes: 3}
+supervised_validation:
+  ledger: "docs/ops/agent-governance/supervised-production-validation-ledger.yaml"
+  status: "prepared_not_executed"
+  counts:
+    passed: 1
+    prepared: 11
+    blocked: 4
+  prepared:
+    - "rosa.offer-strategy.direct"
+    - "rosa.audit-performance-marketing"
+    - "rosa.veille-concurrentielle"
+    - "jeff.analyse-profil"
+    - "jeff.performance-report"
+    - "selena.paypal-dispute.phase1-audit"
+    - "selena.zendesk-feedback-review"
+    - "cortex.ads-observation"
+    - "alfred.visibility-audit"
+    - "technical-beta-fixture"
+    - "kanye.higgsfield-product-photoshoot.validation"
+  blocked:
+    naya.product-sourcing: "reviewed_sourcing_sheet_input_not_isolated"
+    naya.stock-check: "stock_snapshot_or_known_sku_not_selected"
+    alfred.strategy-plan: "brand_pack_id_runtime_store_key_mismatch"
+    safir.email-workflow: "safir_email_workflow_brief_missing"
+mission_manager:
+  contract_ready: true
+  source_files:
+    - "docs/ops/agent-governance/MISSION_MANAGER_AGENT_CONTROL_CONTRACT.md"
+    - "docs/ops/agent-governance/mission-manager-agent-control-contract.yaml"
+    - "docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md"
+    - "docs/ops/agent-governance/supervised-production-validation-ledger.yaml"
+  readiness_rule: "do_not_mark_prod_ready_from_chat_only_or_profile_existence"
+next_sequence:
+  - "memory_closure_slice"
+  - "agent_supervised_validation_wave"
+  - "blocked_workflow_unblock"
+  - "mission_manager_governance_consumption"
