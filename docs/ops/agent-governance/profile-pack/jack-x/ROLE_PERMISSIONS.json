@@ -1,0 +1,428 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "jack-x",
+  "display_name": "Jack-X",
+  "status": "beta",
+  "role": "Long-term memory, channel intake, KG and memory updates, plus review of Memory Wiki refinement proposals.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "ms365-mail-read",
+    "lark-read",
+    "whatsapp-snapshot-read",
+    "mission-manager-agent-session-read",
+    "memory-wiki",
+    "kg-memory-update-governed",
+    "memory-refinement-review",
+    "filesystem-memory-artifacts"
+  ],
+  "forbidden_or_gated": [
+    "external-message-send",
+    "payment-or-support-mutation",
+    "business-system-mutation",
+    "llm-wiki-direct-kg-write"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/jack-x",
+    "config": "/Users/moufdi/.brm-hermes/profiles/jack-x/config.yaml",
+    "workdir": "/Users/moufdi/.openclaw/workspace-jack-x",
+    "canonical_environment": "memory/intake",
+    "readable_external_surfaces": [
+      "ms365-mail-prod-slices",
+      "lark-prod-slices",
+      "whatsapp-remote-snapshot",
+      "mission-manager-agent-sessions"
+    ],
+    "mutable_external_surfaces": [
+      "local-memory-artifacts",
+      "memory-wiki",
+      "kg-memory-update-governed"
+    ],
+    "approval_gated": [
+
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 9,
+      "read_allowed": 9,
+      "write_conditional": 9
+    },
+    "entries": [
+      {
+        "platform_id": "ms365-mail",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "inbox",
+          "sent",
+          "message_headers",
+          "message_bodies_bounded"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "email_draft",
+          "email_send"
+        ],
+        "approval_gates": [
+          "external_email_send"
+        ],
+        "routes": [
+          "jack-x.email-intake-pass0"
+        ],
+        "proof_targets": [
+          "batch_artifact",
+          "memory_candidate",
+          "digest_artifact",
+          "no_send_statement"
+        ]
+      },
+      {
+        "platform_id": "whatsapp",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "operator_messages",
+          "remote_snapshot",
+          "bounded_group_snapshot"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "operator_reply",
+          "fanout_message"
+        ],
+        "approval_gates": [
+          "outbound_external_message",
+          "multi_target_fanout"
+        ],
+        "routes": [
+          "jack-x.whatsapp-intake-pass0"
+        ],
+        "proof_targets": [
+          "snapshot_artifact",
+          "message_archive_ref",
+          "no_send_or_send_approval"
+        ]
+      },
+      {
+        "platform_id": "lark-messages",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "channel_messages",
+          "thread_context",
+          "team_discussion"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "message_post",
+          "reaction_or_status_update"
+        ],
+        "approval_gates": [
+          "external_or_team_message_send"
+        ],
+        "routes": [
+          "jack-x.lark-message-intake-pass0"
+        ],
+        "proof_targets": [
+          "lark_batch_artifact",
+          "memory_candidate",
+          "no_post_statement"
+        ]
+      },
+      {
+        "platform_id": "lark-tables",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "table_records",
+          "operations_calendar"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "record_create",
+          "record_update",
+          "record_archive"
+        ],
+        "approval_gates": [
+          "table_mutation_when_business_effect"
+        ],
+        "routes": [
+          "jack-x.lark-table-intake-pass0"
+        ],
+        "proof_targets": [
+          "table_batch_artifact",
+          "operation_candidates",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "google-gemini",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "model_call"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "model_used",
+          "output_artifact",
+          "fallback_status"
+        ]
+      },
+      {
+        "platform_id": "kimi",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "model_call"
+        ],
+        "approval_gates": [
+
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "model_used",
+          "extraction_artifact"
+        ]
+      },
+      {
+        "platform_id": "mission-manager",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "missions",
+          "tasks",
+          "workflow_ledger",
+          "costs",
+          "lineage"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "governed_status_update",
+          "artifact_link"
+        ],
+        "approval_gates": [
+          "product_implementation_or_schema_change"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "workflow_ref",
+          "task_ref",
+          "delivery_json",
+          "no_product_code_change_statement"
+        ]
+      },
+      {
+        "platform_id": "knowledge-graph",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "memory_projection",
+          "entity_relation_read",
+          "validation_report"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "candidate_commit",
+          "correction_commit",
+          "relation_update"
+        ],
+        "approval_gates": [
+          "high_risk_memory_commit",
+          "ambiguous_identity_merge"
+        ],
+        "routes": [
+          "jack-x.db-analysis",
+          "jack-x.signal.extract"
+        ],
+        "proof_targets": [
+          "memory_candidate",
+          "promotion_review",
+          "kg_commit_summary",
+          "strict_validation_result"
+        ]
+      },
+      {
+        "platform_id": "memory-wiki",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "jack_x_reports",
+          "memory_projection",
+          "source_refs"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "wiki_pages",
+          "wiki_manifest",
+          "kg_operation_proposals"
+        ],
+        "approval_gates": [
+          "promotion_to_durable_kg"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "latest_manifest",
+          "pages",
+          "kg_operations_count",
+          "review_items"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "jack-x.registry-ingest",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "Governed channel registry ingest.",
+      "proof_target": "runtime_summary and verification_json"
+    },
+    {
+      "id": "jack-x.email-intake-pass0",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "MS365 mail intake into compact memory candidates.",
+      "proof_target": "compact_json and memory_candidate"
+    },
+    {
+      "id": "jack-x.lark-message-intake-pass0",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "Lark message intake into compact memory candidates.",
+      "proof_target": "compact_json and memory_candidate"
+    },
+    {
+      "id": "jack-x.lark-table-intake-pass0",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "Lark table intake into compact memory candidates.",
+      "proof_target": "compact_json and memory_candidate"
+    },
+    {
+      "id": "jack-x.whatsapp-intake-pass0",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "WhatsApp runtime snapshot intake into memory candidates.",
+      "proof_target": "compact_json and memory_candidate"
+    },
+    {
+      "id": "jack-x.db-analysis",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "Memory projection, review and DB analysis.",
+      "proof_target": "memory_projection and runtime_summary"
+    },
+    {
+      "id": "jack-x.memory-wiki",
+      "status": "beta",
+      "registry_coverage": "recurring_script",
+      "purpose": "Compile Jack-X reports and memory projection into readable Memory Wiki pages plus reviewable KG operations.",
+      "proof_target": "latest_manifest, page_count, kg_operations, review_items",
+      "write_rule": "May write Memory Wiki pages/manifests only; no direct durable KG mutation."
+    },
+    {
+      "id": "jack-x.memory-refinement-review",
+      "status": "draft",
+      "registry_coverage": "planned",
+      "purpose": "Review LLM Wiki KG operation proposals and convert accepted items into governed Jack-X promotion decisions.",
+      "proof_target": "refinement_review_artifact, accepted/rejected/deferred counts, KG commit or skip reason",
+      "open_gap": "Bridge from LLM Wiki kg_operations to Jack-X review queue is not closed."
+    },
+    {
+      "id": "jack-x.memory-feedback-loop",
+      "status": "draft",
+      "registry_coverage": "planned",
+      "purpose": "Detect later evidence, contradictions, stale facts, and failed retrievals, then propose history-preserving KG corrections.",
+      "proof_target": "feedback_event, correction_candidate, review_decision, supersession_or_confirmation_summary, retrieval_proof",
+      "open_gap": "Autocorrection policy exists in governance, but no repeatable route proves memory improvement over time."
+    },
+    {
+      "id": "jack-x.signal.extract",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "Extract mission/memory candidates from bounded signal.",
+      "proof_target": "handoff_packet, mission_patch, memory_candidate"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+
+  ]
+}

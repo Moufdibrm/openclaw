@@ -1,0 +1,737 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "tony",
+  "display_name": "Tony",
+  "status": "beta",
+  "role": "Development owner: codebase exploration, planning, implementation, tests, git.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "discussion_approval",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "repository-filesystem",
+    "terminal",
+    "git",
+    "github",
+    "package-managers",
+    "tests-build-lint",
+    "browser-dev-verification"
+  ],
+  "forbidden_or_gated": [
+    "production-deploy-or-restart-without-explicit-delegation",
+    "gateway-runtime-systemd-edits-in-this-governance-lane",
+    "mission-manager-product-lane-ownership",
+    "business-system-mutation",
+    "external-message-sending"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/tony",
+    "config": "/Users/moufdi/.brm-hermes/profiles/tony/config.yaml",
+    "workdir": "~/.openclaw/workspace-tony",
+    "canonical_environment": "development",
+    "readable_external_surfaces": [
+      "repositories",
+      "github-when-requested",
+      "package-registries-when-needed"
+    ],
+    "mutable_external_surfaces": [
+      "repository-files",
+      "git-local",
+      "github-when-requested"
+    ],
+    "approval_gated": [
+      "push-or-pr-when-not-requested",
+      "production-deploy",
+      "service-restart"
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 22,
+      "read_allowed": 13,
+      "write_conditional": 12
+    },
+    "entries": [
+      {
+        "platform_id": "shopify",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "products",
+          "orders",
+          "inventory",
+          "discounts",
+          "collections",
+          "theme_read",
+          "storefront_verify"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "product_update",
+          "collection_update",
+          "discount_update",
+          "theme_update",
+          "storefront_publication"
+        ],
+        "approval_gates": [
+          "product_or_theme_publication",
+          "storefront_mutation",
+          "customer_or_order_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "json_readback",
+          "report_bundle",
+          "no_mutation_statement",
+          "pre_post_readback_for_mutation"
+        ]
+      },
+      {
+        "platform_id": "recharge",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "subscription_or_billing_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "subscription_readback",
+          "report_bundle"
+        ]
+      },
+      {
+        "platform_id": "klaviyo",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "external_email_send",
+          "crm_mutation",
+          "flow_activation",
+          "segment_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "audit_artifact",
+          "rendered_draft",
+          "html_pdf_render",
+          "no_send_statement"
+        ]
+      },
+      {
+        "platform_id": "meta-ads",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation",
+          "budget_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "ads_snapshot",
+          "observation_report",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "google-ads",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation",
+          "budget_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "ads_snapshot",
+          "observation_report",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "ga4",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "analytics_config_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "analytics_snapshot",
+          "report_bundle",
+          "missing_property_note"
+        ]
+      },
+      {
+        "platform_id": "public-site-rendering",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "url_fetch",
+          "render_screenshot",
+          "html_inspection"
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "site_or_theme_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "screenshot",
+          "html_snapshot",
+          "render_report"
+        ]
+      },
+      {
+        "platform_id": "instagram-graph",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "external_message_send",
+          "publication_or_account_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "graph_readback",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "apify",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "costly_or_unbounded_actor_run"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "dataset_ref",
+          "extraction_report",
+          "cost_scope"
+        ]
+      },
+      {
+        "platform_id": "google-drive",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "drive_upload_or_external_delivery"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "blocked_pending_approval",
+          "upload_manifest",
+          "delivery_json"
+        ]
+      },
+      {
+        "platform_id": "openai",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response",
+          "transcription_result"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "model_call",
+          "transcription_call",
+          "image_generation_when_routed"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+          "tony.development-plan",
+          "tony.development"
+        ],
+        "proof_targets": [
+          "model_used",
+          "artifact_or_transcript",
+          "cost_or_scope_note"
+        ]
+      },
+      {
+        "platform_id": "kimi",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "model_call"
+        ],
+        "approval_gates": [
+
+        ],
+        "routes": [
+          "tony.codebase-exploration"
+        ],
+        "proof_targets": [
+          "model_used",
+          "extraction_artifact"
+        ]
+      },
+      {
+        "platform_id": "route-registry",
+        "status": "prod",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "route_ids",
+          "owner_agents",
+          "route_status"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "route_registration"
+        ],
+        "approval_gates": [
+          "runtime_registry_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "route_diff",
+          "validation_summary"
+        ]
+      },
+      {
+        "platform_id": "protocol-packages",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "stage_contracts",
+          "tool_allowlists",
+          "input_contracts",
+          "proof_contracts"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "package_update",
+          "package_add"
+        ],
+        "approval_gates": [
+          "package_promotes_external_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "yaml_parse",
+          "route_validation",
+          "test_artifact"
+        ]
+      },
+      {
+        "platform_id": "hippocampus",
+        "status": "partial",
+        "visibility_reason": "partial_observer",
+        "read_allowed": false,
+        "read_surfaces": [
+
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "runtime_wiring_change"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "packet_ref",
+          "no_runtime_change_statement"
+        ]
+      },
+      {
+        "platform_id": "local-repositories",
+        "status": "prod",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "repo_files",
+          "docs",
+          "tests",
+          "artifacts"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "repo_files",
+          "docs",
+          "local_artifacts"
+        ],
+        "approval_gates": [
+          "forbidden_path_change",
+          "destructive_change"
+        ],
+        "routes": [
+          "tony.codebase-exploration",
+          "tony.development-plan",
+          "tony.development"
+        ],
+        "proof_targets": [
+          "changed_files",
+          "tests",
+          "diff_check",
+          "final_summary"
+        ]
+      },
+      {
+        "platform_id": "git-github",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "git_status",
+          "diff",
+          "log",
+          "github_pr_issue_ci"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "commit",
+          "push",
+          "branch",
+          "pr"
+        ],
+        "approval_gates": [
+          "push_or_pr_when_not_requested",
+          "destructive_git_operation"
+        ],
+        "routes": [
+          "tony.development"
+        ],
+        "proof_targets": [
+          "git_status",
+          "commit_sha",
+          "push_ref",
+          "pr_ref_when_used"
+        ]
+      },
+      {
+        "platform_id": "package-registries",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "package_metadata",
+          "installable_skill_metadata"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "dependency_install",
+          "skill_install"
+        ],
+        "approval_gates": [
+          "broad_dependency_or_executable_install"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "install_command",
+          "version_or_package_ref",
+          "validation_output"
+        ]
+      },
+      {
+        "platform_id": "aws",
+        "status": "prod",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "ecs",
+          "alb",
+          "secrets_metadata",
+          "cloud_logs_when_requested"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "ecs_deploy",
+          "secret_write",
+          "infra_change"
+        ],
+        "approval_gates": [
+          "infra_dns_secret_deploy_restart_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "caller_identity_without_secret",
+          "resource_ref",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "aws-secrets-manager",
+        "status": "prod",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "secret_names",
+          "secret_metadata",
+          "key_presence"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "secret_create_update",
+          "secret_rotation"
+        ],
+        "approval_gates": [
+          "secret_value_read",
+          "secret_write",
+          "secret_rotation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "secret_metadata_ref",
+          "key_presence_summary",
+          "no_secret_values_statement"
+        ]
+      },
+      {
+        "platform_id": "cloudflare",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "dns_records",
+          "zone_settings",
+          "cache_status"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "dns_update",
+          "cache_purge",
+          "edge_rule_update"
+        ],
+        "approval_gates": [
+          "dns_or_edge_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "dns_snapshot",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "godaddy",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "domains",
+          "dns_records",
+          "renewal_status"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "dns_update",
+          "domain_update",
+          "renewal_change"
+        ],
+        "approval_gates": [
+          "domain_or_dns_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "domain_snapshot",
+          "no_mutation_statement"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "tony.codebase-exploration",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Bounded codebase read and topology extraction.",
+      "proof_target": "compact_json and final_summary",
+      "mode": "explore",
+      "open_blocker": "Protocol YAML, registry, runner, and handoff inputs must agree on target_repo/task_request."
+    },
+    {
+      "id": "tony.development-plan",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Implementation plan from exploration artifact.",
+      "proof_target": "compact_json and verification_report",
+      "mode": "plan"
+    },
+    {
+      "id": "tony.development",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Code changes and validation.",
+      "proof_target": "code_delta, verification_report, final_summary",
+      "mode": "execute"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+    "Tony sees partial platforms for development and audit context only; this is not business write permission."
+  ]
+}

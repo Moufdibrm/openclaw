@@ -1,0 +1,372 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "kanye",
+  "display_name": "Kanye",
+  "status": "beta",
+  "role": "Creative generation and reference edits.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "discussion_approval",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "creative-generation",
+    "image-edit",
+    "video-generation",
+    "higgsfield-ai-official-skill",
+    "reference-media-read",
+    "filesystem-media-artifacts"
+  ],
+  "forbidden_or_gated": [
+    "external-campaign-publication-without-approval",
+    "paid-delivery-or-platform-mutation-without-approval"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/kanye",
+    "config": "/Users/moufdi/.brm-hermes/profiles/kanye/config.yaml",
+    "workdir": "~/.openclaw/workspace-kanye",
+    "canonical_environment": "creative-generation",
+    "readable_external_surfaces": [
+      "reference-media",
+      "creative-inputs",
+      "higgsfield-api-auth-presence"
+    ],
+    "mutable_external_surfaces": [
+      "generated-media-artifacts",
+      "higgsfield-generated-media-test-artifacts"
+    ],
+    "approval_gated": [
+      "external-publication",
+      "paid-delivery-platform-mutation"
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 6,
+      "read_allowed": 6,
+      "write_conditional": 6
+    },
+    "entries": [
+      {
+        "platform_id": "hiboo-ads",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "ads",
+          "creatives",
+          "performance",
+          "creative_references"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "creative_handoff_artifact",
+          "campaign_task_artifact"
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "ads_observation_report",
+          "creative_handoff",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "higgsfield",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "auth_presence",
+          "job_status",
+          "generated_media_refs"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "image_generation",
+          "video_generation",
+          "product_photoshoot",
+          "voice_identity_generation"
+        ],
+        "approval_gates": [
+          "external_publication",
+          "paid_delivery_platform_mutation",
+          "voice_clone_without_consent"
+        ],
+        "routes": [
+          "kanye.still-generate",
+          "kanye.reference-edit"
+        ],
+        "proof_targets": [
+          "prompt_manifest",
+          "job_json",
+          "media_artifact",
+          "attachment_manifest",
+          "qa_notes"
+        ]
+      },
+      {
+        "platform_id": "banana",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "generation_policy",
+          "model_availability"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "image_generation",
+          "image_edit"
+        ],
+        "approval_gates": [
+          "external_publication",
+          "paid_delivery_platform_mutation"
+        ],
+        "routes": [
+          "kanye.still-generate",
+          "kanye.reference-edit"
+        ],
+        "proof_targets": [
+          "prompt_manifest",
+          "provider_route",
+          "media_artifact",
+          "qa_notes",
+          "no_publication_statement"
+        ]
+      },
+      {
+        "platform_id": "seedance",
+        "status": "draft",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "job_status"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "motion_generation"
+        ],
+        "approval_gates": [
+          "external_publication"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "onboarding_report"
+        ]
+      },
+      {
+        "platform_id": "openai",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response",
+          "transcription_result"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "model_call",
+          "transcription_call",
+          "image_generation_when_routed"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "model_used",
+          "artifact_or_transcript",
+          "cost_or_scope_note"
+        ]
+      },
+      {
+        "platform_id": "package-registries",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "package_metadata",
+          "installable_skill_metadata"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "dependency_install",
+          "skill_install"
+        ],
+        "approval_gates": [
+          "broad_dependency_or_executable_install"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "install_command",
+          "version_or_package_ref",
+          "validation_output"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "kanye.still-generate",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Still image generation through selected route.",
+      "proof_target": "generated media file and manifest"
+    },
+    {
+      "id": "kanye.reference-edit",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Reference image edit through selected route.",
+      "proof_target": "generated media file and manifest"
+    },
+    {
+      "id": "kanye.higgsfield-skill-exploration",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Explore the official Higgsfield skill now installed in the Kanye profile.",
+      "proof_target": "installed skill surface summary, auth-presence check without secret output, command/help surface, risks and gaps",
+      "latest_validation_manifest": "/Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json",
+      "phases": [
+        "confirm install path and command surface",
+        "confirm API key presence without printing value",
+        "map official skill operations to Kanye generation policy lanes",
+        "produce a short exploration report"
+      ]
+    },
+    {
+      "id": "kanye.higgsfield-skill-validation",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Bounded test phase for Higgsfield official skill before production use.",
+      "proof_target": "test artifacts, manifest, cost/error notes, comparison with current kanye-generate path",
+      "latest_validation_manifest": "/Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json",
+      "open_gap": "generate create --wait returned HTTP 502 during polling once; generate get recovered the completed job. Standardize this recovery before route promotion.",
+      "phases": [
+        "one low-risk still generation test",
+        "one reference/edit or motion test if supported",
+        "verify output file, manifest, and failure handling",
+        "recommend keep, wrap, or reject"
+      ]
+    },
+    {
+      "id": "kanye.higgsfield-generate.official-cli",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Official Higgsfield CLI still/video generation through the installed higgsfield-generate skill.",
+      "proof_target": "prompt.txt, higgsfield job json, downloaded media, manifest.json",
+      "latest_validation_manifest": "/Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json",
+      "open_gap": "Polling recovery must be standardized before prod."
+    },
+    {
+      "id": "kanye.higgsfield-product-photoshoot.validation",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Validate product-focused Higgsfield photoshoot modes before beta use.",
+      "proof_target": "enhance-only output if used, generated media, manifest.json",
+      "latest_validation_manifest": "/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/manifest.json",
+      "qa_manifest": "/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-qa/20260505T230630Z/manifest.json",
+      "helper_validation_manifest": "/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/20260505T232850Z/manifest.json",
+      "open_gap": "product_shot, hero_banner, conceptual_product, recovered lifestyle_scene, and helper validation succeeded. Remaining gaps: first lifestyle_scene returned nsfw, 4:5 ratio rejected by CLI, and more owner-reviewed QA is needed before prod."
+    },
+    {
+      "id": "kanye.higgsfield-marketplace-cards.validation",
+      "status": "draft",
+      "registry_coverage": "planned",
+      "purpose": "Validate marketplace card generation and visual compliance before beta use.",
+      "proof_target": "generated media set, manifest.json, compliance notes"
+    },
+    {
+      "id": "kanye.higgsfield-soul-id.validation",
+      "status": "draft",
+      "registry_coverage": "planned",
+      "purpose": "Validate Soul ID only after explicit operator approval, identity consent, and paid-plan check.",
+      "proof_target": "approval record, input photo manifest, soul id status, reuse test manifest",
+      "approval_required": true
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+
+  ],
+  "creative_provider_policy": {
+    "selectable_platforms": [
+      "higgsfield",
+      "banana",
+      "openai"
+    ],
+    "default_platform": "higgsfield",
+    "selection_rule": "honor_explicit_user_provider; otherwise default final campaign work to higgsfield",
+    "fallback_order": [
+      "higgsfield",
+      "banana",
+      "openai"
+    ],
+    "route_aliases": {
+      "higgsfield": [
+        "higgsfield_image",
+        "higgsfield_video"
+      ],
+      "banana": [
+        "nanobanana_2"
+      ],
+      "openai": [
+        "openai_premium"
+      ]
+    },
+    "publication_gate": "external_publication_or_paid_delivery_requires_approval"
+  }
+}

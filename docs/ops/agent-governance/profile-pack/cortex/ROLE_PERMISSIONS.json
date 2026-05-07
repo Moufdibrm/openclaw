@@ -1,0 +1,351 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "cortex",
+  "display_name": "Cortex",
+  "status": "beta",
+  "role": "Paid media observation and campaign handoff.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "discussion_approval",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "hiboo-ads-read",
+    "meta-ads-read",
+    "google-ads-read",
+    "creative-observation",
+    "creative-asset-request-via-kanye",
+    "filesystem-reporting"
+  ],
+  "forbidden_or_gated": [
+    "direct-higgsfield-generation",
+    "live-campaign-mutation-without-approval",
+    "ad-publication-without-approval"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/cortex",
+    "config": "/Users/moufdi/.brm-hermes/profiles/cortex/config.yaml",
+    "workdir": "~/.openclaw/workspace-cortex",
+    "canonical_environment": "paid-media",
+    "readable_external_surfaces": [
+      "hiboo-ads",
+      "meta-ads",
+      "google-ads",
+      "creative-reference-artifacts"
+    ],
+    "mutable_external_surfaces": [
+      "local-report-artifacts"
+    ],
+    "approval_gated": [
+      "campaign-mutation",
+      "ad-publication"
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 8,
+      "read_allowed": 8,
+      "write_conditional": 8
+    },
+    "entries": [
+      {
+        "platform_id": "meta-ads",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "campaigns",
+          "adsets",
+          "ads",
+          "spend",
+          "performance"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "campaign_create",
+          "campaign_update",
+          "ad_publication",
+          "budget_update"
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation",
+          "budget_mutation"
+        ],
+        "routes": [
+          "cortex.ads-observation"
+        ],
+        "proof_targets": [
+          "ads_snapshot",
+          "observation_report",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "google-ads",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "campaigns",
+          "ads",
+          "keywords",
+          "spend",
+          "performance"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "campaign_create",
+          "campaign_update",
+          "ad_publication",
+          "budget_update"
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation",
+          "budget_mutation"
+        ],
+        "routes": [
+          "cortex.ads-observation"
+        ],
+        "proof_targets": [
+          "ads_snapshot",
+          "observation_report",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "hiboo-ads",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "ads",
+          "creatives",
+          "performance",
+          "creative_references"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "creative_handoff_artifact",
+          "campaign_task_artifact"
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation"
+        ],
+        "routes": [
+          "cortex.ads-observation"
+        ],
+        "proof_targets": [
+          "ads_observation_report",
+          "creative_handoff",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "instagram-public",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "creator_profile",
+          "handle_metrics",
+          "public_posts"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "outreach_message",
+          "collaboration_update"
+        ],
+        "approval_gates": [
+          "creator_contact_send",
+          "collaboration_create_update_archive"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "creator_profile_report",
+          "candidate_artifact",
+          "no_contact_statement"
+        ]
+      },
+      {
+        "platform_id": "instagram-graph",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "owned_account_metrics",
+          "media_metrics"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "publish_media",
+          "comment_reply",
+          "account_mutation"
+        ],
+        "approval_gates": [
+          "external_message_send",
+          "publication_or_account_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "graph_readback",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "google-drive",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "reviewed_file_ref",
+          "delivery_folder_ref"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "upload",
+          "share",
+          "attach_to_mm"
+        ],
+        "approval_gates": [
+          "drive_upload_or_external_delivery"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "blocked_pending_approval",
+          "upload_manifest",
+          "delivery_json"
+        ]
+      },
+      {
+        "platform_id": "google-gemini",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "model_call"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+          "cortex.ads-observation"
+        ],
+        "proof_targets": [
+          "model_used",
+          "output_artifact",
+          "fallback_status"
+        ]
+      },
+      {
+        "platform_id": "brand-packs",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "brand_id",
+          "accounts",
+          "tenants",
+          "channels",
+          "caveats"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "brand_metadata_update",
+          "platform_account_mapping"
+        ],
+        "approval_gates": [
+          "ambiguous_brand_or_account_mapping_change"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "brand_scope",
+          "account_mapping_diff",
+          "missing_surface_note"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "cortex.ads-observation",
+      "status": "prod",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Paid ads observation.",
+      "proof_target": "report_bundle, verification_json, delivery_json"
+    },
+    {
+      "id": "cortex.campaign-management",
+      "status": "draft",
+      "registry_coverage": "planned",
+      "purpose": "Campaign management plan and handoff.",
+      "proof_target": "campaign-management report and task board"
+    },
+    {
+      "id": "cortex.feedback-loop",
+      "status": "draft",
+      "registry_coverage": "planned",
+      "purpose": "Post-publication feedback loop.",
+      "proof_target": "feedback report and next-cycle input"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+
+  ]
+}

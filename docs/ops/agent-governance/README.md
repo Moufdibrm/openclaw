@@ -114,6 +114,14 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - human-readable projection of platform visibility, read, write, provider-selection, and partial-platform rules
 - `agent-platform-access-matrix.yaml`
   - machine-readable agent to platform access projection; Jack sees all, Tony sees partial platforms for dev/audit, specialists stay scoped
+- `MISSION_MANAGER_AGENT_CONTROL_CONTRACT.md`
+  - Mission Manager consumption/control contract for agent cards, action requests, approvals, and profile health
+- `mission-manager-agent-control-contract.yaml`
+  - machine-readable MM -> agent control contract; references governance matrices instead of duplicating permission truth
+- `agent-profile-materialization-manifest.yaml`
+  - machine-readable local profile materialization manifest with required files, paths, hashes, and no-secret sync policy
+- `profile-pack/`
+  - Git-versioned no-secret profile sidecars and config overlays for controlled application to local/prod profiles
 
 ## Scope
 

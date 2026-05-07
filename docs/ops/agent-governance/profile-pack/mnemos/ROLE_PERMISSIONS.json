@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "mnemos",
+  "display_name": "Mnemos",
+  "status": "beta",
+  "role": "Continuity, context pressure, compaction and reinjection capsules.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "local-session-state",
+    "context-metering",
+    "continuity-artifacts",
+    "filesystem-local"
+  ],
+  "forbidden_or_gated": [
+    "external-read",
+    "external-write",
+    "business-execution",
+    "durable-kg-ownership"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/mnemos",
+    "config": "/Users/moufdi/.brm-hermes/profiles/mnemos/config.yaml",
+    "workdir": "/Users/moufdi/.openclaw/workspace-mnemos",
+    "canonical_environment": "continuity/local-session",
+    "readable_external_surfaces": [
+
+    ],
+    "mutable_external_surfaces": [
+      "continuity-journal",
+      "compaction-capsules"
+    ],
+    "approval_gated": [
+
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 1,
+      "read_allowed": 1,
+      "write_conditional": 1
+    },
+    "entries": [
+      {
+        "platform_id": "mnemos-continuity",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "session_state",
+          "continuity_journal",
+          "latest_handoff"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "continuity_capsule",
+          "journal_append"
+        ],
+        "approval_gates": [
+
+        ],
+        "routes": [
+          "mnemos.context-check"
+        ],
+        "proof_targets": [
+          "continuity_artifact",
+          "handoff_capsule"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "mnemos.context-check",
+      "status": "beta",
+      "registry_coverage": "package_only",
+      "purpose": "Context pressure and continuity capsule check.",
+      "proof_target": "memory_observation and verification_json"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+    "SOUL.md is generated from a canonical source; sidecars carry the local governance projection."
+  ]
+}

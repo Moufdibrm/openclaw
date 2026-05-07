@@ -1,0 +1,591 @@
+---
+version: 1
+last_updated: '2026-05-07'
+standard_id: brm.mm-agent-control-contract.v1
+scope:
+  v1_agents:
+  - jack
+  - jack-x
+  - mnemos
+  - rosa
+  - jeff
+  - naya
+  - selena
+  - alfred
+  - cortex
+  - tony
+  - kanye
+  - safir
+  out_of_scope:
+  - runtime_gateway_wiring
+  - deploy
+  - restart
+  - systemd
+  - mission_manager_implementation
+  - vps_release_control
+source_of_truth:
+  toolbox_matrix: docs/ops/agent-governance/agent-toolbox-matrix.yaml
+  environment_matrix: docs/ops/agent-governance/agent-environment-matrix.yaml
+  protocol_matrix: docs/ops/agent-governance/agent-protocol-matrix.yaml
+  platform_access_matrix: docs/ops/agent-governance/agent-platform-access-matrix.yaml
+  profile_materialization_manifest: docs/ops/agent-governance/agent-profile-materialization-manifest.yaml
+global_rules:
+  installed_skill_is_permission: false
+  status_values:
+  - draft
+  - beta
+  - prod
+  jack_visibility: all_platforms_for_supervision_routing_gap_detection_and_governed_direct_execution
+  jack_mutation: no_blanket_mutation_route_or_explicit_approval_required
+  tony_partial_visibility: development_audit_context_only_not_business_permission
+  specialist_visibility: owned_secondary_route_owned_or_explicit_access_only
+  missing_route_behavior: jack.protocol-missing
+  missing_capability_behavior: jack.capability-missing
+control_levels:
+  view_governance:
+    may_mutate_external: false
+    description: Display scope, tools, platforms, routes, proofs, and profile health.
+  request_audit_read:
+    may_mutate_external: false
+    description: Create a read/audit task for an agent.
+  request_discussion_approval:
+    may_mutate_external: false
+    description: Prepare an action or ask for approval before execution.
+  launch_validated_route:
+    may_mutate_external: only_if_route_allows_and_gates_pass
+    description: Launch an existing route with its proof contract.
+  record_approval_decision:
+    may_mutate_external: false
+    description: Record approve/reject decision for gated action.
+  request_governance_change:
+    may_mutate_external: false
+    description: Ask governance lane to update permissions/toolbox/protocol docs.
+approval_required_for:
+- outbound_external_message
+- customer_visible_support_reply
+- paypal_or_dispute_message
+- refund_payment_billing_or_financial_mutation
+- ambiguous_target_or_delta
+- external_publication
+- paid_delivery_platform_mutation
+- voice_clone_without_consent
+- external_audio_send
+action_request_schema:
+  required:
+  - mission_id
+  - task_id
+  - requested_by
+  - agent_id
+  - autonomy_level
+  - read_or_write
+  - external_mutation
+  - proof_targets
+  optional:
+  - route_id
+  - platform_id
+  - brand_scope
+  - approval_gate_refs
+  - input_artifacts
+  - expected_outputs
+  - blocked_reason
+  - profile_materialization_ref
+agents:
+  jack:
+    status: beta
+    role: Transversal operator, route resolver, direct executor when governed.
+    canonical_environment: operator/control-plane
+    profile: "/Users/moufdi/.brm-hermes/profiles/jack"
+    config: "/Users/moufdi/.brm-hermes/profiles/jack/config.yaml"
+    workdir: "~/clawd"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - mission-manager
+    - knowledge-graph
+    - specialist-dispatch
+    - higgsfield-ai-official-skill-governance
+    - whatsapp-operator-surface
+    - lark
+    - ms365-mail
+    - shopify
+    - bigblue
+    - klaviyo
+    - hiboo
+    - paid-media-read
+    - analytics-read
+    - google-drive-approval-gated
+    - browser-verification
+    - filesystem-governance
+    forbidden_or_gated:
+    - runtime-gateway-deploy-service-edits
+    - mission-manager-code-edits
+    - hidden-production-mutation
+    - external-message-send-without-approval
+    - payment-or-billing-mutation-without-approval
+    platform_summary:
+      visible: 49
+      read_allowed: 49
+      write_conditional: 46
+    route_ids:
+    - jack.protocol-missing
+    - jack.capability-missing
+    - jack.draft-protocol-runtime
+    - jack.direct.mm-supervision
+    - jack.email-digest
+    - jack.higgsfield-skill-supervision
+    - voice.openai-whisper-input
+    - voice.higgsfield-agent-output
+    route_statuses:
+      jack.protocol-missing: beta
+      jack.capability-missing: beta
+      jack.draft-protocol-runtime: beta
+      jack.direct.mm-supervision: beta
+      jack.email-digest: beta
+      jack.higgsfield-skill-supervision: draft
+      voice.openai-whisper-input: beta
+      voice.higgsfield-agent-output: draft
+    mm_control_policy: may_supervise_all_platforms_but_writes_are_gated
+  jack-x:
+    status: beta
+    role: Long-term memory, channel intake, KG and memory updates, plus review of Memory Wiki refinement proposals.
+    canonical_environment: memory/intake
+    profile: "/Users/moufdi/.brm-hermes/profiles/jack-x"
+    config: "/Users/moufdi/.brm-hermes/profiles/jack-x/config.yaml"
+    workdir: "/Users/moufdi/.openclaw/workspace-jack-x"
+    approved_autonomy:
+    - audit_read
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - ms365-mail-read
+    - lark-read
+    - whatsapp-snapshot-read
+    - mission-manager-agent-session-read
+    - memory-wiki
+    - kg-memory-update-governed
+    - memory-refinement-review
+    - filesystem-memory-artifacts
+    forbidden_or_gated:
+    - external-message-send
+    - payment-or-support-mutation
+    - business-system-mutation
+    - llm-wiki-direct-kg-write
+    platform_summary:
+      visible: 9
+      read_allowed: 9
+      write_conditional: 9
+    route_ids:
+    - jack-x.registry-ingest
+    - jack-x.email-intake-pass0
+    - jack-x.lark-message-intake-pass0
+    - jack-x.lark-table-intake-pass0
+    - jack-x.whatsapp-intake-pass0
+    - jack-x.db-analysis
+    - jack-x.memory-wiki
+    - jack-x.memory-refinement-review
+    - jack-x.memory-feedback-loop
+    - jack-x.signal.extract
+    route_statuses:
+      jack-x.registry-ingest: beta
+      jack-x.email-intake-pass0: beta
+      jack-x.lark-message-intake-pass0: beta
+      jack-x.lark-table-intake-pass0: beta
+      jack-x.whatsapp-intake-pass0: beta
+      jack-x.db-analysis: beta
+      jack-x.memory-wiki: beta
+      jack-x.memory-refinement-review: draft
+      jack-x.memory-feedback-loop: draft
+      jack-x.signal.extract: beta
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  mnemos:
+    status: beta
+    role: Continuity, context pressure, compaction and reinjection capsules.
+    canonical_environment: continuity/local-session
+    profile: "/Users/moufdi/.brm-hermes/profiles/mnemos"
+    config: "/Users/moufdi/.brm-hermes/profiles/mnemos/config.yaml"
+    workdir: "/Users/moufdi/.openclaw/workspace-mnemos"
+    approved_autonomy:
+    - audit_read
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - local-session-state
+    - context-metering
+    - continuity-artifacts
+    - filesystem-local
+    forbidden_or_gated:
+    - external-read
+    - external-write
+    - business-execution
+    - durable-kg-ownership
+    platform_summary:
+      visible: 1
+      read_allowed: 1
+      write_conditional: 1
+    route_ids:
+    - mnemos.context-check
+    route_statuses:
+      mnemos.context-check: beta
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  rosa:
+    status: beta
+    role: Marketing, offers, performance, market intelligence.
+    canonical_environment: marketing
+    profile: "/Users/moufdi/.brm-hermes/profiles/rosa"
+    config: "/Users/moufdi/.brm-hermes/profiles/rosa/config.yaml"
+    workdir: "~/.openclaw/workspace-rosa"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - shopify-read
+    - klaviyo-read
+    - hiboo-read
+    - lark-read
+    - ga4-read
+    - gsc-read
+    - dataforseo-read
+    - creative-asset-request-via-kanye
+    - filesystem-reporting
+    forbidden_or_gated:
+    - direct-higgsfield-generation
+    - campaign-publication-without-approval
+    - external-message-send-without-approval
+    - storefront-or-crm-mutation-without-route
+    platform_summary:
+      visible: 14
+      read_allowed: 14
+      write_conditional: 13
+    route_ids:
+    - rosa.offer-strategy.direct
+    - rosa.audit-performance-marketing
+    - rosa.veille-concurrentielle
+    - rosa.market-graph-refresh
+    route_statuses:
+      rosa.offer-strategy.direct: prod
+      rosa.audit-performance-marketing: prod
+      rosa.veille-concurrentielle: prod
+      rosa.market-graph-refresh: beta
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  jeff:
+    status: beta
+    role: Influence, creator operations, outreach, collaboration analysis.
+    canonical_environment: influence/creator-ops
+    profile: "/Users/moufdi/.brm-hermes/profiles/jeff"
+    config: "/Users/moufdi/.brm-hermes/profiles/jeff/config.yaml"
+    workdir: "~/.openclaw/workspace-jeff"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - hiboo-creators
+    - creator-profile-read
+    - inbox-signal-read
+    - candidate-registry
+    - filesystem-reporting
+    - google-drive-approval-gated
+    forbidden_or_gated:
+    - creator-contact-send-without-approval
+    - collaboration-mutation-without-approval
+    - payment-or-contract-mutation-without-approval
+    platform_summary:
+      visible: 5
+      read_allowed: 5
+      write_conditional: 5
+    route_ids:
+    - jeff.analyse-profil
+    - jeff.performance-report
+    - jeff.candidate-intake
+    - jeff.email-digest
+    - jeff.outreach-pipeline
+    - jeff.ajout-collaboration
+    - jeff.collab-management
+    route_statuses:
+      jeff.analyse-profil: prod
+      jeff.performance-report: prod
+      jeff.candidate-intake: beta
+      jeff.email-digest: beta
+      jeff.outreach-pipeline: beta
+      jeff.ajout-collaboration: beta
+      jeff.collab-management: beta
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  naya:
+    status: beta
+    role: Stock, sourcing, supply chain and operational feasibility.
+    canonical_environment: supply-chain
+    profile: "/Users/moufdi/.brm-hermes/profiles/naya"
+    config: "/Users/moufdi/.brm-hermes/profiles/naya/config.yaml"
+    workdir: "~/.openclaw/workspace-naya"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - shopify-read
+    - bigblue-read
+    - stock-telemetry
+    - sourcing-sheets
+    - filesystem-reporting
+    - google-drive-approval-gated
+    forbidden_or_gated:
+    - supplier-message-send-without-approval
+    - order-or-purchase-mutation-without-approval
+    - payment-mutation-without-approval
+    platform_summary:
+      visible: 9
+      read_allowed: 9
+      write_conditional: 9
+    route_ids:
+    - naya.stock-check
+    - naya.product-sourcing
+    - naya.campaign-support
+    - naya.supplier-comm
+    route_statuses:
+      naya.stock-check: prod
+      naya.product-sourcing: prod
+      naya.campaign-support: beta
+      naya.supplier-comm: draft
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  selena:
+    status: beta
+    role: Support risk, PayPal disputes, Zendesk feedback review.
+    canonical_environment: support-risk
+    profile: "/Users/moufdi/.brm-hermes/profiles/selena"
+    config: "/Users/moufdi/.brm-hermes/profiles/selena/config.yaml"
+    workdir: "~/.openclaw/workspace-selena"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - paypal-read
+    - zendesk-read
+    - reviewed-export-analysis
+    - filesystem-reporting
+    forbidden_or_gated:
+    - zendesk-reply-without-approval
+    - paypal-dispute-message-without-approval
+    - refund-or-payment-mutation-without-approval
+    platform_summary:
+      visible: 4
+      read_allowed: 4
+      write_conditional: 4
+    route_ids:
+    - selena.paypal-dispute.phase1-audit
+    - selena.paypal-dispute.phase1-live
+    - selena.zendesk-feedback-review
+    - selena.zendesk-feedback-live
+    route_statuses:
+      selena.paypal-dispute.phase1-audit: prod
+      selena.paypal-dispute.phase1-live: prod
+      selena.zendesk-feedback-review: prod
+      selena.zendesk-feedback-live: prod
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  alfred:
+    status: beta
+    role: SEO visibility, strategy plan, deployment feedback artifacts.
+    canonical_environment: seo
+    profile: "/Users/moufdi/.brm-hermes/profiles/alfred"
+    config: "/Users/moufdi/.brm-hermes/profiles/alfred/config.yaml"
+    workdir: "~/.openclaw/workspace-alfred"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - gsc-read
+    - dataforseo-read
+    - ga4-read
+    - site-audit-read
+    - filesystem-reporting
+    - google-drive-approval-gated
+    forbidden_or_gated:
+    - site-or-theme-mutation-without-route
+    - external-publication-without-approval
+    platform_summary:
+      visible: 9
+      read_allowed: 9
+      write_conditional: 7
+    route_ids:
+    - alfred.visibility-audit
+    - alfred.strategy-plan
+    - alfred.deployment-feedback-loop
+    route_statuses:
+      alfred.visibility-audit: prod
+      alfred.strategy-plan: beta
+      alfred.deployment-feedback-loop: beta
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  cortex:
+    status: beta
+    role: Paid media observation and campaign handoff.
+    canonical_environment: paid-media
+    profile: "/Users/moufdi/.brm-hermes/profiles/cortex"
+    config: "/Users/moufdi/.brm-hermes/profiles/cortex/config.yaml"
+    workdir: "~/.openclaw/workspace-cortex"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - hiboo-ads-read
+    - meta-ads-read
+    - google-ads-read
+    - creative-observation
+    - creative-asset-request-via-kanye
+    - filesystem-reporting
+    forbidden_or_gated:
+    - direct-higgsfield-generation
+    - live-campaign-mutation-without-approval
+    - ad-publication-without-approval
+    platform_summary:
+      visible: 8
+      read_allowed: 8
+      write_conditional: 8
+    route_ids:
+    - cortex.ads-observation
+    - cortex.campaign-management
+    - cortex.feedback-loop
+    route_statuses:
+      cortex.ads-observation: prod
+      cortex.campaign-management: draft
+      cortex.feedback-loop: draft
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+  tony:
+    status: beta
+    role: 'Development owner: codebase exploration, planning, implementation, tests, git.'
+    canonical_environment: development
+    profile: "/Users/moufdi/.brm-hermes/profiles/tony"
+    config: "/Users/moufdi/.brm-hermes/profiles/tony/config.yaml"
+    workdir: "~/.openclaw/workspace-tony"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - repository-filesystem
+    - terminal
+    - git
+    - github
+    - package-managers
+    - tests-build-lint
+    - browser-dev-verification
+    forbidden_or_gated:
+    - production-deploy-or-restart-without-explicit-delegation
+    - gateway-runtime-systemd-edits-in-this-governance-lane
+    - mission-manager-product-lane-ownership
+    - business-system-mutation
+    - external-message-sending
+    platform_summary:
+      visible: 22
+      read_allowed: 13
+      write_conditional: 12
+    route_ids:
+    - tony.codebase-exploration
+    - tony.development-plan
+    - tony.development
+    route_statuses:
+      tony.codebase-exploration: beta
+      tony.development-plan: beta
+      tony.development: beta
+    mm_control_policy: may_develop_and_audit_partial_platforms_but_not_mutate_business_surfaces_by_visibility_alone
+  kanye:
+    status: beta
+    role: Creative generation and reference edits.
+    canonical_environment: creative-generation
+    profile: "/Users/moufdi/.brm-hermes/profiles/kanye"
+    config: "/Users/moufdi/.brm-hermes/profiles/kanye/config.yaml"
+    workdir: "~/.openclaw/workspace-kanye"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - creative-generation
+    - image-edit
+    - video-generation
+    - higgsfield-ai-official-skill
+    - reference-media-read
+    - filesystem-media-artifacts
+    forbidden_or_gated:
+    - external-campaign-publication-without-approval
+    - paid-delivery-or-platform-mutation-without-approval
+    platform_summary:
+      visible: 6
+      read_allowed: 6
+      write_conditional: 6
+    route_ids:
+    - kanye.still-generate
+    - kanye.reference-edit
+    - kanye.higgsfield-skill-exploration
+    - kanye.higgsfield-skill-validation
+    - kanye.higgsfield-generate.official-cli
+    - kanye.higgsfield-product-photoshoot.validation
+    - kanye.higgsfield-marketplace-cards.validation
+    - kanye.higgsfield-soul-id.validation
+    route_statuses:
+      kanye.still-generate: beta
+      kanye.reference-edit: beta
+      kanye.higgsfield-skill-exploration: beta
+      kanye.higgsfield-skill-validation: beta
+      kanye.higgsfield-generate.official-cli: beta
+      kanye.higgsfield-product-photoshoot.validation: beta
+      kanye.higgsfield-marketplace-cards.validation: draft
+      kanye.higgsfield-soul-id.validation: draft
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access
+    creative_provider_policy:
+      selectable_platforms:
+      - higgsfield
+      - banana
+      - openai
+      default_platform: higgsfield
+      selection_rule: honor_explicit_user_provider; otherwise default final campaign work to higgsfield
+      fallback_order:
+      - higgsfield
+      - banana
+      - openai
+      route_aliases:
+        higgsfield:
+        - higgsfield_image
+        - higgsfield_video
+        banana:
+        - nanobanana_2
+        openai:
+        - openai_premium
+      publication_gate: external_publication_or_paid_delivery_requires_approval
+  safir:
+    status: beta
+    role: Email and CRM audit, email workflow design and drafting.
+    canonical_environment: email-crm
+    profile: "/Users/moufdi/.brm-hermes/profiles/safir"
+    config: "/Users/moufdi/.brm-hermes/profiles/safir/config.yaml"
+    workdir: "~/.openclaw/workspace-safir"
+    approved_autonomy:
+    - audit_read
+    - discussion_approval
+    - autonomous_e2e_validated_route
+    allowed_skill_families:
+    - ms365-mail-read
+    - klaviyo-read
+    - email-template-analysis
+    - image-design-for-email
+    - creative-asset-request-via-kanye
+    - filesystem-reporting
+    forbidden_or_gated:
+    - direct-higgsfield-generation
+    - external-email-send-without-approval
+    - crm-mutation-without-route-and-approval
+    platform_summary:
+      visible: 8
+      read_allowed: 8
+      write_conditional: 8
+    route_ids:
+    - safir.email-audit
+    - safir.mail-pole-audit
+    - safir.email-workflow
+    route_statuses:
+      safir.email-audit: beta
+      safir.mail-pole-audit: beta
+      safir.email-workflow: draft
+    mm_control_policy: specialist_scoped_by_owner_secondary_route_or_explicit_access

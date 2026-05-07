@@ -1,0 +1,37 @@
+---
+agent: alfred
+last_updated: '2026-05-07'
+apply_mode: merge_overlay_not_full_config_replace
+platform_toolsets:
+  cli:
+  - hermes-cli
+governance_policy:
+  standard: brm.agent-profile.v1
+  last_updated: '2026-05-07'
+  source_docs_root: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance"
+  source_matrices:
+    toolbox: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml"
+    environment: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml"
+    protocol: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml"
+    platform_access: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  profile_sidecars:
+    role_permissions_md: ROLE_PERMISSIONS.md
+    role_permissions_json: ROLE_PERMISSIONS.json
+    environment_map: ENVIRONMENT_MAP.md
+    route_matrix: ROUTE_MATRIX.md
+    procedures: PROCEDURES.md
+  access_projection:
+    agent_key: alfred
+    visible_platforms: 9
+    read_allowed_platforms: 9
+    write_conditional_platforms: 7
+  route_before_tool: true
+  script_first: true
+  proof_before_done: true
+  read_write_split: true
+  installed_skill_is_permission: false
+  external_write_policy: route_or_explicit_approval_required
+  partial_platform_policy: specialist_scope_only
+work_policy_overlay:
+  action:
+    mode: route_first_script_first

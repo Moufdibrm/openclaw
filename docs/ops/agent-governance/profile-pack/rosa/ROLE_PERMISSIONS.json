@@ -1,0 +1,553 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "rosa",
+  "display_name": "Rosa",
+  "status": "beta",
+  "role": "Marketing, offers, performance, market intelligence.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "discussion_approval",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "shopify-read",
+    "klaviyo-read",
+    "hiboo-read",
+    "lark-read",
+    "ga4-read",
+    "gsc-read",
+    "dataforseo-read",
+    "creative-asset-request-via-kanye",
+    "filesystem-reporting"
+  ],
+  "forbidden_or_gated": [
+    "direct-higgsfield-generation",
+    "campaign-publication-without-approval",
+    "external-message-send-without-approval",
+    "storefront-or-crm-mutation-without-route"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/rosa",
+    "config": "/Users/moufdi/.brm-hermes/profiles/rosa/config.yaml",
+    "workdir": "~/.openclaw/workspace-rosa",
+    "canonical_environment": "marketing",
+    "readable_external_surfaces": [
+      "shopify",
+      "klaviyo",
+      "hiboo",
+      "lark",
+      "ga4",
+      "gsc",
+      "dataforseo"
+    ],
+    "mutable_external_surfaces": [
+      "local-report-artifacts"
+    ],
+    "approval_gated": [
+      "campaign-publication",
+      "external-message-send",
+      "crm-or-storefront-mutation"
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 14,
+      "read_allowed": 14,
+      "write_conditional": 13
+    },
+    "entries": [
+      {
+        "platform_id": "shopify",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "products",
+          "orders",
+          "inventory",
+          "discounts",
+          "collections",
+          "theme_read",
+          "storefront_verify"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "product_update",
+          "collection_update",
+          "discount_update",
+          "theme_update",
+          "storefront_publication"
+        ],
+        "approval_gates": [
+          "product_or_theme_publication",
+          "storefront_mutation",
+          "customer_or_order_mutation"
+        ],
+        "routes": [
+          "rosa.audit-performance-marketing"
+        ],
+        "proof_targets": [
+          "json_readback",
+          "report_bundle",
+          "no_mutation_statement",
+          "pre_post_readback_for_mutation"
+        ]
+      },
+      {
+        "platform_id": "recharge",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "subscriptions",
+          "subscription_status"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "subscription_update",
+          "cancellation",
+          "billing_update"
+        ],
+        "approval_gates": [
+          "subscription_or_billing_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "subscription_readback",
+          "report_bundle"
+        ]
+      },
+      {
+        "platform_id": "klaviyo",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "flows",
+          "campaigns",
+          "templates",
+          "segments",
+          "metrics"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "draft_email",
+          "template_update",
+          "segment_update",
+          "flow_update",
+          "campaign_send"
+        ],
+        "approval_gates": [
+          "external_email_send",
+          "crm_mutation",
+          "flow_activation",
+          "segment_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "audit_artifact",
+          "rendered_draft",
+          "html_pdf_render",
+          "no_send_statement"
+        ]
+      },
+      {
+        "platform_id": "hiboo-core",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "products",
+          "production",
+          "governance",
+          "creator_profiles"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "candidate_registry_local",
+          "collaboration_update"
+        ],
+        "approval_gates": [
+          "collaboration_create_update_archive",
+          "supplier_order_purchase_mutation"
+        ],
+        "routes": [
+          "rosa.audit-performance-marketing"
+        ],
+        "proof_targets": [
+          "profile_report",
+          "performance_report",
+          "telemetry_artifact",
+          "candidate_artifact"
+        ]
+      },
+      {
+        "platform_id": "meta-ads",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "campaigns",
+          "adsets",
+          "ads",
+          "spend",
+          "performance"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "campaign_create",
+          "campaign_update",
+          "ad_publication",
+          "budget_update"
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation",
+          "budget_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "ads_snapshot",
+          "observation_report",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "google-ads",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "campaigns",
+          "ads",
+          "keywords",
+          "spend",
+          "performance"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "campaign_create",
+          "campaign_update",
+          "ad_publication",
+          "budget_update"
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation",
+          "budget_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "ads_snapshot",
+          "observation_report",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "hiboo-ads",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "ads",
+          "creatives",
+          "performance",
+          "creative_references"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "creative_handoff_artifact",
+          "campaign_task_artifact"
+        ],
+        "approval_gates": [
+          "campaign_publication_or_ad_mutation"
+        ],
+        "routes": [
+          "rosa.audit-performance-marketing"
+        ],
+        "proof_targets": [
+          "ads_observation_report",
+          "creative_handoff",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "ga4",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "traffic",
+          "conversion",
+          "ecommerce",
+          "campaign_metrics"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "analytics_config_update"
+        ],
+        "approval_gates": [
+          "analytics_config_mutation"
+        ],
+        "routes": [
+          "rosa.audit-performance-marketing"
+        ],
+        "proof_targets": [
+          "analytics_snapshot",
+          "report_bundle",
+          "missing_property_note"
+        ]
+      },
+      {
+        "platform_id": "google-search-console",
+        "status": "prod",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "search_performance",
+          "site_hints",
+          "pages",
+          "queries"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "property_or_sitemap_submission"
+        ],
+        "approval_gates": [
+          "site_or_property_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "visibility_report",
+          "query_snapshot",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "dataforseo",
+        "status": "prod",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "serp",
+          "keyword",
+          "backlink",
+          "competitor_visibility"
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "costly_bulk_query"
+        ],
+        "routes": [
+          "rosa.veille-concurrentielle",
+          "rosa.market-graph-refresh"
+        ],
+        "proof_targets": [
+          "serp_snapshot",
+          "visibility_report"
+        ]
+      },
+      {
+        "platform_id": "lark-messages",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "channel_messages",
+          "thread_context",
+          "team_discussion"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "message_post",
+          "reaction_or_status_update"
+        ],
+        "approval_gates": [
+          "external_or_team_message_send"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "lark_batch_artifact",
+          "memory_candidate",
+          "no_post_statement"
+        ]
+      },
+      {
+        "platform_id": "lark-tables",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "table_records",
+          "operations_calendar"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "record_create",
+          "record_update",
+          "record_archive"
+        ],
+        "approval_gates": [
+          "table_mutation_when_business_effect"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "table_batch_artifact",
+          "operation_candidates",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "anthropic",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "model_call"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "model_used",
+          "fallback_or_error_status"
+        ]
+      },
+      {
+        "platform_id": "brand-packs",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "brand_id",
+          "accounts",
+          "tenants",
+          "channels",
+          "caveats"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "brand_metadata_update",
+          "platform_account_mapping"
+        ],
+        "approval_gates": [
+          "ambiguous_brand_or_account_mapping_change"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "brand_scope",
+          "account_mapping_diff",
+          "missing_surface_note"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "rosa.offer-strategy.direct",
+      "status": "prod",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Offer strategy direct route.",
+      "proof_target": "decision_json, verification_json, final_summary"
+    },
+    {
+      "id": "rosa.audit-performance-marketing",
+      "status": "prod",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Performance marketing audit.",
+      "proof_target": "report_bundle and verification_json"
+    },
+    {
+      "id": "rosa.veille-concurrentielle",
+      "status": "prod",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Competitive watch report.",
+      "proof_target": "report_bundle and verification_json"
+    },
+    {
+      "id": "rosa.market-graph-refresh",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Market graph refresh and promotion.",
+      "proof_target": "graph_snapshot and verification_json"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+
+  ]
+}

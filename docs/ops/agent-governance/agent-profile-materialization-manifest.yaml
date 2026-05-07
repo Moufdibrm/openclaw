@@ -1,0 +1,678 @@
+---
+version: 1
+last_updated: '2026-05-07'
+standard_id: brm.agent-profile-materialization.v1
+source_commit: fec505287792a00b6767b9c64a49098ddd03b4f2
+profile_root: "/Users/moufdi/.brm-hermes/profiles"
+docs_root: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance"
+scope:
+  v1_agents:
+  - jack
+  - jack-x
+  - mnemos
+  - rosa
+  - jeff
+  - naya
+  - selena
+  - alfred
+  - cortex
+  - tony
+  - kanye
+  - safir
+policy:
+  local_mac_materialized: true
+  git_contains_profile_contents: governance_sidecars_and_config_overlays_only
+  git_contains_governance_sources_and_hash_manifest: true
+  secrets_included: false
+  apply_mode: dry_run_then_allowlisted_copy_only
+  reserved_files_do_not_touch:
+  - "/Users/moufdi/.brm-hermes/profiles/jack/STARTUP_CAPSULE.md"
+  - "/Users/moufdi/.brm-hermes/profiles/jack/ACTION_GOVERNANCE.md"
+  profile_pack_root: docs/ops/agent-governance/profile-pack
+  full_config_replacement_allowed: false
+  soul_apply_exceptions:
+    source_owned_do_not_apply:
+    - jack
+    - mnemos
+source_matrices:
+  toolbox_matrix: docs/ops/agent-governance/agent-toolbox-matrix.yaml
+  environment_matrix: docs/ops/agent-governance/agent-environment-matrix.yaml
+  protocol_matrix: docs/ops/agent-governance/agent-protocol-matrix.yaml
+  platform_access_matrix: docs/ops/agent-governance/agent-platform-access-matrix.yaml
+agents:
+  jack:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/jack"
+    materialized: true
+    generated_soul_source_owned_elsewhere: true
+    platform_summary:
+      visible: 49
+      read_allowed: 49
+      write_conditional: 46
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack/SOUL.md"
+      exists: true
+      sha256: 9644bc72f0fb4651b47e144ddb34ed8f2c932411227301a5e262efd68da5126e
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 90a3a2470bfe0c63c770bf177c94329952645c9d876a4b222b16c47b856a593e
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/jack/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: 5d12cdf5702a425f10ef17c81229b35c7b66189a925a941f95bb6fe79bd6b7ae
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 9a3d23bb98ed97d4d2a2d632fe265b5f0140f1a514a100cc82dd3f0e5915e293
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack/ROUTE_MATRIX.md"
+      exists: true
+      sha256: b06c4671c658317af3ea50c6919c0b812e55a449c87dac460f5e27d2a330cd21
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack/PROCEDURES.md"
+      exists: true
+      sha256: b91e7e0baa08f2814419a5f1a8a2e444db67ee333e81ca71e5920b4ecad5c3db
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/jack/config.yaml"
+      exists: true
+      sha256: 293e33350870f9403d02059393091bd677e72d28524f460941dd99bc4ccac681
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/jack
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 9a3d23bb98ed97d4d2a2d632fe265b5f0140f1a514a100cc82dd3f0e5915e293
+    - name: PROCEDURES.md
+      sha256: b91e7e0baa08f2814419a5f1a8a2e444db67ee333e81ca71e5920b4ecad5c3db
+    - name: ROLE_PERMISSIONS.json
+      sha256: 5d12cdf5702a425f10ef17c81229b35c7b66189a925a941f95bb6fe79bd6b7ae
+    - name: ROLE_PERMISSIONS.md
+      sha256: 90a3a2470bfe0c63c770bf177c94329952645c9d876a4b222b16c47b856a593e
+    - name: ROUTE_MATRIX.md
+      sha256: b06c4671c658317af3ea50c6919c0b812e55a449c87dac460f5e27d2a330cd21
+    - name: SOUL.source-owned-pointer.md
+      sha256: 6fd7dbcb805a5be408d4c4b4d438b051e8403b6d36bc8a0dc79c94a8cf6a85ff
+    - name: config.governance-overlay.yaml
+      sha256: ecb3e44c3de45c4583b9fb343c6a4b2f4c223d0ecacbb8581d4360ba641b2c0a
+  jack-x:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/jack-x"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 9
+      read_allowed: 9
+      write_conditional: 9
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack-x/SOUL.md"
+      exists: true
+      sha256: 9bbccbe226a0a430d786cb1b952c483ff92162ba24db7e26c9a261d6059b22c3
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack-x/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 32a4e43876c9d51f54897b4b3dbc7e8d5d6ad83625ef0edaa8c96bf6003f5825
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/jack-x/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: 6296cc5b058037a7db13767f91d3e86568efc708bb74c66dd65e74f738cc9db1
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack-x/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 0e7c2053822ee5e757fd8b10113487e357f4a7572f422821e7946134afe3df6c
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack-x/ROUTE_MATRIX.md"
+      exists: true
+      sha256: f26e11606aec57ff17e4c5427c22e42b92c2fad034d232fe5fae203dcc6614fc
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jack-x/PROCEDURES.md"
+      exists: true
+      sha256: 9072baba550adac0b1095cfad37d3307ab9cb9b3652e111ac5907041bf97a80c
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/jack-x/config.yaml"
+      exists: true
+      sha256: 2700aab706a2b6c490b9e841a4ded0f94b1a7d0c7446b91f54fe7944a5694911
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/jack-x
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 0e7c2053822ee5e757fd8b10113487e357f4a7572f422821e7946134afe3df6c
+    - name: PROCEDURES.md
+      sha256: 9072baba550adac0b1095cfad37d3307ab9cb9b3652e111ac5907041bf97a80c
+    - name: ROLE_PERMISSIONS.json
+      sha256: 6296cc5b058037a7db13767f91d3e86568efc708bb74c66dd65e74f738cc9db1
+    - name: ROLE_PERMISSIONS.md
+      sha256: 32a4e43876c9d51f54897b4b3dbc7e8d5d6ad83625ef0edaa8c96bf6003f5825
+    - name: ROUTE_MATRIX.md
+      sha256: f26e11606aec57ff17e4c5427c22e42b92c2fad034d232fe5fae203dcc6614fc
+    - name: SOUL.md
+      sha256: 9bbccbe226a0a430d786cb1b952c483ff92162ba24db7e26c9a261d6059b22c3
+    - name: config.governance-overlay.yaml
+      sha256: 847527e54f3a43066294c172c462c3dabb29eba3c425d89520eb446e71ba2d70
+  mnemos:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/mnemos"
+    materialized: true
+    generated_soul_source_owned_elsewhere: true
+    platform_summary:
+      visible: 1
+      read_allowed: 1
+      write_conditional: 1
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/mnemos/SOUL.md"
+      exists: true
+      sha256: b22e56e8c6aeca6b384023825f66d59eb21c32081728e65e43bc95f5703f589d
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/mnemos/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 8b0e2d3d77960980bb5d5d253748cfa6c5e9ae0615d8ba607028aae66143050b
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/mnemos/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: dd8ab17616cc6af751b937c3a54f774acf0ab43d970f773bdbc1e74c7aff95c8
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/mnemos/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 85ec33aedea1ce073accea47aba3f7bfccb6e8fe1217e99dea72a2aea3d7365e
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/mnemos/ROUTE_MATRIX.md"
+      exists: true
+      sha256: 69f730dd4114a52805ba5482b7943728fb54a02b144e791f988136da53001eec
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/mnemos/PROCEDURES.md"
+      exists: true
+      sha256: 76f9db73a0823eb66a0ce1400f7656262d99f18375ef02f5833737cc5aa8bc07
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/mnemos/config.yaml"
+      exists: true
+      sha256: 9658e063dd0dfdb5a11ef9f44d77e0c81a20ecdc0ac52617d9e4fa463c8c4f26
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/mnemos
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 85ec33aedea1ce073accea47aba3f7bfccb6e8fe1217e99dea72a2aea3d7365e
+    - name: PROCEDURES.md
+      sha256: 76f9db73a0823eb66a0ce1400f7656262d99f18375ef02f5833737cc5aa8bc07
+    - name: ROLE_PERMISSIONS.json
+      sha256: dd8ab17616cc6af751b937c3a54f774acf0ab43d970f773bdbc1e74c7aff95c8
+    - name: ROLE_PERMISSIONS.md
+      sha256: 8b0e2d3d77960980bb5d5d253748cfa6c5e9ae0615d8ba607028aae66143050b
+    - name: ROUTE_MATRIX.md
+      sha256: 69f730dd4114a52805ba5482b7943728fb54a02b144e791f988136da53001eec
+    - name: SOUL.source-owned-pointer.md
+      sha256: 97894fc4a067394d70a839994ae68b96209213304610f7d0f9881623322b5fde
+    - name: config.governance-overlay.yaml
+      sha256: 1c4d3c785c6ebe28757ea4aea38301f461c3c159e562397a143f5aa8493520ec
+  rosa:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/rosa"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 14
+      read_allowed: 14
+      write_conditional: 13
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/rosa/SOUL.md"
+      exists: true
+      sha256: d58a792ec28ba89221858f8149e8230fa75db42cc1dd230cb07f4aa343b80ee2
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/rosa/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 1930852826141bfbfc363e7f1551cb99131fb4ab1e1a4acc25913e4c8f1cf907
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/rosa/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: d56bcaa44746efdd2f2c78a22e1d705f044c0ffcf2eef0d0fb7c67f62349d2ad
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/rosa/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 3f9043534a97c60bb289a5ba7d19343bd64aa3a3e7be8e55e16a19b04e37cd8c
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/rosa/ROUTE_MATRIX.md"
+      exists: true
+      sha256: 49ff82dd883f1b26f4e6384710bcc19ca95fa4ebcb10432470b16137bd0f0193
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/rosa/PROCEDURES.md"
+      exists: true
+      sha256: 514e4a2d865bd54fb0250ec748a9b40420e0c46e0289b8105e9ac78b25775fc9
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/rosa/config.yaml"
+      exists: true
+      sha256: 9822fdcbba412b65c57b462881fac6ea9787a373a995ab08f4b001ff677912b6
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/rosa
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 3f9043534a97c60bb289a5ba7d19343bd64aa3a3e7be8e55e16a19b04e37cd8c
+    - name: PROCEDURES.md
+      sha256: 514e4a2d865bd54fb0250ec748a9b40420e0c46e0289b8105e9ac78b25775fc9
+    - name: ROLE_PERMISSIONS.json
+      sha256: d56bcaa44746efdd2f2c78a22e1d705f044c0ffcf2eef0d0fb7c67f62349d2ad
+    - name: ROLE_PERMISSIONS.md
+      sha256: 1930852826141bfbfc363e7f1551cb99131fb4ab1e1a4acc25913e4c8f1cf907
+    - name: ROUTE_MATRIX.md
+      sha256: 49ff82dd883f1b26f4e6384710bcc19ca95fa4ebcb10432470b16137bd0f0193
+    - name: SOUL.md
+      sha256: d58a792ec28ba89221858f8149e8230fa75db42cc1dd230cb07f4aa343b80ee2
+    - name: config.governance-overlay.yaml
+      sha256: bbb2464b5642316fcdaf81802c1741312bc26b11716a072334542c8ba72cccce
+  jeff:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/jeff"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 5
+      read_allowed: 5
+      write_conditional: 5
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jeff/SOUL.md"
+      exists: true
+      sha256: '09a9a68fc315eb58e9998565f6107293c97ec3e9009fa3db603184c68cc5cf93'
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jeff/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 989e8afb750f8c4cc886d34a5e1db37a948ae395369590f78a6c4c4ec1a0b6c8
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/jeff/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: 86a01a340763af7130eff0d10b01ee3bc69bfff26d7042b5db0664d1e413af09
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jeff/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: c2bc4b3737b49eaad158ba7f2d241827788f8cca893de5339519f0d6de943fe0
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jeff/ROUTE_MATRIX.md"
+      exists: true
+      sha256: 2eff9415bb62a964afdbb35c3456c17cf37899fc6726edc83c0dd73c864db158
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/jeff/PROCEDURES.md"
+      exists: true
+      sha256: 8b58818cd8f00e41baf73449b1f9698eee3ad4147d7b7cf074e1836e90baf9dd
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/jeff/config.yaml"
+      exists: true
+      sha256: '0955e05964adb7967489a6d497fd9aa772b6713d261bcff4e552fb83f23100d7'
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/jeff
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: c2bc4b3737b49eaad158ba7f2d241827788f8cca893de5339519f0d6de943fe0
+    - name: PROCEDURES.md
+      sha256: 8b58818cd8f00e41baf73449b1f9698eee3ad4147d7b7cf074e1836e90baf9dd
+    - name: ROLE_PERMISSIONS.json
+      sha256: 86a01a340763af7130eff0d10b01ee3bc69bfff26d7042b5db0664d1e413af09
+    - name: ROLE_PERMISSIONS.md
+      sha256: 989e8afb750f8c4cc886d34a5e1db37a948ae395369590f78a6c4c4ec1a0b6c8
+    - name: ROUTE_MATRIX.md
+      sha256: 2eff9415bb62a964afdbb35c3456c17cf37899fc6726edc83c0dd73c864db158
+    - name: SOUL.md
+      sha256: '09a9a68fc315eb58e9998565f6107293c97ec3e9009fa3db603184c68cc5cf93'
+    - name: config.governance-overlay.yaml
+      sha256: e3277710304d3bf2ca875c39dc171061426791fe2a2acec33ff0221d92d83780
+  naya:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/naya"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 9
+      read_allowed: 9
+      write_conditional: 9
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/naya/SOUL.md"
+      exists: true
+      sha256: 67494a923a50baf95880042511eebf2896174a67f2f54368d1f62f95d19a02a1
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/naya/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: e54b96ea9099a9f3f4bdcbec47dae5986c3be6d2e5d672e74f113d2364d968c9
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/naya/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: deec092664d309e1190ce0bee9334ef4485ea5dfc135194673e05795f7ba4cb8
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/naya/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: f7fbf45f68ef15a7adbc616d6bf005bf091430e93a477a3506ffc52b8b86450d
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/naya/ROUTE_MATRIX.md"
+      exists: true
+      sha256: 690c2ab9239b52e077622fb85241af290aa0149430074dfa81f4db709de7d16d
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/naya/PROCEDURES.md"
+      exists: true
+      sha256: 6418e00a121b7a38812308c3acf2b2c03769e332c06155f486846f7978558ed9
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/naya/config.yaml"
+      exists: true
+      sha256: 6e0e0c1bc874e72de215ef7071ab02b0321ff4f15750b1be12301c22718017a4
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/naya
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: f7fbf45f68ef15a7adbc616d6bf005bf091430e93a477a3506ffc52b8b86450d
+    - name: PROCEDURES.md
+      sha256: 6418e00a121b7a38812308c3acf2b2c03769e332c06155f486846f7978558ed9
+    - name: ROLE_PERMISSIONS.json
+      sha256: deec092664d309e1190ce0bee9334ef4485ea5dfc135194673e05795f7ba4cb8
+    - name: ROLE_PERMISSIONS.md
+      sha256: e54b96ea9099a9f3f4bdcbec47dae5986c3be6d2e5d672e74f113d2364d968c9
+    - name: ROUTE_MATRIX.md
+      sha256: 690c2ab9239b52e077622fb85241af290aa0149430074dfa81f4db709de7d16d
+    - name: SOUL.md
+      sha256: 67494a923a50baf95880042511eebf2896174a67f2f54368d1f62f95d19a02a1
+    - name: config.governance-overlay.yaml
+      sha256: f64c74f88da01f591bcaca4b9a32abf792d887bb295c9aa285108a7f90a5b23d
+  selena:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/selena"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 4
+      read_allowed: 4
+      write_conditional: 4
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/selena/SOUL.md"
+      exists: true
+      sha256: 47099e0706041759dfc0f426221e59f5d60b15b6aaf8a44f88bae2dcebf614d5
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/selena/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: eb9f4bd7a32d85f1a915efe5dacaa7e1da3d2d636d4bd485ad28505f37339876
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/selena/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: 2c1f27148af46c9e0db9f4250958d2f921d6d2b41db84b420ecd0c9fd8b32e6c
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/selena/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 7aa441fcc0e82d801f4e56b712156c64bbf8146d125bbc1079f4e85b030ba147
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/selena/ROUTE_MATRIX.md"
+      exists: true
+      sha256: b6d89b77dab183532abad829a2ca577e9bf498b1aed5358bb6e59b9a750c280b
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/selena/PROCEDURES.md"
+      exists: true
+      sha256: 8f747dd71b0740605ee9c97bbb418260d04c0bafe5672fffe1e35740231659c3
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/selena/config.yaml"
+      exists: true
+      sha256: 5afdd8cb7a7882d54866b6c3eca5fcbb10eddda673d610c0d057b7c4164fd6c1
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/selena
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 7aa441fcc0e82d801f4e56b712156c64bbf8146d125bbc1079f4e85b030ba147
+    - name: PROCEDURES.md
+      sha256: 8f747dd71b0740605ee9c97bbb418260d04c0bafe5672fffe1e35740231659c3
+    - name: ROLE_PERMISSIONS.json
+      sha256: 2c1f27148af46c9e0db9f4250958d2f921d6d2b41db84b420ecd0c9fd8b32e6c
+    - name: ROLE_PERMISSIONS.md
+      sha256: eb9f4bd7a32d85f1a915efe5dacaa7e1da3d2d636d4bd485ad28505f37339876
+    - name: ROUTE_MATRIX.md
+      sha256: b6d89b77dab183532abad829a2ca577e9bf498b1aed5358bb6e59b9a750c280b
+    - name: SOUL.md
+      sha256: 47099e0706041759dfc0f426221e59f5d60b15b6aaf8a44f88bae2dcebf614d5
+    - name: config.governance-overlay.yaml
+      sha256: 392ad0d6fc19114b718b94d5e20b30f01acc97bb9ae846904a8dfb3ea8500e4d
+  alfred:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/alfred"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 9
+      read_allowed: 9
+      write_conditional: 7
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/alfred/SOUL.md"
+      exists: true
+      sha256: a44ee53297e8781f60bb8e64ead3983de90db499009913c5ead67173850494a3
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/alfred/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: df7d273db429404cea6bbc32998efdebfc5628467e64007ec771efcc5b167126
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/alfred/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: 2c5393e2953319d467b0b00d3ffef2cd3473959c508ee252e0774487888854c2
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/alfred/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 4a1f3afe2f7944e44c2db92f2bfed995a395a792ec645f3e12a04ed98ae30b84
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/alfred/ROUTE_MATRIX.md"
+      exists: true
+      sha256: 2e158e5688cb40171076abdd05f486cc560ef0830fc3fd13dc2af093a4f42a07
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/alfred/PROCEDURES.md"
+      exists: true
+      sha256: '08d5a19476e861945da26ac2491967cc5eb6c4798130f41cdc4509afa90d8c72'
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/alfred/config.yaml"
+      exists: true
+      sha256: d192d54a4f6c9e533e49be1a788af3e5dd79840bfe44ee80e139d262bcec75a4
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/alfred
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 4a1f3afe2f7944e44c2db92f2bfed995a395a792ec645f3e12a04ed98ae30b84
+    - name: PROCEDURES.md
+      sha256: '08d5a19476e861945da26ac2491967cc5eb6c4798130f41cdc4509afa90d8c72'
+    - name: ROLE_PERMISSIONS.json
+      sha256: 2c5393e2953319d467b0b00d3ffef2cd3473959c508ee252e0774487888854c2
+    - name: ROLE_PERMISSIONS.md
+      sha256: df7d273db429404cea6bbc32998efdebfc5628467e64007ec771efcc5b167126
+    - name: ROUTE_MATRIX.md
+      sha256: 2e158e5688cb40171076abdd05f486cc560ef0830fc3fd13dc2af093a4f42a07
+    - name: SOUL.md
+      sha256: a44ee53297e8781f60bb8e64ead3983de90db499009913c5ead67173850494a3
+    - name: config.governance-overlay.yaml
+      sha256: 6e8cd8bbeb986ca3361fd4dc45779f514d0f8abfec68ebf0eae3f7086a5174ca
+  cortex:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/cortex"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 8
+      read_allowed: 8
+      write_conditional: 8
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/cortex/SOUL.md"
+      exists: true
+      sha256: e89ce02ce02ef5f849b3b1001a394c8536fff1f294a5076ce60a98cbc0da1840
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/cortex/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 51423a6d198f97a3493b9f937991931c757c35e657a9c4260e698f424cb79110
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/cortex/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: ee6729e2216fda06341b963e376cb25a213751c9737380172c6b18a48fcce4f1
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/cortex/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 20c3461e4c5fb098ce3d322e77ae526cb26b48af20f0ca87d39c2b24fc39b521
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/cortex/ROUTE_MATRIX.md"
+      exists: true
+      sha256: 4937d1bf2b43402abb4d9b071db97314f2e13e91ac0f5eb3ff4d5046aaa06f86
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/cortex/PROCEDURES.md"
+      exists: true
+      sha256: e6930c3dcbb9de092a40b6748dea13cb8109bc142cdca4a9955acb41d5253274
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/cortex/config.yaml"
+      exists: true
+      sha256: 202b32e7ae2409bc51d8d83dd0fb98f49b6812eb7f9c8f4b0764603a40cbd119
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/cortex
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 20c3461e4c5fb098ce3d322e77ae526cb26b48af20f0ca87d39c2b24fc39b521
+    - name: PROCEDURES.md
+      sha256: e6930c3dcbb9de092a40b6748dea13cb8109bc142cdca4a9955acb41d5253274
+    - name: ROLE_PERMISSIONS.json
+      sha256: ee6729e2216fda06341b963e376cb25a213751c9737380172c6b18a48fcce4f1
+    - name: ROLE_PERMISSIONS.md
+      sha256: 51423a6d198f97a3493b9f937991931c757c35e657a9c4260e698f424cb79110
+    - name: ROUTE_MATRIX.md
+      sha256: 4937d1bf2b43402abb4d9b071db97314f2e13e91ac0f5eb3ff4d5046aaa06f86
+    - name: SOUL.md
+      sha256: e89ce02ce02ef5f849b3b1001a394c8536fff1f294a5076ce60a98cbc0da1840
+    - name: config.governance-overlay.yaml
+      sha256: dcd61f98522102705b9b8443fe7fb9b7486ed271e6c51e9571d96d7f8f566de7
+  tony:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/tony"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 22
+      read_allowed: 13
+      write_conditional: 12
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/tony/SOUL.md"
+      exists: true
+      sha256: 276b3d237e465e0baaf27c32f88a4faa343407b1d1d01ecdc8aad6d5aff387d4
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/tony/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 0335dfa036736bb35aa53108fc0768992c9018f73a55252e9745af37240cef4f
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/tony/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: e1542b6e7f271f2392279ee8aae2f4b3953c33d91b31f010c8cd10e55096f651
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/tony/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 3cf4c4263cce674b36bbcb5ecceaf30676724c703a9425f00c64f19d15c7c74b
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/tony/ROUTE_MATRIX.md"
+      exists: true
+      sha256: b3d7ac99078746c49433551238670723d79ed66468491aee83741fa2f903cd78
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/tony/PROCEDURES.md"
+      exists: true
+      sha256: cbcfd10221cfe4cd94e4c44599f00efb24f377db9147b11ec0c8b5361fca0937
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/tony/config.yaml"
+      exists: true
+      sha256: 077a1007d8b0d8c1dd9b98894064d6b4342ecf4a30a3a6f76ea5d4c07a6842a4
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/tony
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 3cf4c4263cce674b36bbcb5ecceaf30676724c703a9425f00c64f19d15c7c74b
+    - name: PROCEDURES.md
+      sha256: cbcfd10221cfe4cd94e4c44599f00efb24f377db9147b11ec0c8b5361fca0937
+    - name: ROLE_PERMISSIONS.json
+      sha256: e1542b6e7f271f2392279ee8aae2f4b3953c33d91b31f010c8cd10e55096f651
+    - name: ROLE_PERMISSIONS.md
+      sha256: 0335dfa036736bb35aa53108fc0768992c9018f73a55252e9745af37240cef4f
+    - name: ROUTE_MATRIX.md
+      sha256: b3d7ac99078746c49433551238670723d79ed66468491aee83741fa2f903cd78
+    - name: SOUL.md
+      sha256: 276b3d237e465e0baaf27c32f88a4faa343407b1d1d01ecdc8aad6d5aff387d4
+    - name: config.governance-overlay.yaml
+      sha256: ec60f56ab792f4df371139bf94aae67413d124d6ef00fddcf4b7b608ca7d64e9
+  kanye:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/kanye"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 6
+      read_allowed: 6
+      write_conditional: 6
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/kanye/SOUL.md"
+      exists: true
+      sha256: 6ce49cced2d115f6d244352281db05ba35d0ac253fd8fdaf16056f9a08653468
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/kanye/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: 26b6ed4f11a532057a730dfd058cfd98e73c7c3146c94a28a5748782fdde5b53
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/kanye/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: 79804fb41ddf5018366f3f0c920b12e284eaf1d1592906a6d2e1ba4211fcff3b
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/kanye/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 9b67ed0801f0d983817037f2f28ad32f93f611f55b8018e86016dc43afad995b
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/kanye/ROUTE_MATRIX.md"
+      exists: true
+      sha256: ddbc0204af8eade7177d68cd6d2c7b812843a62ad49d720bd20a255e1c979348
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/kanye/PROCEDURES.md"
+      exists: true
+      sha256: a72ed980cf98b669014218b7e6eca22a7ddaf447188222e0277ab93b79a800bb
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/kanye/config.yaml"
+      exists: true
+      sha256: 9cb679d7cfb99546c93f2ab74eec3c940126587fed6429c40bc34fb5a54b176f
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/kanye
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 9b67ed0801f0d983817037f2f28ad32f93f611f55b8018e86016dc43afad995b
+    - name: PROCEDURES.md
+      sha256: a72ed980cf98b669014218b7e6eca22a7ddaf447188222e0277ab93b79a800bb
+    - name: ROLE_PERMISSIONS.json
+      sha256: 79804fb41ddf5018366f3f0c920b12e284eaf1d1592906a6d2e1ba4211fcff3b
+    - name: ROLE_PERMISSIONS.md
+      sha256: 26b6ed4f11a532057a730dfd058cfd98e73c7c3146c94a28a5748782fdde5b53
+    - name: ROUTE_MATRIX.md
+      sha256: ddbc0204af8eade7177d68cd6d2c7b812843a62ad49d720bd20a255e1c979348
+    - name: SOUL.md
+      sha256: 6ce49cced2d115f6d244352281db05ba35d0ac253fd8fdaf16056f9a08653468
+    - name: config.governance-overlay.yaml
+      sha256: ac84fe9f14ce3859ebd3b9fcd1603d1ac30ae4612d06cfd0b1ec418531f48789
+  safir:
+    profile_dir: "/Users/moufdi/.brm-hermes/profiles/safir"
+    materialized: true
+    generated_soul_source_owned_elsewhere: false
+    platform_summary:
+      visible: 8
+      read_allowed: 8
+      write_conditional: 8
+    files:
+    - name: SOUL.md
+      path: "/Users/moufdi/.brm-hermes/profiles/safir/SOUL.md"
+      exists: true
+      sha256: bac639efb463c4bd240f5e36a93fb949415c68349b6e70abedad4f7475c57800
+    - name: ROLE_PERMISSIONS.md
+      path: "/Users/moufdi/.brm-hermes/profiles/safir/ROLE_PERMISSIONS.md"
+      exists: true
+      sha256: a5dfc0dbf2ba30d6cdc2c8b7608b6f0735187ce22c2e6e1a8833c56d402545c5
+    - name: ROLE_PERMISSIONS.json
+      path: "/Users/moufdi/.brm-hermes/profiles/safir/ROLE_PERMISSIONS.json"
+      exists: true
+      sha256: 8396af393745d6c4b454bb7b368bf2f97a8220863b0b8eb13e19edeeb024850a
+    - name: ENVIRONMENT_MAP.md
+      path: "/Users/moufdi/.brm-hermes/profiles/safir/ENVIRONMENT_MAP.md"
+      exists: true
+      sha256: 3570efad7cb86ff5f69d33f4647f86a0a0d960d9e8a9428f2de1cdeba816ab89
+    - name: ROUTE_MATRIX.md
+      path: "/Users/moufdi/.brm-hermes/profiles/safir/ROUTE_MATRIX.md"
+      exists: true
+      sha256: d4b212245c050b9e670d296dc861e572ea039fa1ada16801f3fa75d78d88b535
+    - name: PROCEDURES.md
+      path: "/Users/moufdi/.brm-hermes/profiles/safir/PROCEDURES.md"
+      exists: true
+      sha256: 7d95d7949fc69b5af85ad9a31f37ef1610c91217bb0dcadfe8cded95c499e95f
+    - name: config.yaml
+      path: "/Users/moufdi/.brm-hermes/profiles/safir/config.yaml"
+      exists: true
+      sha256: f68bccbdac67ebb7f3a9cb477aaea56fbbbd9391b14f156786efd02bc049cda8
+    profile_pack_dir: docs/ops/agent-governance/profile-pack/safir
+    profile_pack_files:
+    - name: ENVIRONMENT_MAP.md
+      sha256: 3570efad7cb86ff5f69d33f4647f86a0a0d960d9e8a9428f2de1cdeba816ab89
+    - name: PROCEDURES.md
+      sha256: 7d95d7949fc69b5af85ad9a31f37ef1610c91217bb0dcadfe8cded95c499e95f
+    - name: ROLE_PERMISSIONS.json
+      sha256: 8396af393745d6c4b454bb7b368bf2f97a8220863b0b8eb13e19edeeb024850a
+    - name: ROLE_PERMISSIONS.md
+      sha256: a5dfc0dbf2ba30d6cdc2c8b7608b6f0735187ce22c2e6e1a8833c56d402545c5
+    - name: ROUTE_MATRIX.md
+      sha256: d4b212245c050b9e670d296dc861e572ea039fa1ada16801f3fa75d78d88b535
+    - name: SOUL.md
+      sha256: bac639efb463c4bd240f5e36a93fb949415c68349b6e70abedad4f7475c57800
+    - name: config.governance-overlay.yaml
+      sha256: 6701850912b6ad39a6c39be0aa9264af997a828ce66a8f413b24674783614ff6

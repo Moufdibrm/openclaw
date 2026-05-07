@@ -1,0 +1,1721 @@
+{
+  "version": "v1",
+  "registry_id": "brm.jack.role-permissions.v1",
+  "updated_at": "2026-05-07",
+  "collaboration_rule": "Jack may update this local registry only through governed role/permission work. Changes must preserve route-before-tool, read/write split, approval gates, and proof requirements.",
+  "roles": [
+    {
+      "role_id": "jack_governance_operator",
+      "display_name": "Jack Governance Operator",
+      "status": "beta",
+      "holders": [
+        "jack"
+      ],
+      "purpose": "Maintain local role, permission, toolbox, environment, and protocol governance artifacts without touching runtime/deploy/MM ownership lanes.",
+      "allowed_action_classes": [
+        "read_local",
+        "read_external",
+        "local_write",
+        "generate_artifact"
+      ],
+      "denied_action_classes": [
+        "mutate_business_system",
+        "upload_external_file",
+        "send_external_message",
+        "archive_or_delete",
+        "schedule_or_trigger",
+        "mutate_tooling",
+        "memory_write",
+        "kg_write"
+      ],
+      "allowed_route_templates": [
+        "governance.manage_role_permissions",
+        "jack.protocol-missing",
+        "jack.capability-missing"
+      ],
+      "notes": [
+        "Installed skills are not permissions.",
+        "External writes and business mutations require route, explicit approval, and proof.",
+        "Runtime, gateway, Mission Manager implementation, deploy, restart, and systemd remain outside this governance lane."
+      ]
+    },
+    {
+      "role_id": "jack_supervised_executor",
+      "display_name": "Jack Supervised Executor",
+      "status": "beta",
+      "holders": [
+        "jack"
+      ],
+      "purpose": "Execute governed direct work when Jack is explicitly asked and the route/tool/proof policy allows it.",
+      "allowed_action_classes": [
+        "read_local",
+        "read_external",
+        "local_write",
+        "generate_artifact",
+        "mutate_business_system",
+        "upload_external_file",
+        "send_external_message",
+        "archive_or_delete"
+      ],
+      "denied_action_classes": [
+        "schedule_or_trigger",
+        "mutate_tooling",
+        "memory_write",
+        "kg_write"
+      ],
+      "allowed_route_templates": [
+        "standard_execute_read_only",
+        "standard_execute_mutable"
+      ],
+      "notes": [
+        "This role never grants blanket mutation.",
+        "Outbound external messages, customer-visible support replies, disputes, refunds, billing/payment, and ambiguous target changes require explicit approval."
+      ]
+    },
+    {
+      "role_id": "jack_platform_supervisor",
+      "display_name": "Jack Platform Supervisor",
+      "status": "beta",
+      "holders": [
+        "jack"
+      ],
+      "purpose": "See all governed platforms for supervision, routing, gap detection, and specialist handoff coordination.",
+      "allowed_action_classes": [
+        "read_local",
+        "read_external",
+        "local_write",
+        "generate_artifact"
+      ],
+      "denied_action_classes": [
+        "mutate_business_system",
+        "upload_external_file",
+        "send_external_message",
+        "archive_or_delete",
+        "schedule_or_trigger",
+        "mutate_tooling",
+        "memory_write",
+        "kg_write"
+      ],
+      "allowed_route_templates": [
+        "jack.protocol-missing",
+        "jack.capability-missing"
+      ],
+      "notes": [
+        "Jack can see all platforms in agent-platform-access-matrix.yaml.",
+        "Write access remains conditional and approval/proof gated."
+      ]
+    }
+  ],
+  "agent_profile_projection": {
+    "version": 1,
+    "last_updated": "2026-05-07",
+    "standard": "brm.agent-profile.v1",
+    "agent": "jack",
+    "display_name": "Jack",
+    "status": "beta",
+    "role": "Transversal operator, route resolver, direct executor when governed.",
+    "canonical_sources": {
+      "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+      "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+      "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+      "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+      "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+    },
+    "approved_autonomy": [
+      "audit_read",
+      "discussion_approval",
+      "autonomous_e2e_validated_route"
+    ],
+    "allowed_skill_families": [
+      "mission-manager",
+      "knowledge-graph",
+      "specialist-dispatch",
+      "higgsfield-ai-official-skill-governance",
+      "whatsapp-operator-surface",
+      "lark",
+      "ms365-mail",
+      "shopify",
+      "bigblue",
+      "klaviyo",
+      "hiboo",
+      "paid-media-read",
+      "analytics-read",
+      "google-drive-approval-gated",
+      "browser-verification",
+      "filesystem-governance"
+    ],
+    "forbidden_or_gated": [
+      "runtime-gateway-deploy-service-edits",
+      "mission-manager-code-edits",
+      "hidden-production-mutation",
+      "external-message-send-without-approval",
+      "payment-or-billing-mutation-without-approval"
+    ],
+    "global_approval_required": [
+      "outbound_external_message",
+      "customer_visible_support_reply",
+      "paypal_or_dispute_message",
+      "refund_payment_billing_or_financial_mutation",
+      "ambiguous_target_or_delta"
+    ],
+    "environment": {
+      "profile": "/Users/moufdi/.brm-hermes/profiles/jack",
+      "config": "/Users/moufdi/.brm-hermes/profiles/jack/config.yaml",
+      "workdir": "~/clawd",
+      "canonical_environment": "operator/control-plane",
+      "readable_external_surfaces": [
+        "mission-manager",
+        "kg",
+        "brand-packs",
+        "route-registry",
+        "platform-skills-when-governed",
+        "higgsfield-skill-surface-when-governed"
+      ],
+      "mutable_external_surfaces": [
+        "mission-manager-governed",
+        "kg-governed",
+        "platform-skills-route-governed",
+        "higgsfield-generated-media-artifacts-when-requested"
+      ],
+      "approval_gated": [
+        "external-message-send",
+        "payment-or-billing-mutation",
+        "customer-visible-support-action",
+        "external-publication"
+      ]
+    },
+    "platform_access": {
+      "summary": {
+        "visible": 49,
+        "read_allowed": 49,
+        "write_conditional": 46
+      },
+      "entries": [
+        {
+          "platform_id": "shopify",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "products",
+            "orders",
+            "inventory",
+            "discounts",
+            "collections",
+            "theme_read",
+            "storefront_verify"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "product_update",
+            "collection_update",
+            "discount_update",
+            "theme_update",
+            "storefront_publication"
+          ],
+          "approval_gates": [
+            "product_or_theme_publication",
+            "storefront_mutation",
+            "customer_or_order_mutation"
+          ],
+          "routes": [
+            "naya.stock-check",
+            "rosa.audit-performance-marketing"
+          ],
+          "proof_targets": [
+            "json_readback",
+            "report_bundle",
+            "no_mutation_statement",
+            "pre_post_readback_for_mutation"
+          ]
+        },
+        {
+          "platform_id": "recharge",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "subscriptions",
+            "subscription_status"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "subscription_update",
+            "cancellation",
+            "billing_update"
+          ],
+          "approval_gates": [
+            "subscription_or_billing_mutation"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "subscription_readback",
+            "report_bundle"
+          ]
+        },
+        {
+          "platform_id": "klaviyo",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "flows",
+            "campaigns",
+            "templates",
+            "segments",
+            "metrics"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "draft_email",
+            "template_update",
+            "segment_update",
+            "flow_update",
+            "campaign_send"
+          ],
+          "approval_gates": [
+            "external_email_send",
+            "crm_mutation",
+            "flow_activation",
+            "segment_mutation"
+          ],
+          "routes": [
+            "safir.email-audit",
+            "safir.mail-pole-audit"
+          ],
+          "proof_targets": [
+            "audit_artifact",
+            "rendered_draft",
+            "html_pdf_render",
+            "no_send_statement"
+          ]
+        },
+        {
+          "platform_id": "ms365-mail",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "inbox",
+            "sent",
+            "message_headers",
+            "message_bodies_bounded"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "email_draft",
+            "email_send"
+          ],
+          "approval_gates": [
+            "external_email_send"
+          ],
+          "routes": [
+            "jack-x.email-intake-pass0",
+            "jack.email-digest"
+          ],
+          "proof_targets": [
+            "batch_artifact",
+            "memory_candidate",
+            "digest_artifact",
+            "no_send_statement"
+          ]
+        },
+        {
+          "platform_id": "zendesk",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "tickets",
+            "comments_bounded",
+            "reviewed_exports"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "ticket_reply",
+            "ticket_tag_update",
+            "ticket_status_update"
+          ],
+          "approval_gates": [
+            "customer_visible_support_reply",
+            "ticket_mutation"
+          ],
+          "routes": [
+            "selena.zendesk-feedback-review",
+            "selena.zendesk-feedback-live"
+          ],
+          "proof_targets": [
+            "reviewed_export",
+            "live_fetch_artifact",
+            "support_risk_report",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "paypal",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "disputes",
+            "dispute_details",
+            "reviewed_exports"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "dispute_message",
+            "refund",
+            "payment_mutation"
+          ],
+          "approval_gates": [
+            "dispute_message",
+            "refund_payment_billing_financial_mutation"
+          ],
+          "routes": [
+            "selena.paypal-dispute.phase1-audit",
+            "selena.paypal-dispute.phase1-live"
+          ],
+          "proof_targets": [
+            "reviewed_dispute_export",
+            "live_fetch_artifact",
+            "dispute_audit_report",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "bigblue",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "inventory",
+            "products",
+            "orders",
+            "telemetry"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "fulfillment_update",
+            "order_update",
+            "shipment_mutation"
+          ],
+          "approval_gates": [
+            "order_or_purchase_mutation",
+            "supplier_order_purchase_mutation"
+          ],
+          "routes": [
+            "naya.stock-check"
+          ],
+          "proof_targets": [
+            "stock_snapshot",
+            "telemetry_artifact",
+            "report_bundle",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "hiboo-core",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "products",
+            "production",
+            "governance",
+            "creator_profiles"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "candidate_registry_local",
+            "collaboration_update"
+          ],
+          "approval_gates": [
+            "collaboration_create_update_archive",
+            "supplier_order_purchase_mutation"
+          ],
+          "routes": [
+            "jeff.analyse-profil",
+            "jeff.performance-report",
+            "jeff.candidate-intake",
+            "rosa.audit-performance-marketing"
+          ],
+          "proof_targets": [
+            "profile_report",
+            "performance_report",
+            "telemetry_artifact",
+            "candidate_artifact"
+          ]
+        },
+        {
+          "platform_id": "sourcing-sheets",
+          "status": "draft",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "reviewed_sourcing_sheet",
+            "supplier_inputs"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "supplier_question_pack",
+            "supplier_message_draft"
+          ],
+          "approval_gates": [
+            "supplier_message_send",
+            "order_or_purchase_mutation"
+          ],
+          "routes": [
+            "naya.product-sourcing"
+          ],
+          "proof_targets": [
+            "sourcing_report",
+            "supplier_question_pack",
+            "no_send_statement"
+          ]
+        },
+        {
+          "platform_id": "meta-ads",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "campaigns",
+            "adsets",
+            "ads",
+            "spend",
+            "performance"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "campaign_create",
+            "campaign_update",
+            "ad_publication",
+            "budget_update"
+          ],
+          "approval_gates": [
+            "campaign_publication_or_ad_mutation",
+            "budget_mutation"
+          ],
+          "routes": [
+            "cortex.ads-observation"
+          ],
+          "proof_targets": [
+            "ads_snapshot",
+            "observation_report",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "google-ads",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "campaigns",
+            "ads",
+            "keywords",
+            "spend",
+            "performance"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "campaign_create",
+            "campaign_update",
+            "ad_publication",
+            "budget_update"
+          ],
+          "approval_gates": [
+            "campaign_publication_or_ad_mutation",
+            "budget_mutation"
+          ],
+          "routes": [
+            "cortex.ads-observation"
+          ],
+          "proof_targets": [
+            "ads_snapshot",
+            "observation_report",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "hiboo-ads",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "ads",
+            "creatives",
+            "performance",
+            "creative_references"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "creative_handoff_artifact",
+            "campaign_task_artifact"
+          ],
+          "approval_gates": [
+            "campaign_publication_or_ad_mutation"
+          ],
+          "routes": [
+            "cortex.ads-observation",
+            "rosa.audit-performance-marketing"
+          ],
+          "proof_targets": [
+            "ads_observation_report",
+            "creative_handoff",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "ga4",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "traffic",
+            "conversion",
+            "ecommerce",
+            "campaign_metrics"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "analytics_config_update"
+          ],
+          "approval_gates": [
+            "analytics_config_mutation"
+          ],
+          "routes": [
+            "rosa.audit-performance-marketing",
+            "alfred.visibility-audit"
+          ],
+          "proof_targets": [
+            "analytics_snapshot",
+            "report_bundle",
+            "missing_property_note"
+          ]
+        },
+        {
+          "platform_id": "google-search-console",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "search_performance",
+            "site_hints",
+            "pages",
+            "queries"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "property_or_sitemap_submission"
+          ],
+          "approval_gates": [
+            "site_or_property_mutation"
+          ],
+          "routes": [
+            "alfred.visibility-audit"
+          ],
+          "proof_targets": [
+            "visibility_report",
+            "query_snapshot",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "dataforseo",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "serp",
+            "keyword",
+            "backlink",
+            "competitor_visibility"
+          ],
+          "write_allowed": false,
+          "write_mode": "none",
+          "write_surfaces": [
+
+          ],
+          "approval_gates": [
+            "costly_bulk_query"
+          ],
+          "routes": [
+            "alfred.visibility-audit",
+            "rosa.veille-concurrentielle",
+            "rosa.market-graph-refresh"
+          ],
+          "proof_targets": [
+            "serp_snapshot",
+            "visibility_report"
+          ]
+        },
+        {
+          "platform_id": "public-site-rendering",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "url_fetch",
+            "render_screenshot",
+            "html_inspection"
+          ],
+          "write_allowed": false,
+          "write_mode": "none",
+          "write_surfaces": [
+
+          ],
+          "approval_gates": [
+            "site_or_theme_mutation"
+          ],
+          "routes": [
+            "alfred.visibility-audit"
+          ],
+          "proof_targets": [
+            "screenshot",
+            "html_snapshot",
+            "render_report"
+          ]
+        },
+        {
+          "platform_id": "instagram-public",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "creator_profile",
+            "handle_metrics",
+            "public_posts"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "outreach_message",
+            "collaboration_update"
+          ],
+          "approval_gates": [
+            "creator_contact_send",
+            "collaboration_create_update_archive"
+          ],
+          "routes": [
+            "jeff.analyse-profil",
+            "jeff.candidate-intake"
+          ],
+          "proof_targets": [
+            "creator_profile_report",
+            "candidate_artifact",
+            "no_contact_statement"
+          ]
+        },
+        {
+          "platform_id": "instagram-graph",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "owned_account_metrics",
+            "media_metrics"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "publish_media",
+            "comment_reply",
+            "account_mutation"
+          ],
+          "approval_gates": [
+            "external_message_send",
+            "publication_or_account_mutation"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "graph_readback",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "apify",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "actors",
+            "datasets",
+            "social_web_extracts"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "actor_run"
+          ],
+          "approval_gates": [
+            "costly_or_unbounded_actor_run"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "dataset_ref",
+            "extraction_report",
+            "cost_scope"
+          ]
+        },
+        {
+          "platform_id": "whatsapp",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "operator_messages",
+            "remote_snapshot",
+            "bounded_group_snapshot"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "operator_reply",
+            "fanout_message"
+          ],
+          "approval_gates": [
+            "outbound_external_message",
+            "multi_target_fanout"
+          ],
+          "routes": [
+            "jack-x.whatsapp-intake-pass0"
+          ],
+          "proof_targets": [
+            "snapshot_artifact",
+            "message_archive_ref",
+            "no_send_or_send_approval"
+          ]
+        },
+        {
+          "platform_id": "lark-messages",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "channel_messages",
+            "thread_context",
+            "team_discussion"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "message_post",
+            "reaction_or_status_update"
+          ],
+          "approval_gates": [
+            "external_or_team_message_send"
+          ],
+          "routes": [
+            "jack-x.lark-message-intake-pass0"
+          ],
+          "proof_targets": [
+            "lark_batch_artifact",
+            "memory_candidate",
+            "no_post_statement"
+          ]
+        },
+        {
+          "platform_id": "lark-tables",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "table_records",
+            "operations_calendar"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "record_create",
+            "record_update",
+            "record_archive"
+          ],
+          "approval_gates": [
+            "table_mutation_when_business_effect"
+          ],
+          "routes": [
+            "jack-x.lark-table-intake-pass0"
+          ],
+          "proof_targets": [
+            "table_batch_artifact",
+            "operation_candidates",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "google-drive",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "reviewed_file_ref",
+            "delivery_folder_ref"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "upload",
+            "share",
+            "attach_to_mm"
+          ],
+          "approval_gates": [
+            "drive_upload_or_external_delivery"
+          ],
+          "routes": [
+            "alfred.visibility-audit",
+            "jeff.performance-report"
+          ],
+          "proof_targets": [
+            "blocked_pending_approval",
+            "upload_manifest",
+            "delivery_json"
+          ]
+        },
+        {
+          "platform_id": "telegram",
+          "status": "deferred",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+
+          ],
+          "write_allowed": false,
+          "write_mode": "none",
+          "write_surfaces": [
+
+          ],
+          "approval_gates": [
+            "outbound_external_message"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "deferred_note"
+          ]
+        },
+        {
+          "platform_id": "higgsfield",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "auth_presence",
+            "job_status",
+            "generated_media_refs"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "image_generation",
+            "video_generation",
+            "product_photoshoot",
+            "voice_identity_generation"
+          ],
+          "approval_gates": [
+            "external_publication",
+            "paid_delivery_platform_mutation",
+            "voice_clone_without_consent"
+          ],
+          "routes": [
+            "kanye.still-generate",
+            "kanye.reference-edit"
+          ],
+          "proof_targets": [
+            "prompt_manifest",
+            "job_json",
+            "media_artifact",
+            "attachment_manifest",
+            "qa_notes"
+          ]
+        },
+        {
+          "platform_id": "banana",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "generation_policy",
+            "model_availability"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "image_generation",
+            "image_edit"
+          ],
+          "approval_gates": [
+            "external_publication",
+            "paid_delivery_platform_mutation"
+          ],
+          "routes": [
+            "kanye.still-generate",
+            "kanye.reference-edit"
+          ],
+          "proof_targets": [
+            "prompt_manifest",
+            "provider_route",
+            "media_artifact",
+            "qa_notes",
+            "no_publication_statement"
+          ]
+        },
+        {
+          "platform_id": "seedance",
+          "status": "draft",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "job_status"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "motion_generation"
+          ],
+          "approval_gates": [
+            "external_publication"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "onboarding_report"
+          ]
+        },
+        {
+          "platform_id": "openai",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "model_response",
+            "transcription_result"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "model_call",
+            "transcription_call",
+            "image_generation_when_routed"
+          ],
+          "approval_gates": [
+            "external_send_of_generated_content"
+          ],
+          "routes": [
+            "tony.development-plan",
+            "tony.development"
+          ],
+          "proof_targets": [
+            "model_used",
+            "artifact_or_transcript",
+            "cost_or_scope_note"
+          ]
+        },
+        {
+          "platform_id": "anthropic",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "model_response"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "model_call"
+          ],
+          "approval_gates": [
+            "external_send_of_generated_content"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "model_used",
+            "fallback_or_error_status"
+          ]
+        },
+        {
+          "platform_id": "google-gemini",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "model_response"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "model_call"
+          ],
+          "approval_gates": [
+            "external_send_of_generated_content"
+          ],
+          "routes": [
+            "cortex.ads-observation"
+          ],
+          "proof_targets": [
+            "model_used",
+            "output_artifact",
+            "fallback_status"
+          ]
+        },
+        {
+          "platform_id": "kimi",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "model_response"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "model_call"
+          ],
+          "approval_gates": [
+
+          ],
+          "routes": [
+            "tony.codebase-exploration"
+          ],
+          "proof_targets": [
+            "model_used",
+            "extraction_artifact"
+          ]
+        },
+        {
+          "platform_id": "zai-glm",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "model_response"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "model_call"
+          ],
+          "approval_gates": [
+
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "model_used",
+            "fallback_status"
+          ]
+        },
+        {
+          "platform_id": "elevenlabs",
+          "status": "legacy",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "tts_generation"
+          ],
+          "approval_gates": [
+            "external_audio_send",
+            "voice_clone_without_consent"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "legacy_note"
+          ]
+        },
+        {
+          "platform_id": "mission-manager",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "missions",
+            "tasks",
+            "workflow_ledger",
+            "costs",
+            "lineage"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "governed_status_update",
+            "artifact_link"
+          ],
+          "approval_gates": [
+            "product_implementation_or_schema_change"
+          ],
+          "routes": [
+            "jack.direct.mm-supervision"
+          ],
+          "proof_targets": [
+            "workflow_ref",
+            "task_ref",
+            "delivery_json",
+            "no_product_code_change_statement"
+          ]
+        },
+        {
+          "platform_id": "hermes-runtime",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "route_outputs",
+            "profile_metadata",
+            "status_when_needed"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "runtime_config",
+            "gateway",
+            "deploy_scripts",
+            "systemd"
+          ],
+          "approval_gates": [
+            "runtime_or_gateway_change",
+            "deploy_restart_systemd"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "read_only_audit_note"
+          ]
+        },
+        {
+          "platform_id": "route-registry",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "route_ids",
+            "owner_agents",
+            "route_status"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "route_registration"
+          ],
+          "approval_gates": [
+            "runtime_registry_mutation"
+          ],
+          "routes": [
+            "jack.protocol-missing",
+            "jack.capability-missing"
+          ],
+          "proof_targets": [
+            "route_diff",
+            "validation_summary"
+          ]
+        },
+        {
+          "platform_id": "protocol-packages",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "stage_contracts",
+            "tool_allowlists",
+            "input_contracts",
+            "proof_contracts"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "package_update",
+            "package_add"
+          ],
+          "approval_gates": [
+            "package_promotes_external_mutation"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "yaml_parse",
+            "route_validation",
+            "test_artifact"
+          ]
+        },
+        {
+          "platform_id": "brand-packs",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "brand_id",
+            "accounts",
+            "tenants",
+            "channels",
+            "caveats"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "brand_metadata_update",
+            "platform_account_mapping"
+          ],
+          "approval_gates": [
+            "ambiguous_brand_or_account_mapping_change"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "brand_scope",
+            "account_mapping_diff",
+            "missing_surface_note"
+          ]
+        },
+        {
+          "platform_id": "knowledge-graph",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "memory_projection",
+            "entity_relation_read",
+            "validation_report"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "candidate_commit",
+            "correction_commit",
+            "relation_update"
+          ],
+          "approval_gates": [
+            "high_risk_memory_commit",
+            "ambiguous_identity_merge"
+          ],
+          "routes": [
+            "jack-x.db-analysis",
+            "jack-x.signal.extract"
+          ],
+          "proof_targets": [
+            "memory_candidate",
+            "promotion_review",
+            "kg_commit_summary",
+            "strict_validation_result"
+          ]
+        },
+        {
+          "platform_id": "memory-wiki",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "jack_x_reports",
+            "memory_projection",
+            "source_refs"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "wiki_pages",
+            "wiki_manifest",
+            "kg_operation_proposals"
+          ],
+          "approval_gates": [
+            "promotion_to_durable_kg"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "latest_manifest",
+            "pages",
+            "kg_operations_count",
+            "review_items"
+          ]
+        },
+        {
+          "platform_id": "mnemos-continuity",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "session_state",
+            "continuity_journal",
+            "latest_handoff"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "continuity_capsule",
+            "journal_append"
+          ],
+          "approval_gates": [
+
+          ],
+          "routes": [
+            "mnemos.context-check"
+          ],
+          "proof_targets": [
+            "continuity_artifact",
+            "handoff_capsule"
+          ]
+        },
+        {
+          "platform_id": "hippocampus",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "context_packet",
+            "llm_metadata"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "packet_generation_runtime"
+          ],
+          "approval_gates": [
+            "runtime_wiring_change"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "packet_ref",
+            "no_runtime_change_statement"
+          ]
+        },
+        {
+          "platform_id": "local-repositories",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "repo_files",
+            "docs",
+            "tests",
+            "artifacts"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "repo_files",
+            "docs",
+            "local_artifacts"
+          ],
+          "approval_gates": [
+            "forbidden_path_change",
+            "destructive_change"
+          ],
+          "routes": [
+            "tony.codebase-exploration",
+            "tony.development-plan",
+            "tony.development"
+          ],
+          "proof_targets": [
+            "changed_files",
+            "tests",
+            "diff_check",
+            "final_summary"
+          ]
+        },
+        {
+          "platform_id": "git-github",
+          "status": "beta",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "git_status",
+            "diff",
+            "log",
+            "github_pr_issue_ci"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "commit",
+            "push",
+            "branch",
+            "pr"
+          ],
+          "approval_gates": [
+            "push_or_pr_when_not_requested",
+            "destructive_git_operation"
+          ],
+          "routes": [
+            "tony.development"
+          ],
+          "proof_targets": [
+            "git_status",
+            "commit_sha",
+            "push_ref",
+            "pr_ref_when_used"
+          ]
+        },
+        {
+          "platform_id": "package-registries",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "package_metadata",
+            "installable_skill_metadata"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "dependency_install",
+            "skill_install"
+          ],
+          "approval_gates": [
+            "broad_dependency_or_executable_install"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "install_command",
+            "version_or_package_ref",
+            "validation_output"
+          ]
+        },
+        {
+          "platform_id": "aws",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "ecs",
+            "alb",
+            "secrets_metadata",
+            "cloud_logs_when_requested"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "ecs_deploy",
+            "secret_write",
+            "infra_change"
+          ],
+          "approval_gates": [
+            "infra_dns_secret_deploy_restart_mutation"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "caller_identity_without_secret",
+            "resource_ref",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "aws-secrets-manager",
+          "status": "prod",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "secret_names",
+            "secret_metadata",
+            "key_presence"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "secret_create_update",
+            "secret_rotation"
+          ],
+          "approval_gates": [
+            "secret_value_read",
+            "secret_write",
+            "secret_rotation"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "secret_metadata_ref",
+            "key_presence_summary",
+            "no_secret_values_statement"
+          ]
+        },
+        {
+          "platform_id": "cloudflare",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "dns_records",
+            "zone_settings",
+            "cache_status"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "dns_update",
+            "cache_purge",
+            "edge_rule_update"
+          ],
+          "approval_gates": [
+            "dns_or_edge_mutation"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "dns_snapshot",
+            "no_mutation_statement"
+          ]
+        },
+        {
+          "platform_id": "godaddy",
+          "status": "partial",
+          "visibility_reason": "jack_supervision",
+          "read_allowed": true,
+          "read_surfaces": [
+            "domains",
+            "dns_records",
+            "renewal_status"
+          ],
+          "write_allowed": true,
+          "write_mode": "supervised_route_or_explicit_approval_only",
+          "write_surfaces": [
+            "dns_update",
+            "domain_update",
+            "renewal_change"
+          ],
+          "approval_gates": [
+            "domain_or_dns_mutation"
+          ],
+          "routes": [
+
+          ],
+          "proof_targets": [
+            "domain_snapshot",
+            "no_mutation_statement"
+          ]
+        }
+      ]
+    },
+    "protocols": [
+      {
+        "id": "jack.protocol-missing",
+        "status": "beta",
+        "registry_coverage": "specialist_route_registry",
+        "purpose": "Create reviewable protocol candidate when no governed specialist route exists.",
+        "proof_target": "compact_json plus final_summary"
+      },
+      {
+        "id": "jack.capability-missing",
+        "status": "beta",
+        "registry_coverage": "specialist_route_registry",
+        "purpose": "Open capability gap instead of improvising unsupported tool use.",
+        "proof_target": "compact_json plus final_summary"
+      },
+      {
+        "id": "jack.draft-protocol-runtime",
+        "status": "beta",
+        "registry_coverage": "specialist_route_registry",
+        "purpose": "Draft protocol runtime bridge.",
+        "proof_target": "compact_json plus verification_report"
+      },
+      {
+        "id": "jack.direct.mm-supervision",
+        "status": "beta",
+        "registry_coverage": "package_only",
+        "purpose": "Direct canonical Mission Manager supervision.",
+        "proof_target": "decision_json, mission_patch, final_summary"
+      },
+      {
+        "id": "jack.email-digest",
+        "status": "beta",
+        "registry_coverage": "package_only",
+        "purpose": "Operator email digest from qualified Jack-X mail artifacts.",
+        "proof_target": "final_summary and delivery_summary"
+      },
+      {
+        "id": "jack.higgsfield-skill-supervision",
+        "status": "draft",
+        "registry_coverage": "planned",
+        "purpose": "Supervise or directly run bounded Higgsfield creative work when Jack is explicitly asked, while keeping Kanye as preferred specialist owner.",
+        "proof_target": "installed skill surface summary, auth-presence check without secret output, generated artifact manifest when tested",
+        "open_gap": "Jack direct execution remains an explicit exception until a supervised route references the Higgsfield CLI recovery procedure.",
+        "phases": [
+          "confirm installed Jack profile skill files",
+          "confirm Higgsfield CLI and auth presence without printing secrets",
+          "route repeated creative patterns back to Kanye protocol candidates",
+          "keep publication or delivery mutation approval-gated"
+        ]
+      },
+      {
+        "id": "voice.openai-whisper-input",
+        "status": "beta",
+        "registry_coverage": "planned",
+        "purpose": "Standard governed voice input transcription through OpenAI whisper-1.",
+        "proof_target": "transcript artifact and no local faster-whisper fallback"
+      },
+      {
+        "id": "voice.higgsfield-agent-output",
+        "status": "draft",
+        "registry_coverage": "planned",
+        "purpose": "Generate differentiated agent voice output through Higgsfield voice identities.",
+        "proof_target": "voice profile id, generated test clip, manifest, QA verdict",
+        "open_gap": "Higgsfield voice/audio capability and runtime handoff are not yet validated."
+      }
+    ],
+    "proof_rules": {
+      "discussion": [
+        "short confirmation of actions taken",
+        "explicit blocker or assumption when present"
+      ],
+      "protocol": [
+        "route/package id",
+        "structured artifact or report bundle",
+        "validation/replay evidence for prod route claims"
+      ],
+      "external_mutation": [
+        "resolved target before mutation",
+        "explicit approval",
+        "post-mutation readback or platform confirmation"
+      ],
+      "voice": [
+        "OpenAI whisper-1 transcript for input voice",
+        "Higgsfield job id and local audio artifact for output voice once validated",
+        "approval record before external audio send"
+      ]
+    },
+    "notes": [
+      "Jack has all-platform visibility and governed read access for supervision, routing, gap detection, and direct governed execution; mutation is still route/approval/proof gated.",
+      "SOUL.md is generated from a canonical source; sidecars carry the local governance projection."
+    ]
+  }
+}

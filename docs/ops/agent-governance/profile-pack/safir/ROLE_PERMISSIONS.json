@@ -1,0 +1,347 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "safir",
+  "display_name": "Safir",
+  "status": "beta",
+  "role": "Email and CRM audit, email workflow design and drafting.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "discussion_approval",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "ms365-mail-read",
+    "klaviyo-read",
+    "email-template-analysis",
+    "image-design-for-email",
+    "creative-asset-request-via-kanye",
+    "filesystem-reporting"
+  ],
+  "forbidden_or_gated": [
+    "direct-higgsfield-generation",
+    "external-email-send-without-approval",
+    "crm-mutation-without-route-and-approval"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/safir",
+    "config": "/Users/moufdi/.brm-hermes/profiles/safir/config.yaml",
+    "workdir": "~/.openclaw/workspace-safir",
+    "canonical_environment": "email-crm",
+    "readable_external_surfaces": [
+      "ms365-mail",
+      "klaviyo",
+      "email-template-inputs"
+    ],
+    "mutable_external_surfaces": [
+      "local-report-artifacts",
+      "local-email-drafts"
+    ],
+    "approval_gated": [
+      "external-email-send",
+      "crm-mutation"
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 8,
+      "read_allowed": 8,
+      "write_conditional": 8
+    },
+    "entries": [
+      {
+        "platform_id": "klaviyo",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "flows",
+          "campaigns",
+          "templates",
+          "segments",
+          "metrics"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "draft_email",
+          "template_update",
+          "segment_update",
+          "flow_update",
+          "campaign_send"
+        ],
+        "approval_gates": [
+          "external_email_send",
+          "crm_mutation",
+          "flow_activation",
+          "segment_mutation"
+        ],
+        "routes": [
+          "safir.email-audit",
+          "safir.mail-pole-audit"
+        ],
+        "proof_targets": [
+          "audit_artifact",
+          "rendered_draft",
+          "html_pdf_render",
+          "no_send_statement"
+        ]
+      },
+      {
+        "platform_id": "ms365-mail",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "inbox",
+          "sent",
+          "message_headers",
+          "message_bodies_bounded"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "email_draft",
+          "email_send"
+        ],
+        "approval_gates": [
+          "external_email_send"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "batch_artifact",
+          "memory_candidate",
+          "digest_artifact",
+          "no_send_statement"
+        ]
+      },
+      {
+        "platform_id": "lark-messages",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "channel_messages",
+          "thread_context",
+          "team_discussion"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "message_post",
+          "reaction_or_status_update"
+        ],
+        "approval_gates": [
+          "external_or_team_message_send"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "lark_batch_artifact",
+          "memory_candidate",
+          "no_post_statement"
+        ]
+      },
+      {
+        "platform_id": "lark-tables",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "table_records",
+          "operations_calendar"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "record_create",
+          "record_update",
+          "record_archive"
+        ],
+        "approval_gates": [
+          "table_mutation_when_business_effect"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "table_batch_artifact",
+          "operation_candidates",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "openai",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response",
+          "transcription_result"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "model_call",
+          "transcription_call",
+          "image_generation_when_routed"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "model_used",
+          "artifact_or_transcript",
+          "cost_or_scope_note"
+        ]
+      },
+      {
+        "platform_id": "anthropic",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "model_call"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "model_used",
+          "fallback_or_error_status"
+        ]
+      },
+      {
+        "platform_id": "google-gemini",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "model_response"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "model_call"
+        ],
+        "approval_gates": [
+          "external_send_of_generated_content"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "model_used",
+          "output_artifact",
+          "fallback_status"
+        ]
+      },
+      {
+        "platform_id": "brand-packs",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "brand_id",
+          "accounts",
+          "tenants",
+          "channels",
+          "caveats"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "brand_metadata_update",
+          "platform_account_mapping"
+        ],
+        "approval_gates": [
+          "ambiguous_brand_or_account_mapping_change"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "brand_scope",
+          "account_mapping_diff",
+          "missing_surface_note"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "safir.email-audit",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Email audit report.",
+      "proof_target": "safir_email_audit and final_summary"
+    },
+    {
+      "id": "safir.mail-pole-audit",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Mail pole audit.",
+      "proof_target": "safir_mail_pole_audit and final_summary"
+    },
+    {
+      "id": "safir.email-workflow",
+      "status": "draft",
+      "registry_coverage": "planned",
+      "purpose": "Email workflow generation and design. Reopen with improved GPT Image / Claude design model floor.",
+      "proof_target": "draft email workflow artifact, render proof, approval before send"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+
+  ]
+}

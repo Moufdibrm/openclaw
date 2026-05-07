@@ -1,0 +1,377 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "alfred",
+  "display_name": "Alfred",
+  "status": "beta",
+  "role": "SEO visibility, strategy plan, deployment feedback artifacts.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "discussion_approval",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "gsc-read",
+    "dataforseo-read",
+    "ga4-read",
+    "site-audit-read",
+    "filesystem-reporting",
+    "google-drive-approval-gated"
+  ],
+  "forbidden_or_gated": [
+    "site-or-theme-mutation-without-route",
+    "external-publication-without-approval"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/alfred",
+    "config": "/Users/moufdi/.brm-hermes/profiles/alfred/config.yaml",
+    "workdir": "~/.openclaw/workspace-alfred",
+    "canonical_environment": "seo",
+    "readable_external_surfaces": [
+      "gsc",
+      "dataforseo",
+      "ga4",
+      "site-rendering"
+    ],
+    "mutable_external_surfaces": [
+      "local-report-artifacts"
+    ],
+    "approval_gated": [
+      "drive-upload",
+      "site-or-theme-mutation"
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 9,
+      "read_allowed": 9,
+      "write_conditional": 7
+    },
+    "entries": [
+      {
+        "platform_id": "shopify",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "products",
+          "orders",
+          "inventory",
+          "discounts",
+          "collections",
+          "theme_read",
+          "storefront_verify"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "product_update",
+          "collection_update",
+          "discount_update",
+          "theme_update",
+          "storefront_publication"
+        ],
+        "approval_gates": [
+          "product_or_theme_publication",
+          "storefront_mutation",
+          "customer_or_order_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "json_readback",
+          "report_bundle",
+          "no_mutation_statement",
+          "pre_post_readback_for_mutation"
+        ]
+      },
+      {
+        "platform_id": "ga4",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "traffic",
+          "conversion",
+          "ecommerce",
+          "campaign_metrics"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "analytics_config_update"
+        ],
+        "approval_gates": [
+          "analytics_config_mutation"
+        ],
+        "routes": [
+          "alfred.visibility-audit"
+        ],
+        "proof_targets": [
+          "analytics_snapshot",
+          "report_bundle",
+          "missing_property_note"
+        ]
+      },
+      {
+        "platform_id": "google-search-console",
+        "status": "prod",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "search_performance",
+          "site_hints",
+          "pages",
+          "queries"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "property_or_sitemap_submission"
+        ],
+        "approval_gates": [
+          "site_or_property_mutation"
+        ],
+        "routes": [
+          "alfred.visibility-audit"
+        ],
+        "proof_targets": [
+          "visibility_report",
+          "query_snapshot",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "dataforseo",
+        "status": "prod",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "serp",
+          "keyword",
+          "backlink",
+          "competitor_visibility"
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "costly_bulk_query"
+        ],
+        "routes": [
+          "alfred.visibility-audit"
+        ],
+        "proof_targets": [
+          "serp_snapshot",
+          "visibility_report"
+        ]
+      },
+      {
+        "platform_id": "public-site-rendering",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "url_fetch",
+          "render_screenshot",
+          "html_inspection"
+        ],
+        "write_allowed": false,
+        "write_mode": "none",
+        "write_surfaces": [
+
+        ],
+        "approval_gates": [
+          "site_or_theme_mutation"
+        ],
+        "routes": [
+          "alfred.visibility-audit"
+        ],
+        "proof_targets": [
+          "screenshot",
+          "html_snapshot",
+          "render_report"
+        ]
+      },
+      {
+        "platform_id": "google-drive",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "reviewed_file_ref",
+          "delivery_folder_ref"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "upload",
+          "share",
+          "attach_to_mm"
+        ],
+        "approval_gates": [
+          "drive_upload_or_external_delivery"
+        ],
+        "routes": [
+          "alfred.visibility-audit"
+        ],
+        "proof_targets": [
+          "blocked_pending_approval",
+          "upload_manifest",
+          "delivery_json"
+        ]
+      },
+      {
+        "platform_id": "brand-packs",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "brand_id",
+          "accounts",
+          "tenants",
+          "channels",
+          "caveats"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "brand_metadata_update",
+          "platform_account_mapping"
+        ],
+        "approval_gates": [
+          "ambiguous_brand_or_account_mapping_change"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "brand_scope",
+          "account_mapping_diff",
+          "missing_surface_note"
+        ]
+      },
+      {
+        "platform_id": "cloudflare",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "dns_records",
+          "zone_settings",
+          "cache_status"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "dns_update",
+          "cache_purge",
+          "edge_rule_update"
+        ],
+        "approval_gates": [
+          "dns_or_edge_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "dns_snapshot",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "godaddy",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "domains",
+          "dns_records",
+          "renewal_status"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "dns_update",
+          "domain_update",
+          "renewal_change"
+        ],
+        "approval_gates": [
+          "domain_or_dns_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "domain_snapshot",
+          "no_mutation_statement"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "alfred.visibility-audit",
+      "status": "prod",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "SEO visibility audit.",
+      "proof_target": "HTML/PDF/JSON report bundle and verification_json"
+    },
+    {
+      "id": "alfred.strategy-plan",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Strategy plan from phase1 artifacts.",
+      "proof_target": "strategy report and workboard"
+    },
+    {
+      "id": "alfred.deployment-feedback-loop",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Deployment feedback loop artifacts.",
+      "proof_target": "feedback report and queue artifacts"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+
+  ]
+}

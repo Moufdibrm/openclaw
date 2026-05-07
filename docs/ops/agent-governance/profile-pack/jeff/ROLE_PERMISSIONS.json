@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "last_updated": "2026-05-07",
+  "standard": "brm.agent-profile.v1",
+  "agent": "jeff",
+  "display_name": "Jeff",
+  "status": "beta",
+  "role": "Influence, creator operations, outreach, collaboration analysis.",
+  "canonical_sources": {
+    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  },
+  "approved_autonomy": [
+    "audit_read",
+    "discussion_approval",
+    "autonomous_e2e_validated_route"
+  ],
+  "allowed_skill_families": [
+    "hiboo-creators",
+    "creator-profile-read",
+    "inbox-signal-read",
+    "candidate-registry",
+    "filesystem-reporting",
+    "google-drive-approval-gated"
+  ],
+  "forbidden_or_gated": [
+    "creator-contact-send-without-approval",
+    "collaboration-mutation-without-approval",
+    "payment-or-contract-mutation-without-approval"
+  ],
+  "global_approval_required": [
+    "outbound_external_message",
+    "customer_visible_support_reply",
+    "paypal_or_dispute_message",
+    "refund_payment_billing_or_financial_mutation",
+    "ambiguous_target_or_delta"
+  ],
+  "environment": {
+    "profile": "/Users/moufdi/.brm-hermes/profiles/jeff",
+    "config": "/Users/moufdi/.brm-hermes/profiles/jeff/config.yaml",
+    "workdir": "~/.openclaw/workspace-jeff",
+    "canonical_environment": "influence/creator-ops",
+    "readable_external_surfaces": [
+      "hiboo",
+      "creator-profile-inputs",
+      "inbox-signal-inputs",
+      "candidate-registry"
+    ],
+    "mutable_external_surfaces": [
+      "local-report-artifacts",
+      "candidate-registry-local"
+    ],
+    "approval_gated": [
+      "creator-contact-send",
+      "collaboration-create-update-archive"
+    ]
+  },
+  "platform_access": {
+    "summary": {
+      "visible": 5,
+      "read_allowed": 5,
+      "write_conditional": 5
+    },
+    "entries": [
+      {
+        "platform_id": "hiboo-core",
+        "status": "beta",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "products",
+          "production",
+          "governance",
+          "creator_profiles"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "candidate_registry_local",
+          "collaboration_update"
+        ],
+        "approval_gates": [
+          "collaboration_create_update_archive",
+          "supplier_order_purchase_mutation"
+        ],
+        "routes": [
+          "jeff.analyse-profil",
+          "jeff.performance-report",
+          "jeff.candidate-intake"
+        ],
+        "proof_targets": [
+          "profile_report",
+          "performance_report",
+          "telemetry_artifact",
+          "candidate_artifact"
+        ]
+      },
+      {
+        "platform_id": "instagram-public",
+        "status": "beta",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "creator_profile",
+          "handle_metrics",
+          "public_posts"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "outreach_message",
+          "collaboration_update"
+        ],
+        "approval_gates": [
+          "creator_contact_send",
+          "collaboration_create_update_archive"
+        ],
+        "routes": [
+          "jeff.analyse-profil",
+          "jeff.candidate-intake"
+        ],
+        "proof_targets": [
+          "creator_profile_report",
+          "candidate_artifact",
+          "no_contact_statement"
+        ]
+      },
+      {
+        "platform_id": "instagram-graph",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "owned_account_metrics",
+          "media_metrics"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "publish_media",
+          "comment_reply",
+          "account_mutation"
+        ],
+        "approval_gates": [
+          "external_message_send",
+          "publication_or_account_mutation"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "graph_readback",
+          "no_mutation_statement"
+        ]
+      },
+      {
+        "platform_id": "apify",
+        "status": "partial",
+        "visibility_reason": "primary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "actors",
+          "datasets",
+          "social_web_extracts"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_owner",
+        "write_surfaces": [
+          "actor_run"
+        ],
+        "approval_gates": [
+          "costly_or_unbounded_actor_run"
+        ],
+        "routes": [
+
+        ],
+        "proof_targets": [
+          "dataset_ref",
+          "extraction_report",
+          "cost_scope"
+        ]
+      },
+      {
+        "platform_id": "google-drive",
+        "status": "partial",
+        "visibility_reason": "secondary_owner",
+        "read_allowed": true,
+        "read_surfaces": [
+          "reviewed_file_ref",
+          "delivery_folder_ref"
+        ],
+        "write_allowed": true,
+        "write_mode": "route_or_approval_gated_secondary",
+        "write_surfaces": [
+          "upload",
+          "share",
+          "attach_to_mm"
+        ],
+        "approval_gates": [
+          "drive_upload_or_external_delivery"
+        ],
+        "routes": [
+          "jeff.performance-report"
+        ],
+        "proof_targets": [
+          "blocked_pending_approval",
+          "upload_manifest",
+          "delivery_json"
+        ]
+      }
+    ]
+  },
+  "protocols": [
+    {
+      "id": "jeff.analyse-profil",
+      "status": "prod",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Creator profile analysis.",
+      "proof_target": "pass0 bundle, report_bundle, verification_json"
+    },
+    {
+      "id": "jeff.performance-report",
+      "status": "prod",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Influence portfolio performance report.",
+      "proof_target": "report_bundle, verification_json, delivery_json"
+    },
+    {
+      "id": "jeff.candidate-intake",
+      "status": "beta",
+      "registry_coverage": "specialist_route_registry",
+      "purpose": "Creator candidate intake and graph-oriented enrichment.",
+      "proof_target": "candidate_intake_bundle and verification_json"
+    },
+    {
+      "id": "jeff.email-digest",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Influencer inbox signal reading.",
+      "proof_target": "digest artifact"
+    },
+    {
+      "id": "jeff.outreach-pipeline",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Outreach preparation and follow-up decisions.",
+      "proof_target": "outreach artifact"
+    },
+    {
+      "id": "jeff.ajout-collaboration",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Create collaboration, approval-gated.",
+      "proof_target": "pre/post mutation evidence"
+    },
+    {
+      "id": "jeff.collab-management",
+      "status": "beta",
+      "registry_coverage": "planned",
+      "purpose": "Update/archive collaboration, approval-gated.",
+      "proof_target": "pre/post mutation evidence"
+    }
+  ],
+  "proof_rules": {
+    "discussion": [
+      "short confirmation of actions taken",
+      "explicit blocker or assumption when present"
+    ],
+    "protocol": [
+      "route/package id",
+      "structured artifact or report bundle",
+      "validation/replay evidence for prod route claims"
+    ],
+    "external_mutation": [
+      "resolved target before mutation",
+      "explicit approval",
+      "post-mutation readback or platform confirmation"
+    ],
+    "voice": [
+      "OpenAI whisper-1 transcript for input voice",
+      "Higgsfield job id and local audio artifact for output voice once validated",
+      "approval record before external audio send"
+    ]
+  },
+  "notes": [
+
+  ]
+}
