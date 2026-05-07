@@ -21,6 +21,7 @@ Observed locally on `2026-05-07` before repair:
 - Mnemos is continuity memory only and must not become enterprise truth.
 
 The JSONL corruption was repaired on `2026-05-07`; see `MEMORY_LIFECYCLE_REPAIR_REPORT.md`.
+The existing Jack-X event DB was replayed on real processed data in an isolated proof run on `2026-05-07`: DB recording is healthy, memory candidates can be regenerated, promotion review can be rebuilt, and Memory Wiki can compile from the replay projection without mutating the durable KG.
 The remaining product issue is not that the pieces are absent. The issue is that the loop from "captured signal" to "durable KG fact" to "slow consolidation" to "refined durable update" to "future correction" is not governed end to end.
 
 ## Product Roles
@@ -226,7 +227,7 @@ For the Najet example, the expected proof is:
 
 ## Current Blockers
 
-- KG JSONL health is repaired locally, but live commit replay still needs supervised proof.
+- KG JSONL health is repaired locally, and real DB replay works through no-apply validation, but live commit replay still needs supervised proof after the review gate exists.
 - `~/.openclaw` vs `~/.clawdis` active files are aligned, but the tool/MCP pointers still need source-of-truth cleanup.
 - LLM Wiki `kg_operations` need a governed handoff into Jack-X review instead of staying only in the wiki manifest.
 - Jack-X DB analysis must gate `commit-candidate --apply` on promotion review, not only record review before commit.

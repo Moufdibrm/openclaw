@@ -95,6 +95,23 @@ LLM Wiki active compile:
 - provider: `gemini`
 - semantic calls: `38` fresh, `2` cache hits, `0` failures
 
+Real DB replay proof:
+
+- replay root: `/Users/moufdi/.openclaw/workspace-jack-x/replays/db-existing-data-20260507T000135Z`
+- source DB: `/Users/moufdi/.openclaw/workspace-jack-x/runtime/jack_x_events.db`
+- source DB status: `271` events and `14` snapshots, all already processed; `0` pending analysis channels
+- replayed surfaces:
+  - `lark.messages.cx-maybe`: `10` processed events
+  - `mail.ms365.work.inbox`: `10` processed events
+  - `whatsapp.groups.bigblue-x-maybe`: `10` processed events
+  - `lark.tables.operations-marketing.maybe-paris`: `7` processed snapshots
+- memory update replay: `4/4` surfaces produced isolated memory artifacts and graph candidates
+- promotion review replay: `4/4` candidates reviewed successfully
+- no-apply validation replay: `4/4` candidates valid with `apply=false`
+- isolated review queue replay: `25` pending reviews generated in `/Users/moufdi/.openclaw/workspace-jack-x/replays/db-existing-data-20260507T000135Z/review-queue/memory_reviews.replay.db`
+- deterministic Memory Wiki replay: `20` pages, `20` `kg_operations`, `17` review items
+- KG remained unchanged after replay: SHA-256 still `8b9f891b8ce386ec056b559586bead93f952d9760e58a17776aca4da43318eb1`
+
 ## Current State
 
 Resolved:
@@ -107,11 +124,11 @@ Resolved:
 Still open:
 
 - `.clawdis` still has independent tool/MCP pointers; it is aligned now, but not structurally aliased to `.openclaw`
-- Jack-X DB analysis commits are not gated by the promotion review result; the review is recorded, then the full graph candidate is still committed when `--apply` runs
+- Jack-X DB analysis commits are not gated by the promotion review result; the real DB replay confirms the candidate/review path works, but the live cycle would still commit the full graph candidate when `--apply` runs
 - LLM Wiki emits `kg_operations`, but there is no closed handoff into Jack-X refinement review
 - Memory Wiki pages still do not render KG relation context such as `Najet member_of Team :: BRM Board`, even when the projection contains the relation
 - the future-time feedback loop is not yet route-backed: there is no repeatable proof for previous fact -> later signal -> correction candidate -> review -> superseded/confirmed KG update -> retrieval
-- no live KG commit replay was run after repair; only no-apply and staging proofs were run
+- no live KG commit replay was run after repair; only no-apply, isolated review-queue, and isolated Wiki replay proofs were run
 
 ## Next Required Slice
 
