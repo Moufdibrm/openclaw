@@ -1,0 +1,105 @@
+audit_id: tony-log-bug-audit-2026-05-07
+agent: tony
+scope: governance_handoff_only
+runtime_edits_performed: false
+routes:
+  - id: tony.codebase-exploration
+    current_registry_mode: run_canonical
+    profile: tony-kimi
+    readiness: blocked_by_contract_drift
+  - id: tony.development-plan
+    current_registry_mode: run_canonical
+    profile: tony
+    readiness: partial
+  - id: tony.development
+    current_registry_mode: run_canonical
+    profile: tony-dev
+    readiness: partial
+findings:
+  - id: TONY-001
+    severity: high
+    title: stale_brmxhermes_review_paths_block_plan_dev
+    status: open
+    owner_lane: runtime_tony
+    required_fix:
+      - canonicalize_review_artifact_paths
+      - update_sweep_and_handoff_fixtures
+      - return_clean_blocked_status_for_missing_artifacts
+    proof_required:
+      - development_plan_canonical_artifact_smoke
+      - development_snapshot_fixture_smoke
+      - missing_artifact_negative_test
+  - id: TONY-002
+    severity: high
+    title: codebase_exploration_input_contract_drift
+    status: open
+    owner_lane: runtime_tony
+    required_fix:
+      - align_protocol_yaml_registry_runner_docs
+      - require_or_explicitly_default_target_repo
+      - prove_target_repo_in_artifact
+    proof_required:
+      - fixture_repo_exploration_artifact
+      - hermes_runtime_read_only_exploration_artifact
+  - id: TONY-003
+    severity: medium
+    title: runtime_wrapper_tests_depend_on_pythonpath
+    status: open
+    owner_lane: runtime_tony
+    required_fix:
+      - make_wrapper_tests_self_contained
+    proof_required:
+      - plain_python_pytest_passes_without_pythonpath
+  - id: TONY-004
+    severity: medium
+    title: tony_kimi_stale_terminal_cwd
+    status: open
+    owner_lane: profile_config
+    required_fix:
+      - replace_missing_brmxhermes_clawd_workdir
+    proof_required:
+      - direct_tony_kimi_terminal_smoke
+  - id: TONY-005
+    severity: medium
+    title: tony_stt_provider_implicit_for_whisper_1
+    status: open
+    owner_lane: profile_config
+    required_fix:
+      - set_stt_provider_openai_or_disable_stt
+    proof_required:
+      - stt_smoke_or_disabled_contract
+  - id: TONY-006
+    severity: medium
+    title: gpt_empty_response_without_governed_fallback
+    status: open
+    owner_lane: runtime_tony
+    required_fix:
+      - add_step_fallback_or_clean_blocked_status
+    proof_required:
+      - empty_response_simulation_or_replay
+  - id: TONY-007
+    severity: low
+    title: old_spawn_profile_summaries_are_noisy
+    status: likely_historical
+    owner_lane: runtime_tony
+    required_fix:
+      - confirm_live_entrypoints_use_run_canonical
+    proof_required:
+      - fresh_codebase_exploration_structured_summary
+  - id: TONY-008
+    severity: low
+    title: model_provider_prefix_warning_pollutes_artifacts
+    status: open
+    owner_lane: runtime_tony
+    required_fix:
+      - normalize_model_provider_ids_before_execution
+    proof_required:
+      - clean_development_artifact_summary
+production_ready_gate:
+  - codebase_exploration_contract_aligned
+  - target_repo_explicit_and_proven
+  - canonical_review_artifact_paths
+  - wrapper_tests_pass_without_pythonpath
+  - profile_cwd_and_stt_cleaned
+  - model_empty_output_has_governed_outcome
+  - no_raw_traceback_or_fenced_json_summary

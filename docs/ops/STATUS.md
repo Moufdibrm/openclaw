@@ -1395,3 +1395,24 @@ Operator review package:
 - `email-audit` : runner canonique VPS en place (`/home/ubuntu/openclaw/scripts/safir-email-audit.py`), package canonique Hermes ajoute sous `hermes-runtime/adapters/agents/safir/packages/`, route live `safir.email-audit` ajoutee au registry, et smoke VPS `render_only_ok` relance le `2026-05-02` sans mutation Lark ; le protocole reste volontairement `OPEN` au sens metier car le contexte Klaviyo live est `unavailable` et le run courant diverge encore du verdict historique Lark (`2-C` vs `2-B`)
 - `mail-pole-audit` : macro-protocole Phase 1 cree sur le VPS (`/home/ubuntu/openclaw/scripts/safir-phase1.py`), iteré jusqu'au rapport V4 validé par l'utilisateur, puis validé en `zero variance supervisee` sur le VPS ; package canonique Hermes ajoute, route live `safir.mail-pole-audit` ajoutee au registry, et nouveau smoke VPS `render_only_ok` relance le `2026-05-02`
 - `email-workflow` : Phase 2 reste `OPEN / BLOCKED`. Les runs VPS réels existent et les trois lanes texte (`gpt`, `opus`, `gemini`) ainsi que la chaîne image MVP ont été branchés, mais la génération d'email n'est pas jugée fonctionnelle / production-ready. Le système exploite encore mal les templates source, le renderer reconstruit trop de HTML générique, et le module image mélange encore objectif d'asset et objectif d'email. Décision utilisateur : ne pas fermer Safir Phase 2, laisser le sujet ouvert et traiter la génération d'email par un autre moyen pour l'instant.
+
+## Tony
+- Governance audit created on `2026-05-07`: `docs/ops/agent-governance/TONY_LOG_BUG_AUDIT.md`
+- No runtime, gateway, Mission Manager, deploy, restart, or systemd file was edited.
+- Current Tony status: `partial`, not production-ready.
+- Confirmed blockers:
+  - stale `BRMXHERMES/hermes/runtime/reviews` artifact paths can block `tony.development-plan` and `tony.development`
+  - `tony.codebase-exploration` has contract drift between protocol YAML, registry, runner, and handoff payload
+  - wrapper tests pass only when `PYTHONPATH=/Users/moufdi/hermes-runtime/scripts` is supplied
+  - `tony-kimi` profile cwd points to a missing `BRMXHERMES/clawd/workspace/tech`
+  - Tony and Tony-dev have `stt.model: whisper-1` without explicit `stt.provider`
+  - GPT Tony profiles logged empty model responses after retries on `2026-04-07`
+- Positive evidence:
+  - historical rerun with canonical review artifact paths reached `tony.development-plan -> review_ready`
+  - historical rerun reached `tony.development -> ok`, `canFinalize=true`, and fixture `npm test` passed
+- Next runtime-owned order:
+  - align `tony.codebase-exploration` inputs first
+  - canonicalize Tony artifact paths and clean missing-artifact errors
+  - fix the local wrapper test harness
+  - clean profile cwd/STT provider
+  - add governed fallback or clean blocked semantics for empty model responses
