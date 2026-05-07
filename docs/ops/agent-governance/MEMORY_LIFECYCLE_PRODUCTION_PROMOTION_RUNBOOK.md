@@ -41,6 +41,7 @@ Not ready for live autonomous KG writes:
    - Owner: integrator/Tony lane if runtime script changes are required.
    - Required behavior: `commit-candidate --apply` must only apply accepted `promote` items, never the full candidate when promotion review says `review` or `reject`.
    - Required proof: candidate with mixed `promote/review/reject` decisions applies only allowed rows on copied KG.
+   - Implementation handoff: `MEMORY_REVIEW_GATE_TONY_HANDOFF.md`
 
 4. `bridge_wiki_refinement`
    - Status: next.

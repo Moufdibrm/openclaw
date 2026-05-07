@@ -46,6 +46,8 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - local KG repair, validation evidence, refreshed Memory Wiki run, and remaining memory lifecycle blockers
 - `MEMORY_LIFECYCLE_PRODUCTION_PROMOTION_RUNBOOK.md`
   - step-by-step guarded promotion runbook for Jack-X memory lifecycle production readiness
+- `MEMORY_REVIEW_GATE_TONY_HANDOFF.md`
+  - implementation handoff for Tony/integrator lane to close the live Jack-X KG write gate
 - `brand-scope-sidecars.yaml`
   - sidecar mapping for legacy brand-linked proof bundles that do not yet emit native `brand_scope`
 - `RELEASE_READINESS_MATRIX.md`
