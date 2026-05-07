@@ -1,8 +1,12 @@
 version: 1
-last_updated: "2026-05-06"
+last_updated: "2026-05-07"
 mission_id: "spv-2026-05-06"
 purpose: "Execution ledger for supervised production validation."
-status: "prepared_not_executed"
+status: "executed_with_blockers"
+latest_run:
+  run_id: "spv-20260507T135248Z"
+  report: "docs/ops/agent-governance/SUPERVISED_VALIDATION_RUN_20260507T135248Z.md"
+  machine_readable: "docs/ops/agent-governance/supervised-validation-run-20260507T135248Z.yaml"
 
 global_defaults:
   upload_drive: false
@@ -45,65 +49,107 @@ entries:
     workstream: "W1"
     agents: ["rosa"]
     workflow_id: "rosa.offer-strategy.direct"
-    status: "prepared"
+    status: "passed_with_warnings"
     brand_scope_ref: "brand-scope-sidecars.yaml#rosa-offer-strategy-direct-maybe-paris-20260415"
     mutation_policy: "upload_off_no_external_mutation"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-rosa-offer"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/rosa-offer-strategy-direct/manifest.json"
+      summary: "Bundle loyalty/AOV hypothesis reviewable, not finalizable without margin, stock, promo history, and ROI evidence."
   - id: "W1-ROSA-002"
     workstream: "W1"
     agents: ["rosa"]
     workflow_id: "rosa.audit-performance-marketing"
-    status: "prepared"
+    status: "passed_with_warnings"
     brand_scope_ref: "brand-scope-sidecars.yaml#rosa-audit-performance-marketing-maybe-paris-20260415"
     mutation_policy: "upload_off_no_external_mutation"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-rosa-performance"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/rosa-audit-performance-marketing/manifest.json"
+      summary: "Report rendered; data quality warning: 0 CA HT/orders while ad/email spend exists."
   - id: "W1-ROSA-003"
     workstream: "W1"
     agents: ["rosa"]
     workflow_id: "rosa.veille-concurrentielle"
-    status: "prepared"
+    status: "passed"
     brand_scope_ref: "brand-scope-sidecars.yaml#rosa-veille-concurrentielle-maybe-paris-20260415"
     mutation_policy: "upload_off_no_external_mutation"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-rosa-veille"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/rosa-veille-concurrentielle/manifest.json"
+      summary: "8 direct FR shops, 20 SERP FR signals, 12 competitors profiled."
   - id: "W1-JEFF-001"
     workstream: "W1"
     agents: ["jeff"]
     workflow_id: "jeff.analyse-profil"
-    status: "prepared"
+    status: "passed"
     brand_scope_ref: "brand-scope-sidecars.yaml#jeff-analyse-profil-romi-allata-maybe-paris-20260415"
     mutation_policy: "no_creator_contact_no_collab_mutation"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-jeff-analyse"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/jeff-analyse-profil/manifest.json"
+      summary: "romi_allata profile rendered: 2450449 followers, Hiboo score 74, tier B."
   - id: "W1-JEFF-002"
     workstream: "W1"
     agents: ["jeff"]
     workflow_id: "jeff.performance-report"
-    status: "prepared"
+    status: "passed"
     brand_scope_ref: "brand-scope-sidecars.yaml#jeff-performance-report-maybe-paris-20260414"
     mutation_policy: "upload_off_no_creator_contact"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-jeff-performance"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/jeff-performance-report/manifest.json"
+      summary: "Performance report rendered with 8 required sections."
   - id: "W1-SELENA-001"
     workstream: "W1"
     agents: ["selena"]
     workflow_id: "selena.paypal-dispute.phase1-audit"
-    status: "prepared"
+    status: "passed"
     brand_scope_ref: "brand-scope-sidecars.yaml#selena-paypal-dispute-audit-maybe-paris-20260415"
     mutation_policy: "no_dispute_message_no_payment_mutation"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-selena-paypal"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/selena-paypal-dispute-phase1-audit/manifest.json"
+      summary: "3 open disputes, 363 EUR exposed, HIGH risk."
+    live_read_probe:
+      status: "blocked"
+      blocker: "PayPal credentials missing for maybe-paris."
   - id: "W1-SELENA-002"
     workstream: "W1"
     agents: ["selena"]
     workflow_id: "selena.zendesk-feedback-review"
-    status: "prepared"
+    status: "passed"
     brand_scope_ref: "brand-scope-sidecars.yaml#selena-zendesk-feedback-review-maybe-paris-20260415"
     mutation_policy: "no_customer_reply"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-selena-zendesk"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/selena-zendesk-feedback-review/manifest.json"
+      summary: "5 tickets, CSAT 3.0, dominant persona high_value_customer, main gap reopened_cases."
+    live_read_probe:
+      status: "blocked"
+      blocker: "Zendesk credentials missing for maybe-paris."
   - id: "W1-CORTEX-001"
     workstream: "W1"
     agents: ["cortex"]
     workflow_id: "cortex.ads-observation"
-    status: "prepared"
+    status: "passed_with_warnings"
     brand_scope_ref: "brand-scope-sidecars.yaml#cortex-ads-observation-maybe-paris-20260415"
     mutation_policy: "no_campaign_mutation_no_publication"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-cortex-ads"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/cortex-ads-observation/manifest.json"
+      summary: "Meta+Google spend 529559 EUR, ROAS 1.89, 0 consolidated creative families."
   - id: "W1-ALFRED-001"
     workstream: "W1"
     agents: ["alfred"]
     workflow_id: "alfred.visibility-audit"
-    status: "prepared"
+    status: "passed_with_warnings"
     brand_scope_ref: "brand-scope-sidecars.yaml#alfred-visibility-audit-maybe-paris-20260415"
     mutation_policy: "skip_drive_no_site_mutation"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-alfred-visibility"
+      proof: "/Users/moufdi/.openclaw/supervised-validation/spv-20260507T135248Z/alfred-visibility-audit/manifest.json"
+      summary: "Direct OpenClaw route rendered; Hermes wrapper failed with AlfredRuntimePaths.workspace_root AttributeError."
   - id: "W2-NAYA-001"
     workstream: "W2"
     agents: ["naya"]
@@ -115,7 +161,11 @@ entries:
     agents: ["naya"]
     workflow_id: "naya.stock-check"
     status: "blocked"
-    blocker: "stock_snapshot_or_known_sku_not_selected"
+    blocker: "bigblue_inventory_permission_denied"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-naya-stock"
+      product_query: "Monoi Love"
+      summary: "Live pass0 attempted BigBlue ListInventories and failed with 403 permission_denied."
   - id: "W3-ALFRED-001"
     workstream: "W3"
     agents: ["alfred", "tony"]
@@ -126,18 +176,38 @@ entries:
     workstream: "W4"
     agents: ["jack", "jack-x", "mnemos", "tony"]
     workflow_id: "technical-beta-fixture"
-    status: "prepared"
+    status: "failed"
     mutation_policy: "fixture_only_no_mm_no_kg_no_deploy"
+    latest_execution:
+      mnemos:
+        status: "passed"
+        proof: "/Users/moufdi/.openclaw/workspace-mnemos/reports/context-check/jack/20260507t140729036088z-20260402_202308_021170/context-check.result.json"
+        summary: "Fresh May context-check passed at 1.3% saturation."
+      tony:
+        status: "failed"
+        blocker: "No valid JSON object found in tony.codebase-exploration output; raw output not persisted on failure; fixture mapping conflicts with hardcoded contract."
+      jack_x:
+        status: "not_executed_in_this_wave"
+        blocker: "Durable KG live write remains blocked until review gate and wiki bridge exist."
   - id: "W5-KANYE-001"
     workstream: "W5"
     agents: ["kanye", "cortex"]
     workflow_id: "kanye.higgsfield-product-photoshoot.validation"
-    status: "prepared"
+    status: "passed_with_warnings"
     brand_scope_ref: "brand-scope-sidecars.yaml#kanye-product-photoshoot-helper-monoi-love-20260505"
     mutation_policy: "local_media_only_no_publication"
+    latest_execution:
+      run_id: "spv-20260507T135248Z-kanye-product"
+      proof: "/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-runs/spv-20260507T135248Z-kanye-product/manifest.json"
+      media: "/Users/moufdi/.brm-hermes/profiles/kanye/generated_media/higgsfield-product-photoshoot-runs/spv-20260507T135248Z-kanye-product_spv_monoi_love_product_shot_1.png"
+      summary: "Higgsfield generated one premium local product shot; crop is tight, full-pack variant recommended before ads use."
   - id: "W6-SAFIR-001"
     workstream: "W6"
     agents: ["safir", "rosa", "kanye"]
     workflow_id: "safir.email-workflow"
     status: "blocked"
     blocker: "safir_email_workflow_brief_missing"
+    latest_probe:
+      workflow_id: "safir.mail-pole-audit"
+      status: "blocked"
+      blocker: "Missing KLAVIYO_API_KEY_MAYBE_PARIS."

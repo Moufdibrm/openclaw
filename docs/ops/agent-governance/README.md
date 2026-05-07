@@ -76,6 +76,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - machine-readable mission, workstreams, gates, and per-agent targets
 - `supervised-production-validation-ledger.yaml`
   - execution ledger template/status for supervised production validation
+- `SUPERVISED_VALIDATION_RUN_20260507T135248Z.md`
+  - executed supervised validation run with per-agent rendered results, blockers, and no-impact mutation test list
+- `supervised-validation-run-20260507T135248Z.yaml`
+  - machine-readable results for the `spv-20260507T135248Z` validation run
 - `WORKFLOW_IO_TEST_CONTRACTS.md`
   - human-readable input/output/test contract for each governed workflow
 - `workflow-io-test-matrix.yaml`

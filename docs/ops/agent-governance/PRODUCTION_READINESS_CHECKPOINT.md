@@ -90,15 +90,21 @@ Installed skills are still not permissions. Platform visibility does not grant b
 
 Current ledger: `docs/ops/agent-governance/supervised-production-validation-ledger.yaml`
 
-Status: `prepared_not_executed`
+Status: `executed_with_blockers`
+
+Latest run:
+
+- `docs/ops/agent-governance/SUPERVISED_VALIDATION_RUN_20260507T135248Z.md`
+- `docs/ops/agent-governance/supervised-validation-run-20260507T135248Z.yaml`
 
 | Ledger state | Count |
 | --- | ---: |
-| `passed` | 1 |
-| `prepared` | 11 |
+| `passed` | 6 |
+| `passed_with_warnings` | 5 |
 | `blocked` | 4 |
+| `failed` | 1 |
 
-Prepared routes can be launched in supervised mode with no hidden mutation:
+Validated routes from the latest supervised run:
 
 - Rosa: offer strategy, performance audit, competitive watch.
 - Jeff: profile analysis, performance report.
@@ -106,14 +112,17 @@ Prepared routes can be launched in supervised mode with no hidden mutation:
 - Cortex: ads observation.
 - Alfred: visibility audit.
 - Kanye/Cortex: Higgsfield product photoshoot validation.
-- Jack/Jack-X/Mnemos/Tony: technical beta fixture.
+- Mnemos: context-check freshness proof.
 
 Blocked routes need missing inputs or schema alignment:
 
 - Naya product sourcing: reviewed sourcing sheet input is not isolated.
-- Naya stock check: stock snapshot or known SKU is not selected.
+- Naya stock check: BigBlue inventory access returned `403 permission_denied` on live pass0.
 - Alfred strategy plan: brand pack id vs runtime store key mismatch.
 - Safir email workflow: business brief is missing.
+- Safir mail-pole audit: `KLAVIYO_API_KEY_MAYBE_PARIS` missing.
+- Selena live reads: PayPal and Zendesk credentials missing for `maybe-paris`.
+- Tony technical fixture: `tony.codebase-exploration` failed its JSON output contract.
 
 ## Mission, Hypotheses, And Results
 
@@ -172,10 +181,11 @@ Do not call the memory side production-closed yet.
 
 Do not call all agents production-ready yet.
 
-The next practical move is to launch the prepared supervised validation wave in this order:
+The next practical move is to close the blockers exposed by the supervised validation wave in this order:
 
-1. Selena, Cortex, Rosa, Jeff, Alfred visibility.
-2. Kanye product/media validation.
-3. Tony technical fixture.
-4. Jack-X/Mnemos memory closure once review gate and wiki bridge are implemented.
-5. Naya, Alfred strategy, Safir once blockers are resolved.
+1. Fix Tony route output contract and fixture mapping.
+2. Restore Naya BigBlue read permission or provide a reviewed stock snapshot.
+3. Add Safir Klaviyo credential or create an email-workflow brief for render-only testing.
+4. Add Selena live-read credentials if live support reads should be promoted.
+5. Fix Alfred Hermes wrapper parity with the direct route.
+6. Continue Jack-X/Mnemos memory closure once review gate and wiki bridge are implemented.

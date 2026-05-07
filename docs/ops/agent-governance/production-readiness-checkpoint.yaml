@@ -82,12 +82,17 @@ agents:
     safir: {visible: 8, read: 8, write_conditional: 8, routes: 3}
 supervised_validation:
   ledger: "docs/ops/agent-governance/supervised-production-validation-ledger.yaml"
-  status: "prepared_not_executed"
+  status: "executed_with_blockers"
+  latest_run:
+    run_id: "spv-20260507T135248Z"
+    report: "docs/ops/agent-governance/SUPERVISED_VALIDATION_RUN_20260507T135248Z.md"
+    machine_readable: "docs/ops/agent-governance/supervised-validation-run-20260507T135248Z.yaml"
   counts:
-    passed: 1
-    prepared: 11
+    passed: 6
+    passed_with_warnings: 5
     blocked: 4
-  prepared:
+    failed: 1
+  validated_or_rendered:
     - "rosa.offer-strategy.direct"
     - "rosa.audit-performance-marketing"
     - "rosa.veille-concurrentielle"
@@ -97,13 +102,18 @@ supervised_validation:
     - "selena.zendesk-feedback-review"
     - "cortex.ads-observation"
     - "alfred.visibility-audit"
-    - "technical-beta-fixture"
     - "kanye.higgsfield-product-photoshoot.validation"
+    - "mnemos.context-check"
   blocked:
     naya.product-sourcing: "reviewed_sourcing_sheet_input_not_isolated"
-    naya.stock-check: "stock_snapshot_or_known_sku_not_selected"
+    naya.stock-check: "bigblue_inventory_permission_denied"
     alfred.strategy-plan: "brand_pack_id_runtime_store_key_mismatch"
     safir.email-workflow: "safir_email_workflow_brief_missing"
+    safir.mail-pole-audit: "missing_KLAVIYO_API_KEY_MAYBE_PARIS"
+    selena.paypal-dispute.phase1-live: "missing_paypal_credentials_for_maybe_paris"
+    selena.zendesk-feedback-live: "missing_zendesk_credentials_for_maybe_paris"
+  failed:
+    tony.codebase-exploration: "no_valid_json_object_found_in_route_output"
 mission_manager:
   contract_ready: true
   source_files:
