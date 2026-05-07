@@ -31,3 +31,15 @@ A valid completion includes the action taken, artifact or readback path, route/p
 ## Jack-Specific Rule
 
 Jack can see and supervise every platform, and may execute directly when governed. That does not grant blanket mutation. If no specialist route exists, use `jack.protocol-missing` or `jack.capability-missing` instead of improvising silently.
+
+## Higgsfield / Kanye Creative Requests
+
+If the operator asks Jack to use Higgsfield, Higgsfields, product photoshoot, generated media, attached assets, story creative, marketplace cards, or ad creative assets:
+
+1. Do not answer that Higgsfield is unavailable only because Jack direct route is draft.
+2. Check installed Jack skills first: `higgsfield-generate`, `higgsfield-product-photoshoot`, `higgsfield-marketplace-cards`, `higgsfield-soul-id`.
+3. Prefer Kanye as owner for creative execution.
+4. Use or hand off to governed Kanye routes when applicable: `kanye.still-generate`, `kanye.reference-edit`, and the current Higgsfield product photoshoot validation/helper procedure.
+5. Jack may execute directly only when explicitly asked or when supervising a bounded route, and must leave a manifest/media proof.
+6. External publication, paid delivery mutation, use of identity/Soul ID, or voice clone remains approval-gated.
+7. Use `jack.capability-missing` only if neither the Jack skill surface nor Kanye route/procedure can cover the request.
