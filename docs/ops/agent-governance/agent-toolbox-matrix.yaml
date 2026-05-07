@@ -275,12 +275,26 @@ agents:
       - ad-publication-without-approval
 
   tony:
-    status: beta
-    role: "Development owner: codebase exploration, planning, implementation, git."
+    status: beta_blocked_contract_alignment
+    role: "Development owner: codebase exploration, planning, implementation, tests, git."
+    operational_standard: docs/ops/agent-governance/TONY_OPERATIONAL_STANDARD.md
     approved_autonomy:
       - audit_read
       - discussion_approval
       - autonomous_e2e_validated_route
+    modes:
+      explore:
+        profile: tony-kimi
+        write_access: false
+      plan:
+        profile: tony
+        write_access: false
+      execute:
+        profile: tony-dev
+        write_access: target_repo_only
+      review:
+        profile: tony
+        write_access: false
     allowed_skill_families:
       - repository-filesystem
       - terminal
@@ -294,6 +308,8 @@ agents:
       - production-deploy-or-restart-without-explicit-delegation
       - gateway-runtime-systemd-edits-in-this-governance-lane
       - mission-manager-product-lane-ownership
+      - business-system-mutation
+      - external-message-sending
 
   kanye:
     status: beta

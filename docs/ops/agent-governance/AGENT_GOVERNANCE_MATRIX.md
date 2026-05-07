@@ -18,7 +18,7 @@ The V1 governance scope is:
 | Selena | beta | support risk, PayPal/Zendesk review | `~/.openclaw/workspace-selena` | V1 phase1 routes production-usable |
 | Alfred | beta | SEO visibility and strategy artifacts | `~/.openclaw/workspace-alfred` | phase1 prod, phase2/3 supervised |
 | Cortex | beta | paid media observation and campaign handoff | `~/.openclaw/workspace-cortex` | phase1 prod, phase2/3 drafted |
-| Tony | beta | development, codebase exploration, planning, implementation, git | `~/.openclaw/workspace-tony` | routes exist, release/deploy outside this lane |
+| Tony | beta | development owner: exploration, planning, implementation, tests, git | `~/.openclaw/workspace-tony` | one agent with `explore`/`plan`/`execute`/`review` modes; exploration contract alignment still blocking prod-ready |
 | Kanye | beta | creative generation and reference edits | `~/.openclaw/workspace-kanye` | generation floor live; HF API pair configured, official Higgsfield CLI live still test passed |
 | Safir | beta | email/CRM audit and workflow design | `~/.openclaw/workspace-safir` | audit floor live, email-workflow to reopen |
 
@@ -64,7 +64,7 @@ Global approval gates:
 | Selena | PayPal/Zendesk fetch/review, support-risk reports | customer-visible reply, dispute action, refund/payment mutation without approval |
 | Alfred | SEO/GSC/DataForSEO/GA4/site audit scripts, report artifacts | site/theme mutation or Drive delivery without approval |
 | Cortex | paid-media observations, Hiboo ads/Meta/Google Ads reads, creative/report artifacts, creative asset requests via Kanye/Jack | direct Higgsfield generation, live campaign mutation without approval and route |
-| Tony | repository filesystem, terminal, git, tests, package managers, GitHub when requested | prod deploy/restart/systemd/gateway/MM lane unless explicitly delegated |
+| Tony | repository filesystem, terminal, git, tests/build/lint, package managers, browser dev verification, GitHub when requested | prod deploy/restart/systemd/gateway/MM lane, business-system mutation, external messages unless explicitly delegated |
 | Kanye | creative generation routes, image/video providers, local media artifacts, official Higgsfield skills installed in profile | external campaign publication or delivery mutation without approval |
 | Safir | email/CRM analysis, Klaviyo/MS365 reads, email design/draft generation, creative asset requests via Kanye/Jack | direct Higgsfield generation, sending external mail or CRM mutation without approval |
 
@@ -123,6 +123,7 @@ Important current gaps:
 - `Safir email-workflow` is not closed. It should be reopened as a new beta/draft route using the improved email/design model floor.
 - `higgsfield-ai/skills` is installed locally in Jack and Kanye profiles with four skills: `higgsfield-generate`, `higgsfield-marketplace-cards`, `higgsfield-product-photoshoot`, and `higgsfield-soul-id`. The HF API pair is configured for the existing Hermes generation tool, and the official Higgsfield CLI is installed/authenticated locally. A bounded GPT Image 2 still test passed with manifest `/Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json`; a bounded Monoi Love product-shot test passed with manifest `/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/manifest.json`. Remaining gaps: standardize polling failure recovery, refine product lifestyle prompt-safety after one `nsfw` false-positive, and QA more owner-run variants before prod.
 - Jack direct Higgsfield execution remains an explicit exception because `jack.higgsfield-skill-supervision` is still draft. Kanye remains the V1 owner for generation.
+- Tony is standardized as a single development owner with mode profiles: `tony-kimi` for exploration, `tony` for plan/review, and `tony-dev` for execution. Current prod-ready blocker: `tony.codebase-exploration` must align protocol YAML, registry, runner, and handoff inputs around explicit `target_repo` and `task_request`.
 - `Jackette`, `Jhin`, and `Walter` remain later/draft.
 - Per-agent `ROLE_PERMISSIONS` files do not exist except for Jack.
 - Skills are installed everywhere and must be governed by the central allowlist matrix until runtime enforcement exists.

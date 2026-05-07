@@ -191,7 +191,18 @@ agents:
     sidecar_profiles:
       exploration: /Users/moufdi/.brm-hermes/profiles/tony-kimi
       execution: /Users/moufdi/.brm-hermes/profiles/tony-dev
+    operational_standard: docs/ops/agent-governance/TONY_OPERATIONAL_STANDARD.md
     canonical_environment: "development"
+    canonical_roots:
+      runtime: /Users/moufdi/hermes-runtime
+      operator: /Users/moufdi/openclaw
+      integrations: /Users/moufdi/clawd
+      workspace: /Users/moufdi/.openclaw/workspace-tony
+    mode_workdirs:
+      explore: target_repo
+      plan: target_repo_read_only
+      execute: target_repo_or_snapshot
+      review: target_repo_or_log_root
     readable_external_surfaces:
       - repositories
       - github-when-requested

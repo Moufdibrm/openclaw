@@ -129,6 +129,8 @@ Expected test:
 
 Severity: medium
 
+Status: locally fixed on `2026-05-07`; route smoke still recommended.
+
 Evidence:
 
 - Current profile path:
@@ -145,7 +147,7 @@ Current canonical routes set `TERMINAL_CWD` and process `cwd` explicitly, so thi
 
 Required fix:
 
-- Change `tony-kimi` terminal cwd to `/Users/moufdi/clawd/workspace/tech` or `auto`, depending on the final runtime convention.
+- Changed `tony-kimi` terminal cwd to `/Users/moufdi/clawd/workspace/tech`.
 
 Expected test:
 
@@ -154,6 +156,8 @@ Expected test:
 ### TONY-005 - Tony and Tony-dev have `whisper-1` without explicit STT provider
 
 Severity: medium
+
+Status: locally fixed on `2026-05-07`; STT smoke still recommended if voice remains in scope.
 
 Evidence:
 
@@ -172,7 +176,7 @@ This matches the previously observed Kanye anti-pattern: an OpenAI STT model nam
 
 Required fix:
 
-- Add `stt.provider: openai` for Tony and Tony-dev, or disable STT for those profiles if voice is not part of their route surface.
+- Added `stt.provider: openai` for Tony and Tony-dev.
 
 Expected test:
 
@@ -261,7 +265,7 @@ Tony should not be treated as production-ready until these checks pass:
 2. `tony.codebase-exploration` explicitly receives and proves the `target_repo`.
 3. `tony.development-plan` and `tony.development` resolve canonical review artifacts through `/Users/moufdi/hermes-runtime`.
 4. Wrapper tests pass without external `PYTHONPATH`.
-5. Tony profile cwd and optional STT provider are cleaned.
+5. Tony profile cwd and optional STT provider remain clean in local profile config.
 6. Empty model output and provider overload have clear route outcomes: fallback or clean blocked status.
 7. No route emits raw tracebacks or fenced JSON as the operator summary.
 

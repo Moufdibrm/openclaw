@@ -52,6 +52,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - Tony route/profile/log bug audit and implementation handoff for runtime-owned fixes
 - `tony-log-bug-audit.yaml`
   - machine-readable Tony bug findings, owners, required fixes, and proof gates
+- `TONY_OPERATIONAL_STANDARD.md`
+  - Tony modes, toolsets, proof contract, and no-double-truth operating model
+- `tony-operational-standard.yaml`
+  - machine-readable Tony operational standard and mode/toolset contract
 - `brand-scope-sidecars.yaml`
   - sidecar mapping for legacy brand-linked proof bundles that do not yet emit native `brand_scope`
 - `RELEASE_READINESS_MATRIX.md`

@@ -273,22 +273,27 @@ agents:
         proof_target: "feedback report and next-cycle input"
 
   tony:
+    operational_standard: docs/ops/agent-governance/TONY_OPERATIONAL_STANDARD.md
     protocols:
       - id: tony.codebase-exploration
-        status: beta
+        status: beta_blocked_contract_alignment
         registry_coverage: specialist_route_registry
         purpose: "Bounded codebase read and topology extraction."
         proof_target: "compact_json and final_summary"
+        mode: explore
+        open_blocker: "Protocol YAML, registry, runner, and handoff inputs must agree on target_repo/task_request."
       - id: tony.development-plan
         status: beta
         registry_coverage: specialist_route_registry
         purpose: "Implementation plan from exploration artifact."
         proof_target: "compact_json and verification_report"
+        mode: plan
       - id: tony.development
         status: beta
         registry_coverage: specialist_route_registry
         purpose: "Code changes and validation."
         proof_target: "code_delta, verification_report, final_summary"
+        mode: execute
 
   kanye:
     protocols:

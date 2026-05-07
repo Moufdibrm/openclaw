@@ -1398,15 +1398,23 @@ Operator review package:
 
 ## Tony
 - Governance audit created on `2026-05-07`: `docs/ops/agent-governance/TONY_LOG_BUG_AUDIT.md`
+- Operational standard created on `2026-05-07`: `docs/ops/agent-governance/TONY_OPERATIONAL_STANDARD.md`
 - No runtime, gateway, Mission Manager, deploy, restart, or systemd file was edited.
-- Current Tony status: `partial`, not production-ready.
+- Current Tony status: `beta_blocked_contract_alignment`, not production-ready.
+- Tony is standardized as one agent with four modes:
+  - `explore` via `tony-kimi` / `tony.codebase-exploration`
+  - `plan` via `tony` / `tony.development-plan`
+  - `execute` via `tony-dev` / `tony.development`
+  - `review` via `tony` until a separate review route exists
 - Confirmed blockers:
   - stale `BRMXHERMES/hermes/runtime/reviews` artifact paths can block `tony.development-plan` and `tony.development`
   - `tony.codebase-exploration` has contract drift between protocol YAML, registry, runner, and handoff payload
   - wrapper tests pass only when `PYTHONPATH=/Users/moufdi/hermes-runtime/scripts` is supplied
-  - `tony-kimi` profile cwd points to a missing `BRMXHERMES/clawd/workspace/tech`
-  - Tony and Tony-dev have `stt.model: whisper-1` without explicit `stt.provider`
   - GPT Tony profiles logged empty model responses after retries on `2026-04-07`
+- Local profile cleanup on `2026-05-07`:
+  - `tony-kimi` cwd now points to `/Users/moufdi/clawd/workspace/tech`
+  - Tony and Tony-dev now set `stt.provider: openai` for `whisper-1`
+  - Tony profile-level files now exist: `ROLE_PERMISSIONS`, `ENVIRONMENT_MAP`, `ROUTE_MATRIX`, `PROCEDURES`
 - Positive evidence:
   - historical rerun with canonical review artifact paths reached `tony.development-plan -> review_ready`
   - historical rerun reached `tony.development -> ok`, `canFinalize=true`, and fixture `npm test` passed

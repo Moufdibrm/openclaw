@@ -53,19 +53,19 @@ findings:
   - id: TONY-004
     severity: medium
     title: tony_kimi_stale_terminal_cwd
-    status: open
+    status: locally_fixed_smoke_pending
     owner_lane: profile_config
     required_fix:
-      - replace_missing_brmxhermes_clawd_workdir
+      - replaced_missing_brmxhermes_clawd_workdir_with_canonical_clawd_workspace
     proof_required:
       - direct_tony_kimi_terminal_smoke
   - id: TONY-005
     severity: medium
     title: tony_stt_provider_implicit_for_whisper_1
-    status: open
+    status: locally_fixed_smoke_pending
     owner_lane: profile_config
     required_fix:
-      - set_stt_provider_openai_or_disable_stt
+      - set_stt_provider_openai
     proof_required:
       - stt_smoke_or_disabled_contract
   - id: TONY-006
