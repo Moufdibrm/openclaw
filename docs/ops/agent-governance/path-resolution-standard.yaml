@@ -1,0 +1,48 @@
+version: 1
+standard_id: "brm.path-resolution.v1"
+date: "2026-05-07"
+scope: "governance docs, matrices, profile packs, proof ledgers, and local validation artifacts"
+repo_governance_root: "docs/ops/agent-governance"
+active_lane_worktree: "/Users/moufdi/openclaw-governance-clean"
+rules:
+  repo_governance_source:
+    format: "docs/ops/agent-governance/..."
+    applies_to:
+      - "governance docs"
+      - "machine-readable matrices"
+      - "profile-pack source references"
+      - "Mission Manager governance contract references"
+    forbidden_prefixes:
+      - "<worktree>/docs/ops/agent-governance"
+  local_agent_profiles:
+    allowed_prefixes:
+      - "/Users/moufdi/.brm-hermes/profiles"
+      - "~/.brm-hermes/profiles"
+  local_agent_workspaces:
+    allowed_prefixes:
+      - "/Users/moufdi/.openclaw"
+      - "~/.openclaw"
+  business_config:
+    allowed_prefixes:
+      - "/Users/moufdi/clawd/config"
+      - "~/clawd/config"
+  runtime_paths:
+    allowed_when: "documenting executable commands, observed runtime paths, or runtime-owned sources"
+    allowed_prefixes:
+      - "/Users/moufdi/openclaw/scripts"
+      - "/Users/moufdi/hermes-runtime"
+      - "~/hermes-runtime"
+      - "~/openclaw"
+  proof_artifacts:
+    format: "absolute machine path"
+    reason: "proof must be directly openable on Moufdi's machine"
+  home_shortcut:
+    allowed_when: "human-facing docs or shell-expanded runner cwd fields"
+    expansion_target: "/Users/moufdi"
+validation:
+  - "YAML parse OK"
+  - "JSON profile-pack parse OK"
+  - "No absolute worktree-specific governance source references"
+  - "Latest proof artifact paths exist"
+  - "Reserved scope unchanged"
+  - "Secret scan OK"

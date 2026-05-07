@@ -31,7 +31,7 @@ Last updated: `2026-05-07`
 
 ## Platform Projection
 
-Platform permissions are projected from `/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml`.
+Platform permissions are projected from `docs/ops/agent-governance/agent-platform-access-matrix.yaml`.
 
 - Visible platforms: `14`
 - Read-allowed platforms: `14`

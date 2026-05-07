@@ -76,7 +76,7 @@ The downloaded local media is the deliverable target.
 
 For skills that accept reference media, use the central attachment policy:
 
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/SKILL_ATTACHMENT_POLICY.md`
+- `docs/ops/agent-governance/SKILL_ATTACHMENT_POLICY.md`
 
 Minimum rule:
 

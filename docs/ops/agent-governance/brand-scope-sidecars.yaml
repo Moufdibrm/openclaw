@@ -5,7 +5,7 @@ scope: "governance_sidecar_only_no_legacy_artifact_rewrite"
 status: "partial_until_routes_emit_native_brand_scope"
 
 contract:
-  source: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+  source: "docs/ops/agent-governance/brand-scope-contract.yaml"
   rule: "Legacy artifacts are not rewritten. This sidecar maps representative proof bundles to brand_scope until runners emit brand_scope natively."
 
 common_brand_scopes:

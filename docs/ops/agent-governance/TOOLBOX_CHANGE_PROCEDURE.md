@@ -150,7 +150,7 @@ Higgsfield current precedent:
 - Jack scope: governed supervision or direct creative execution when explicitly requested
 - beta evidence: `/Users/moufdi/.openclaw/workspace-kanye/higgsfield-validation/20260505T214148Z/manifest.json`
 - product photoshoot beta evidence: `/Users/moufdi/.openclaw/workspace-kanye/higgsfield-product-photoshoot-validation/20260505T222952Z/manifest.json`
-- attachment policy: `/Users/moufdi/openclaw/docs/ops/agent-governance/SKILL_ATTACHMENT_POLICY.md`
+- attachment policy: `docs/ops/agent-governance/SKILL_ATTACHMENT_POLICY.md`
 - prod blocker: polling `502` recovery must be standardized before route promotion
 
 ## Implementation Steps
@@ -215,5 +215,5 @@ From local Mac:
 
 ```bash
 ruby -ryaml -e 'ARGV.each { |f| YAML.load_file(f); puts "OK #{f}" }' \
-  /Users/moufdi/openclaw/docs/ops/agent-governance/*.yaml
+  docs/ops/agent-governance/*.yaml
 ```

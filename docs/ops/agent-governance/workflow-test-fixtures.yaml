@@ -27,7 +27,7 @@ default_live_limits:
 canonical_brand_scope:
   registry_path: /Users/moufdi/clawd/config/brands.json
   registry_sha256: f9e1b4e209753223a1086383fcd47a870411695d97f2d566eddd79379adac989
-  contract_path: /Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml
+  contract_path: docs/ops/agent-governance/brand-scope-contract.yaml
   focus_modes:
     - brand_focus
     - generic

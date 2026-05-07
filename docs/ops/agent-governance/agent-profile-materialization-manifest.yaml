@@ -4,7 +4,7 @@ last_updated: '2026-05-07'
 standard_id: brm.agent-profile-materialization.v1
 source_commit: fec505287792a00b6767b9c64a49098ddd03b4f2
 profile_root: "/Users/moufdi/.brm-hermes/profiles"
-docs_root: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance"
+docs_root: "docs/ops/agent-governance"
 scope:
   v1_agents:
   - jack

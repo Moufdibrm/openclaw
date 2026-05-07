@@ -34,8 +34,8 @@ tests:
     owner_agent: jack
     input_summary: "Existing Cortex campaign fixtures plus Kanye Monoi media fixtures."
     proof_artifacts:
-      - /Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml
-      - /Users/moufdi/openclaw/docs/ops/agent-governance/ADS_MEDIA_ORCHESTRATION_PLAN.md
+      - docs/ops/agent-governance/ads-media-orchestration-matrix.yaml
+      - docs/ops/agent-governance/ADS_MEDIA_ORCHESTRATION_PLAN.md
     approval_gates: []
     next_action: "Use this ledger as the run tracker for the ads/media release candidate."
 

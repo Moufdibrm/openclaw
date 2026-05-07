@@ -45,10 +45,10 @@ entries:
       - "SECRET_SCAN_OK"
       - "RESERVED_SCOPE_OK"
     proof_artifacts:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/supervised-production-validation-mission.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/supervised-production-validation-ledger.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/release-readiness-matrix.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "docs/ops/agent-governance/supervised-production-validation-mission.yaml"
+      - "docs/ops/agent-governance/supervised-production-validation-ledger.yaml"
+      - "docs/ops/agent-governance/release-readiness-matrix.yaml"
+      - "docs/ops/agent-governance/brand-scope-sidecars.yaml"
     approval_gates: []
   - id: "W1-ROSA-001"
     workstream: "W1"

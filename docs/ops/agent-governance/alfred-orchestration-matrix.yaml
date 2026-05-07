@@ -227,4 +227,4 @@ validation:
   no_drive_upload: true
   no_runtime_gateway_deploy_mm_change: true
   latest_phase2_test_status: "blocked_invalid_inputs"
-  required_contract_before_beta_pass: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+  required_contract_before_beta_pass: "docs/ops/agent-governance/brand-scope-contract.yaml"

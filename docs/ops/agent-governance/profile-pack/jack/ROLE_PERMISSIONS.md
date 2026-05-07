@@ -59,6 +59,6 @@ The full BRM agent profile projection is embedded in `ROLE_PERMISSIONS.json` und
 - Visible platforms: `49`
 - Read-allowed platforms: `49`
 - Write-conditional platforms: `46`
-- Platform source: `/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml`
+- Platform source: `docs/ops/agent-governance/agent-platform-access-matrix.yaml`
 
 Write-conditional never means blanket mutation. Route, target, approval gate, and proof remain mandatory.

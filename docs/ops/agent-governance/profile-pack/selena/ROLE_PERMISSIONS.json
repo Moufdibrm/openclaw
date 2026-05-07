@@ -7,11 +7,11 @@
   "status": "beta",
   "role": "Support risk, PayPal disputes, Zendesk feedback review.",
   "canonical_sources": {
-    "agent_profile_standard": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
-    "toolbox_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml",
-    "environment_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml",
-    "protocol_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml",
-    "platform_access_matrix": "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+    "agent_profile_standard": "docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md",
+    "toolbox_matrix": "docs/ops/agent-governance/agent-toolbox-matrix.yaml",
+    "environment_matrix": "docs/ops/agent-governance/agent-environment-matrix.yaml",
+    "protocol_matrix": "docs/ops/agent-governance/agent-protocol-matrix.yaml",
+    "platform_access_matrix": "docs/ops/agent-governance/agent-platform-access-matrix.yaml"
   },
   "approved_autonomy": [
     "audit_read",

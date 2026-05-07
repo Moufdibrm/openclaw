@@ -40,6 +40,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - read-only audit of BigBlue, Klaviyo Maybe Paris, PayPal Maybe Paris, Zendesk Maybe Paris, SSM/Secrets Manager source-of-truth status, and runner env-loading gaps
 - `credential-standardization-audit.yaml`
   - machine-readable credential audit and blocker reclassification; no secret values
+- `PATH_RESOLUTION_STANDARD.md`
+  - path convention for repo-relative governance sources vs absolute machine proof/profile/workspace paths
+- `path-resolution-standard.yaml`
+  - machine-readable path-resolution rules and validation gates
 - `SKILL_ATTACHMENT_POLICY.md`
   - shared attachment/reference-file contract for skills and protocol manifests
 - `BRAND_SCOPE_CONTRACT.md`

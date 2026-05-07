@@ -16,7 +16,7 @@ standard_render_to_moufdi:
   conditional_required_fields:
     brand_scope:
       when: "workflow input, output, proof, or deliverable is tied to a brand"
-      source_contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+      source_contract: "docs/ops/agent-governance/brand-scope-contract.yaml"
   statuses:
     - passed
     - passed_with_warnings
@@ -25,7 +25,7 @@ standard_render_to_moufdi:
 
 brand_linked_deliverable_rule:
   required: true
-  contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
+  contract: "docs/ops/agent-governance/brand-scope-contract.yaml"
   applies_to:
     - runner_input
     - manifest_json

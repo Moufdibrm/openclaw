@@ -17,20 +17,20 @@ status_values:
     - out_of_scope_for_release
 
 source_matrices:
-  agent_governance: "/Users/moufdi/openclaw/docs/ops/agent-governance/AGENT_GOVERNANCE_MATRIX.md"
-  agent_toolbox: "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-toolbox-matrix.yaml"
-  agent_environment: "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-environment-matrix.yaml"
-  agent_protocol: "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
-  workflow_io: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-io-test-matrix.yaml"
-  runner_input_map: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-runner-input-map.yaml"
-  fixture_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-  brand_scope_contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
-  brand_scope_sidecars: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
-  memory_lifecycle: "/Users/moufdi/openclaw/docs/ops/agent-governance/memory-lifecycle-matrix.yaml"
-  ads_media_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml"
-  ads_media_ledger: "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml"
-  alfred_matrix: "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-orchestration-matrix.yaml"
-  alfred_ledger: "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-test-ledger.yaml"
+  agent_governance: "docs/ops/agent-governance/AGENT_GOVERNANCE_MATRIX.md"
+  agent_toolbox: "docs/ops/agent-governance/agent-toolbox-matrix.yaml"
+  agent_environment: "docs/ops/agent-governance/agent-environment-matrix.yaml"
+  agent_protocol: "docs/ops/agent-governance/agent-protocol-matrix.yaml"
+  workflow_io: "docs/ops/agent-governance/workflow-io-test-matrix.yaml"
+  runner_input_map: "docs/ops/agent-governance/workflow-runner-input-map.yaml"
+  fixture_matrix: "docs/ops/agent-governance/workflow-test-fixtures.yaml"
+  brand_scope_contract: "docs/ops/agent-governance/brand-scope-contract.yaml"
+  brand_scope_sidecars: "docs/ops/agent-governance/brand-scope-sidecars.yaml"
+  memory_lifecycle: "docs/ops/agent-governance/memory-lifecycle-matrix.yaml"
+  ads_media_matrix: "docs/ops/agent-governance/ads-media-orchestration-matrix.yaml"
+  ads_media_ledger: "docs/ops/agent-governance/ads-media-test-ledger.yaml"
+  alfred_matrix: "docs/ops/agent-governance/alfred-orchestration-matrix.yaml"
+  alfred_ledger: "docs/ops/agent-governance/alfred-test-ledger.yaml"
 
 global_summary:
   v1_agents_total: 12
@@ -67,8 +67,8 @@ agents:
       - "jack.higgsfield-skill-supervision remains draft"
     approval_gates: ["external_message_send", "mission_or_platform_mutation", "publication"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/agent-protocol-matrix.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
     next_validation: "Run fixture-only beta checks for jack.protocol-missing, jack.capability-missing, and jack.draft-protocol-runtime."
 
   - id: "jack-x"
@@ -97,9 +97,9 @@ agents:
       - "Jack retrieval proof after memory update is missing"
     approval_gates: ["kg_commit", "person_identity_merge", "external_reply", "business_system_mutation"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/memory-lifecycle-matrix.yaml"
+      - "docs/ops/agent-governance/agent-protocol-matrix.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/memory-lifecycle-matrix.yaml"
     next_validation: "Add commit review gate, wiki-to-review bridge, and memory-feedback-loop route, then run frozen fixture: candidate -> review -> wiki -> refinement/correction review -> supervised KG commit -> Jack retrieval proof."
 
   - id: "mnemos"
@@ -119,7 +119,7 @@ agents:
       - "package-only route coverage"
     approval_gates: ["none_for_local_fixture"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
     next_validation: "Replay mnemos.context-check against the existing context snapshot fixture."
 
   - id: "rosa"
@@ -140,8 +140,8 @@ agents:
       - "market-graph-refresh remains beta"
     approval_gates: ["campaign_publication", "external_message_send", "crm_or_storefront_mutation", "drive_upload"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
     next_validation: "Run Rosa prod-route smoke with upload_drive=false and attach sidecar brand_scope."
 
   - id: "jeff"
@@ -163,8 +163,8 @@ agents:
       - "outreach/collab mutations approval-gated"
     approval_gates: ["creator_contact_send", "collaboration_mutation", "contract_or_payment_mutation", "drive_upload"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
     next_validation: "Smoke analyse-profil/performance-report, then normalize candidate-intake proof."
 
   - id: "naya"
@@ -186,8 +186,8 @@ agents:
       - "legacy sourcing proof needs sidecar or native brand_scope"
     approval_gates: ["supplier_message_send", "order_or_purchase_mutation", "payment_mutation"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/brand-scope-sidecars.yaml"
     next_validation: "Isolate one reviewed sourcing input sheet and one known SKU/product stock fixture."
 
   - id: "selena"
@@ -208,8 +208,8 @@ agents:
       - "live reads must keep tiny limits and no customer/dispute mutation"
     approval_gates: ["zendesk_reply", "paypal_dispute_message", "refund_or_payment_mutation"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/brand-scope-sidecars.yaml"
     next_validation: "Run reviewed export smoke, then bounded live read with days=7 and tiny limits."
 
   - id: "alfred"
@@ -230,8 +230,8 @@ agents:
       - "deployment-feedback-loop blocked until Phase 2 passes"
     approval_gates: ["drive_upload", "site_or_theme_mutation", "content_publication"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-orchestration-matrix.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-test-ledger.yaml"
+      - "docs/ops/agent-governance/alfred-orchestration-matrix.yaml"
+      - "docs/ops/agent-governance/alfred-test-ledger.yaml"
     next_validation: "Normalize Alfred route contract around brand_scope, then rerun strategy-plan with skip-drive."
 
   - id: "cortex"
@@ -253,8 +253,8 @@ agents:
       - "legacy ads proof needs native brand_scope or sidecar"
     approval_gates: ["campaign_mutation", "ad_publication", "paid_delivery_mutation"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml"
+      - "docs/ops/agent-governance/ads-media-orchestration-matrix.yaml"
+      - "docs/ops/agent-governance/ads-media-test-ledger.yaml"
     next_validation: "Keep Cortex in read/dry-run mode; feed landing/media readiness from Alfred/Kanye."
 
   - id: "tony"
@@ -275,8 +275,8 @@ agents:
       - "production deploy/restart/release control outside governance lane"
     approval_gates: ["push_or_pr_when_not_requested", "production_deploy", "service_restart"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/agent-protocol-matrix.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/agent-protocol-matrix.yaml"
     next_validation: "Run exploration -> development-plan -> development on fixture repo with tests/build proof."
 
   - id: "kanye"
@@ -299,8 +299,8 @@ agents:
       - "brand-linked media manifests need brand_scope"
     approval_gates: ["external_publication", "paid_delivery_mutation", "identity_or_private_media_use"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/HIGGSFIELD_VALIDATION_REPORT.md"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "docs/ops/agent-governance/HIGGSFIELD_VALIDATION_REPORT.md"
+      - "docs/ops/agent-governance/brand-scope-sidecars.yaml"
     next_validation: "Continue owner-reviewed product/media QA and marketplace card validation with brand_scope manifest."
 
   - id: "safir"
@@ -322,8 +322,8 @@ agents:
       - "external email send and CRM mutation approval-gated"
     approval_gates: ["external_email_send", "crm_mutation", "drive_upload"]
     source_refs:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md"
     next_validation: "Create a render-only Safir email workflow brief fixture with brand_scope, campaign_goal, offer, audience, and template reference."
 
 release_candidates:
@@ -332,36 +332,36 @@ release_candidates:
     agents: ["rosa", "jeff", "selena", "naya", "alfred", "cortex"]
     target_claim: "Run prod read/report routes with upload off and no external mutation."
     evidence_ledgers:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/brand-scope-sidecars.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
     blocked_surfaces: ["drive_upload", "external_message_send", "payment_mutation", "campaign_mutation", "site_or_theme_mutation"]
   - id: "technical-beta-fixture"
     status: "partial"
     agents: ["jack", "jack-x", "mnemos", "tony"]
     target_claim: "Run fixture-only beta workflows with no MM/KG/runtime mutation; add memory lifecycle fixture on a repaired/test KG copy."
     evidence_ledgers:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
     blocked_surfaces: ["mission_manager_mutation", "live_kg_commit", "production_deploy", "service_restart"]
   - id: "ads-media-cortex-kanye"
     status: "partial"
     agents: ["cortex", "kanye", "alfred"]
     target_claim: "Prepare ads/media dry-run and local media proof without publication."
     evidence_ledgers:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml"
+      - "docs/ops/agent-governance/ads-media-test-ledger.yaml"
     blocked_surfaces: ["campaign_publication", "paid_delivery_mutation", "identity_or_private_media_use"]
   - id: "alfred-seo-aeo"
     status: "blocked"
     agents: ["alfred", "tony", "rosa"]
     target_claim: "Advance SEO/AEO from visibility audit into strategy and feedback loop."
     evidence_ledgers:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-test-ledger.yaml"
+      - "docs/ops/agent-governance/alfred-test-ledger.yaml"
     blocked_surfaces: ["site_or_theme_mutation", "content_publication", "drive_upload"]
   - id: "safir-email-workflow"
     status: "blocked"
     agents: ["safir", "rosa", "kanye"]
     target_claim: "Prepare render-only email workflow proof."
     evidence_ledgers:
-      - "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
+      - "docs/ops/agent-governance/workflow-test-fixtures.yaml"
     blocked_surfaces: ["external_email_send", "crm_mutation"]
 
 validation:

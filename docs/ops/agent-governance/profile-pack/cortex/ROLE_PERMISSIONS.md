@@ -2,7 +2,7 @@
 
 Last updated: `2026-05-07`
 
-Source of truth: `/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md` plus the agent governance matrices listed below.
+Source of truth: `docs/ops/agent-governance/AGENT_PROFILE_STANDARD.md` plus the agent governance matrices listed below.
 
 ## Current State
 

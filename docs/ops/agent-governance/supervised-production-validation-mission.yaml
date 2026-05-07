@@ -19,12 +19,12 @@ hard_blocks:
   - "drive_upload_without_approval"
 
 source_refs:
-  release_readiness: "/Users/moufdi/openclaw/docs/ops/agent-governance/release-readiness-matrix.yaml"
-  workflow_io: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-io-test-matrix.yaml"
-  runner_input_map: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-runner-input-map.yaml"
-  fixtures: "/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml"
-  brand_scope_contract: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-contract.yaml"
-  brand_scope_sidecars: "/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml"
+  release_readiness: "docs/ops/agent-governance/release-readiness-matrix.yaml"
+  workflow_io: "docs/ops/agent-governance/workflow-io-test-matrix.yaml"
+  runner_input_map: "docs/ops/agent-governance/workflow-runner-input-map.yaml"
+  fixtures: "docs/ops/agent-governance/workflow-test-fixtures.yaml"
+  brand_scope_contract: "docs/ops/agent-governance/brand-scope-contract.yaml"
+  brand_scope_sidecars: "docs/ops/agent-governance/brand-scope-sidecars.yaml"
 
 status_values:
   mission_status:
@@ -225,7 +225,7 @@ agent_targets:
 clean_push_policy:
   dirty_worktree_observed: true
   commit_scope_if_requested:
-    - "/Users/moufdi/openclaw/docs/ops/agent-governance"
+    - "docs/ops/agent-governance"
   excluded_from_commit:
     - "runtime"
     - "gateway"

@@ -133,21 +133,21 @@ Important current gaps:
 Jack may maintain toolbox governance when the requested change is explicit and bounded.
 The procedure is:
 
-- [TOOLBOX_CHANGE_PROCEDURE.md](/Users/moufdi/openclaw/docs/ops/agent-governance/TOOLBOX_CHANGE_PROCEDURE.md)
+- [TOOLBOX_CHANGE_PROCEDURE.md](docs/ops/agent-governance/TOOLBOX_CHANGE_PROCEDURE.md)
 
 The working list for agent/toolbox consolidation is:
 
-- [AGENT_TOOLBOX_CONSOLIDATION.md](/Users/moufdi/openclaw/docs/ops/agent-governance/AGENT_TOOLBOX_CONSOLIDATION.md)
+- [AGENT_TOOLBOX_CONSOLIDATION.md](docs/ops/agent-governance/AGENT_TOOLBOX_CONSOLIDATION.md)
 
 The input/output and post-deployment test contract is:
 
-- [WORKFLOW_IO_TEST_CONTRACTS.md](/Users/moufdi/openclaw/docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md)
+- [WORKFLOW_IO_TEST_CONTRACTS.md](docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md)
 
 The execution plan and runner mapping are:
 
-- [WORKFLOW_POST_DEPLOY_TEST_PLAN.md](/Users/moufdi/openclaw/docs/ops/agent-governance/WORKFLOW_POST_DEPLOY_TEST_PLAN.md)
-- [workflow-runner-input-map.yaml](/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-runner-input-map.yaml)
-- [workflow-test-fixtures.yaml](/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml)
+- [WORKFLOW_POST_DEPLOY_TEST_PLAN.md](docs/ops/agent-governance/WORKFLOW_POST_DEPLOY_TEST_PLAN.md)
+- [workflow-runner-input-map.yaml](docs/ops/agent-governance/workflow-runner-input-map.yaml)
+- [workflow-test-fixtures.yaml](docs/ops/agent-governance/workflow-test-fixtures.yaml)
 
 Default rule:
 

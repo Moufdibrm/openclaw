@@ -35,19 +35,19 @@ For brand-linked workflows, proof must include consistent `brand_scope` across r
 
 Source contracts:
 
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-io-test-matrix.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-runner-input-map.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/workflow-test-fixtures.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/PHASE0_FIXTURE_INVENTORY.md`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/release-readiness-matrix.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/brand-scope-sidecars.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/supervised-production-validation-mission.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/supervised-production-validation-ledger.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-orchestration-matrix.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/ads-media-test-ledger.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-orchestration-matrix.yaml`
-- `/Users/moufdi/openclaw/docs/ops/agent-governance/alfred-test-ledger.yaml`
+- `docs/ops/agent-governance/workflow-io-test-matrix.yaml`
+- `docs/ops/agent-governance/WORKFLOW_IO_TEST_CONTRACTS.md`
+- `docs/ops/agent-governance/workflow-runner-input-map.yaml`
+- `docs/ops/agent-governance/workflow-test-fixtures.yaml`
+- `docs/ops/agent-governance/PHASE0_FIXTURE_INVENTORY.md`
+- `docs/ops/agent-governance/release-readiness-matrix.yaml`
+- `docs/ops/agent-governance/brand-scope-sidecars.yaml`
+- `docs/ops/agent-governance/supervised-production-validation-mission.yaml`
+- `docs/ops/agent-governance/supervised-production-validation-ledger.yaml`
+- `docs/ops/agent-governance/ads-media-orchestration-matrix.yaml`
+- `docs/ops/agent-governance/ads-media-test-ledger.yaml`
+- `docs/ops/agent-governance/alfred-orchestration-matrix.yaml`
+- `docs/ops/agent-governance/alfred-test-ledger.yaml`
 
 ## Lanes
 

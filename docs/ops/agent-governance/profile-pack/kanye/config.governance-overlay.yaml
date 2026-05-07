@@ -8,12 +8,12 @@ platform_toolsets:
 governance_policy:
   standard: brm.agent-profile.v1
   last_updated: '2026-05-07'
-  source_docs_root: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance"
+  source_docs_root: "docs/ops/agent-governance"
   source_matrices:
-    toolbox: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-toolbox-matrix.yaml"
-    environment: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-environment-matrix.yaml"
-    protocol: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-protocol-matrix.yaml"
-    platform_access: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+    toolbox: "docs/ops/agent-governance/agent-toolbox-matrix.yaml"
+    environment: "docs/ops/agent-governance/agent-environment-matrix.yaml"
+    protocol: "docs/ops/agent-governance/agent-protocol-matrix.yaml"
+    platform_access: "docs/ops/agent-governance/agent-platform-access-matrix.yaml"
   profile_sidecars:
     role_permissions_md: ROLE_PERMISSIONS.md
     role_permissions_json: ROLE_PERMISSIONS.json
@@ -74,7 +74,7 @@ creative_provider_policy:
   - external_publication
   - paid_delivery_platform_mutation
   - voice_clone_without_consent
-  source_matrix: "/Users/moufdi/openclaw-governance-clean/docs/ops/agent-governance/agent-platform-access-matrix.yaml"
+  source_matrix: "docs/ops/agent-governance/agent-platform-access-matrix.yaml"
 generation_policy_overlay:
   defaults:
     still_image: higgsfield_image
