@@ -22,6 +22,7 @@ Observed locally on `2026-05-07` before repair:
 
 The JSONL corruption was repaired on `2026-05-07`; see `MEMORY_LIFECYCLE_REPAIR_REPORT.md`.
 The existing Jack-X event DB was replayed on real processed data in an isolated proof run on `2026-05-07`: DB recording is healthy, memory candidates can be regenerated, promotion review can be rebuilt, and Memory Wiki can compile from the replay projection without mutating the durable KG.
+A copied-KG lifecycle rehearsal also passed all states from `signal_observed` through `feedback_loop_reported`; see `MEMORY_LIFECYCLE_PRODUCTION_PROMOTION_RUNBOOK.md`.
 The remaining product issue is not that the pieces are absent. The issue is that the loop from "captured signal" to "durable KG fact" to "slow consolidation" to "refined durable update" to "future correction" is not governed end to end.
 
 ## Product Roles
@@ -246,3 +247,5 @@ For the Najet example, the expected proof is:
 5. Run one low-risk supervised KG commit after the gate exists.
 6. Prove retrieval from Jack's memory context.
 7. Prove one autocorrection fixture: previous fact -> later signal -> correction candidate -> review -> superseded/confirmed KG update -> retrieval.
+
+Production promotion order is governed by `MEMORY_LIFECYCLE_PRODUCTION_PROMOTION_RUNBOOK.md`.

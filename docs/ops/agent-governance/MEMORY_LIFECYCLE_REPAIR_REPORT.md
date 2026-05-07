@@ -112,6 +112,35 @@ Real DB replay proof:
 - deterministic Memory Wiki replay: `20` pages, `20` `kg_operations`, `17` review items
 - KG remained unchanged after replay: SHA-256 still `8b9f891b8ce386ec056b559586bead93f952d9760e58a17776aca4da43318eb1`
 
+Lifecycle E2E rehearsal proof:
+
+- rehearsal root: `/Users/moufdi/.openclaw/workspace-jack-x/replays/lifecycle-e2e-20260507T001119Z`
+- source data: real processed Jack-X DB replay from `/Users/moufdi/.openclaw/workspace-jack-x/replays/db-existing-data-20260507T000135Z`
+- active KG: unchanged
+- legacy `.clawdis` KG: unchanged
+- temporary KG: `/Users/moufdi/.openclaw/workspace-jack-x/replays/lifecycle-e2e-20260507T001119Z/kg/memory.lifecycle.jsonl`
+- tested states:
+  - `signal_observed`: ok
+  - `candidate_extracted`: ok
+  - `promotion_reviewed`: ok
+  - `durable_committed`: ok on copied KG only
+  - `wiki_compiled`: ok, `40` pages
+  - `wiki_refinement_proposed`: ok, `40` `kg_operations`
+  - `refinement_reviewed`: ok
+  - `refinement_committed`: ok on copied KG only
+  - `retrieval_ready`: ok
+  - `feedback_observed`: ok
+  - `correction_candidate`: ok
+  - `correction_reviewed`: ok
+  - `correction_committed`: ok on copied KG only
+  - `feedback_loop_reported`: ok
+- isolated review DB counts after rehearsal:
+  - identity merge pending: `4`
+  - KG candidate pending: `8`
+  - uncertain relation approved: `2`
+  - uncertain relation pending: `13`
+- proof file: `/Users/moufdi/.openclaw/workspace-jack-x/replays/lifecycle-e2e-20260507T001119Z/lifecycle-e2e-summary.json`
+
 ## Current State
 
 Resolved:
@@ -128,7 +157,7 @@ Still open:
 - LLM Wiki emits `kg_operations`, but there is no closed handoff into Jack-X refinement review
 - Memory Wiki pages still do not render KG relation context such as `Najet member_of Team :: BRM Board`, even when the projection contains the relation
 - the future-time feedback loop is not yet route-backed: there is no repeatable proof for previous fact -> later signal -> correction candidate -> review -> superseded/confirmed KG update -> retrieval
-- no live KG commit replay was run after repair; only no-apply, isolated review-queue, and isolated Wiki replay proofs were run
+- no live KG commit replay was run after repair; only no-apply, isolated review-queue, isolated Wiki replay, and copied-KG lifecycle E2E proofs were run
 
 ## Next Required Slice
 

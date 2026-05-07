@@ -44,6 +44,8 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - machine-readable memory lifecycle states, paths, write gates, blockers, and proof targets
 - `MEMORY_LIFECYCLE_REPAIR_REPORT.md`
   - local KG repair, validation evidence, refreshed Memory Wiki run, and remaining memory lifecycle blockers
+- `MEMORY_LIFECYCLE_PRODUCTION_PROMOTION_RUNBOOK.md`
+  - step-by-step guarded promotion runbook for Jack-X memory lifecycle production readiness
 - `brand-scope-sidecars.yaml`
   - sidecar mapping for legacy brand-linked proof bundles that do not yet emit native `brand_scope`
 - `RELEASE_READINESS_MATRIX.md`
