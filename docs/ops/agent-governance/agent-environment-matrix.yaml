@@ -21,6 +21,18 @@ brand_truth:
   rule: "A missing surface blocks only that surface. It does not block unrelated work on the brand."
   completion_policy: "Missing brand-pack fields should become guided completion tasks or autonomous discovery tasks when safe."
 
+voice_standard:
+  registry: docs/ops/agent-governance/voice-standard.yaml
+  input:
+    provider: openai
+    model: whisper-1
+  output:
+    target_provider: higgsfield
+    status: planned_gated
+  approval_gated:
+    - external-audio-send
+    - real-human-voice-clone-without-explicit-consent
+
 agents:
   jack:
     profile: /Users/moufdi/.brm-hermes/profiles/jack

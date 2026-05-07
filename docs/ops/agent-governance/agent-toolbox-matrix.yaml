@@ -46,6 +46,15 @@ central_skill_policy:
   install_strategy: centralized_skills
   enforcement_strategy: agent_route_allowlist
   note: "The same broad skill tree is currently installed in every Hermes profile. Permission must come from this matrix and route packages, not from skill presence."
+  voice_standard:
+    input:
+      provider: openai
+      model: whisper-1
+      scope: all_profiles_with_voice_enabled
+    output:
+      target_provider: higgsfield
+      status: planned_gated
+      rule: "One distinct voice identity per governed agent; external audio sending remains approval-gated."
   common_denied_skill_families_unless_explicit_route:
     - red-teaming
     - smart-home
@@ -56,6 +65,8 @@ central_skill_policy:
     - devops-deploy
     - payment-mutation
     - external-message-send
+    - voice-clone-without-explicit-consent
+    - external-audio-send-without-approval
 
 agents:
   jack:

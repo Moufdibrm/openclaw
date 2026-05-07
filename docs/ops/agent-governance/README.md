@@ -96,6 +96,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - official Higgsfield CLI procedure, artifact layout, and polling recovery
 - `HIGGSFIELD_VALIDATION_REPORT.md`
   - current Higgsfield beta validation evidence and remaining gates
+- `VOICE_STANDARD.md`
+  - voice input/output standard: OpenAI Whisper input, Higgsfield agent voice output target
+- `voice-standard.yaml`
+  - machine-readable voice provider, agent voice slot, and promotion gate registry
 
 ## Scope
 

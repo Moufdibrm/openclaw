@@ -24,6 +24,10 @@ common_proof_rules:
     - "resolved target before mutation"
     - "explicit approval"
     - "post-mutation readback or platform confirmation"
+  voice:
+    - "OpenAI whisper-1 transcript for input voice"
+    - "Higgsfield job id and local audio artifact for output voice once validated"
+    - "approval record before external audio send"
 
 agents:
   jack:
@@ -64,6 +68,17 @@ agents:
           - "confirm Higgsfield CLI and auth presence without printing secrets"
           - "route repeated creative patterns back to Kanye protocol candidates"
           - "keep publication or delivery mutation approval-gated"
+      - id: voice.openai-whisper-input
+        status: beta
+        registry_coverage: planned
+        purpose: "Standard governed voice input transcription through OpenAI whisper-1."
+        proof_target: "transcript artifact and no local faster-whisper fallback"
+      - id: voice.higgsfield-agent-output
+        status: draft
+        registry_coverage: planned
+        purpose: "Generate differentiated agent voice output through Higgsfield voice identities."
+        proof_target: "voice profile id, generated test clip, manifest, QA verdict"
+        open_gap: "Higgsfield voice/audio capability and runtime handoff are not yet validated."
 
   jack-x:
     protocols:

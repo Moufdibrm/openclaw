@@ -1,0 +1,124 @@
+standard_id: brm.voice-standard.v1
+updated_at: "2026-05-07"
+input_voice:
+  status: active_config_standard
+  provider: openai
+  model: whisper-1
+  applies_to: all_profiles_with_voice_enabled
+  forbidden_fallbacks_unless_explicit:
+    - local_faster_whisper_for_governed_profiles
+    - groq_whisper_for_governed_profiles
+  secret_policy:
+    - key_presence_check_allowed
+    - never_print_or_commit_secret_values
+output_voice:
+  status: planned_gated
+  target_provider: higgsfield
+  voice_identity_model: one_distinct_clone_or_voice_profile_per_agent
+  current_runtime_gap: standard_tts_path_does_not_yet_expose_higgsfield_voice_output
+  legacy_tts:
+    jack:
+      provider: elevenlabs
+      status: legacy_do_not_promote
+  approval_gates:
+    - external_audio_send
+    - real_human_voice_clone_requires_explicit_consent
+    - provider_job_with_sensitive_source_material
+agents:
+  jack:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  jack-x:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  mnemos:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  rosa:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  jeff:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  naya:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  selena:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  alfred:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  cortex:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  tony:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  kanye:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+  safir:
+    input_stt: openai_whisper_1
+    output_voice:
+      provider: higgsfield
+      status: pending_clone
+      voice_profile_id: null
+later_profiles:
+  jackette:
+    input_stt: openai_whisper_1_if_voice_enabled
+    output_voice:
+      status: deferred
+  jhin:
+    input_stt: openai_whisper_1_if_voice_enabled
+    output_voice:
+      status: deferred
+  walter:
+    input_stt: openai_whisper_1_if_voice_enabled
+    output_voice:
+      status: deferred
+promotion_gates:
+  beta:
+    - confirm_higgsfield_audio_or_voice_clone_capability
+    - generate_one_non_sensitive_agent_test_clip
+    - save_manifest_with_job_id_and_local_audio_path
+    - map_voice_profile_id_in_voice_standard_yaml
+    - keep_external_audio_send_approval_gated
+  prod:
+    - approved_voice_identity_for_each_v1_agent
+    - repeatable_generation_route_or_tool
+    - clean_text_fallback_on_failure
+    - no_secret_or_source_material_leakage

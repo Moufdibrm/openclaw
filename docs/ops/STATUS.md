@@ -1424,3 +1424,20 @@ Operator review package:
   - fix the local wrapper test harness
   - clean profile cwd/STT provider
   - add governed fallback or clean blocked semantics for empty model responses
+
+## Voice
+- Voice standard created on `2026-05-07`: `docs/ops/agent-governance/VOICE_STANDARD.md`
+- Input voice decision:
+  - all governed profile voice input uses `stt.provider: openai`
+  - all governed profile voice input uses `stt.model: whisper-1`
+  - local faster-whisper is not the default for governed BRM profiles
+- Local profile config cleanup on `2026-05-07`:
+  - all profiles with existing `stt.enabled: true` now include `provider: openai`
+  - V1 profiles without explicit STT blocks now have explicit OpenAI `whisper-1` STT blocks
+- Output voice decision:
+  - target provider is Higgsfield
+  - each V1 agent gets a distinct pending voice identity slot
+  - status remains `planned_gated` until Higgsfield voice/audio generation is validated end-to-end
+- Known runtime gap:
+  - Jack still has a legacy ElevenLabs TTS block; do not promote it as the BRM voice identity path
+  - switching live spoken replies to Higgsfield requires runtime-owned TTS/provider work and a validated generation manifest
