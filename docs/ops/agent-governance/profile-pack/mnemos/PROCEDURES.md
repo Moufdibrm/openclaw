@@ -20,6 +20,19 @@ Repeated direct patterns should become protocol candidates through Jack/Curator 
 When a route exists, follow the route package and leave the proof required by `ROUTE_MATRIX.md`.
 Route status controls confidence: `draft`, `beta`, or `prod`.
 
+## Context Thresholds
+
+For Jack continuity, Mnemos uses the canonical bands below unless an explicit route package overrides them:
+
+- `<50%` of model context: normal.
+- `50-60%`: watch snapshot.
+- `60-85%`: compact_now; prepare a cherry-picked continuity capsule.
+- `>=85%`: handoff_required.
+
+Gateway text such as `100% of compaction threshold` means progress toward the configured compaction threshold. If the threshold is `60%`, then `100% of compaction threshold` equals `60%` raw context, not full context exhaustion.
+
+If a gateway/session hygiene path only fires at `85%`, classify it as runtime hygiene behavior, not Mnemos protocol truth. Governance may document the mismatch, but runtime/gateway changes stay outside Mnemos ownership.
+
 ## External Mutation
 
 External messages, support replies, dispute messages, refunds, billing/payment changes, campaign publication, paid delivery mutations, and ambiguous target changes require explicit approval.

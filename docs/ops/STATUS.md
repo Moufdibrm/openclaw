@@ -145,6 +145,7 @@ Working now:
   - auto-reset continuity capture on session expiry so daily/idle resets do not lose live context
   - cross-session journal under `~/.openclaw/workspace-mnemos/journal/<profile>/`
   - no direct KG writes by policy; Mnemos remains continuity memory, not enterprise truth
+  - latest local threshold proof: `2026-05-07T18:26:41Z` synthetic `62.0%` Jack context returned `compaction_recommended` / `compact_now` with canonical bands `50/60/85`
 - `Jack` now has a separate live operator email digest cron that reads the latest qualified Jack X mail artifact, including the mixed `inbox + sent` batch, without mutating Jack X memory/KG state
 - the digest runtime now exposes a stable top-level `response_preview` contract so Hermes cron can auto-deliver `ok` and suppress `noop` cleanly on WhatsApp, and the review prompt now carries curated support / follow-up / finance / archive slices instead of a dry audit summary
 - Hermes cron transport is now standardized enough to build on:
