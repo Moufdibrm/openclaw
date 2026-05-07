@@ -1,0 +1,1917 @@
+version: 1
+last_updated: "2026-05-07"
+scope: "BRM/Hermes governed platform and surface registry"
+status_values:
+  - draft
+  - beta
+  - prod
+  - partial
+  - legacy
+  - deferred
+  - unclear
+category_values:
+  - commerce
+  - crm_email
+  - support
+  - payment
+  - logistics
+  - supply_chain
+  - paid_media
+  - analytics
+  - visibility
+  - creator_social
+  - channel
+  - collaboration
+  - delivery
+  - creative_ai
+  - model_provider
+  - internal_control
+  - memory
+  - development
+  - infra
+  - edge_domain
+  - secrets
+scope_values:
+  - global
+  - brand_scoped
+  - account_scoped
+  - tenant_scoped
+  - channel_scoped
+  - repo_scoped
+  - file_scoped
+  - profile_scoped
+global_rules:
+  jack_access: "transversal_read_supervision_gap_detection_and_governed_direct_execution_when_requested"
+  jack_mutation: "no_blanket_mutation_rights"
+  installed_skill_is_permission: false
+  direct_read_policy: "allowed only when owned, bounded, unambiguous, and logged"
+  repeated_direct_use_policy: "create protocol_candidate or toolbox_gap"
+  external_write_policy: "route_or_explicit_approval_required"
+  secret_policy: "record env key names or secret source only; never record secret values"
+  brand_partial_policy: "missing brand surface blocks only that surface"
+approval_gates:
+  - outbound_external_message
+  - customer_visible_support_reply
+  - paypal_or_dispute_message
+  - refund_payment_billing_financial_mutation
+  - campaign_publication_or_ad_mutation
+  - supplier_order_purchase_mutation
+  - crm_send_flow_segment_mutation
+  - storefront_theme_site_publication
+  - drive_upload_or_external_delivery
+  - infra_dns_secret_deploy_restart_mutation
+  - ambiguous_target_tenant_brand_or_delta
+addition_standard:
+  create_as_status: draft
+  required_fields:
+    - platform_id
+    - display_name
+    - category
+    - status
+    - scope_model
+    - primary_owner_agent
+    - supervisor_agent
+    - read_surfaces
+    - write_surfaces
+    - approval_gated_surfaces
+    - forbidden_surfaces
+    - auth
+    - skills_or_toolboxes
+    - direct_tool_use_policy
+    - protocol_policy
+    - proof_targets
+    - test_plan
+    - open_questions
+  promotion:
+    draft_to_beta:
+      - registry_entry_complete
+      - owner_agent_assigned
+      - read_write_split_clear
+      - auth_presence_checked_without_secret_leak
+      - first_bounded_read_or_fixture_test
+      - proof_target_documented
+    beta_to_prod:
+      - repeated_successful_bounded_runs
+      - protocol_exists_for_repeated_workflow
+      - pre_post_readback_or_no_mutation_proof
+      - retry_or_failure_behavior_documented
+      - approval_gate_tested_when_relevant
+      - brand_scope_verified_when_brand_linked
+      - curator_feedback_path_defined
+
+platforms:
+  shopify:
+    platform_id: shopify
+    display_name: Shopify
+    category: commerce
+    status: partial
+    maturity_note: "First commerce slice is standardized; broader store/theme/mutation coverage remains partial."
+    scope_model: [brand_scoped, tenant_scoped, account_scoped]
+    primary_owner_agent: rosa
+    secondary_owner_agents: [naya, alfred, tony]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.shopify.store_key
+      - ecosystem.shopify.myshopify_domain
+      - ecosystem.shopify.api_version
+      - ecosystem.shopify.known_tenants
+      - critical_routes.shopify
+    read_surfaces:
+      - products
+      - orders
+      - inventory
+      - discounts
+      - collections
+      - theme_read
+      - storefront_verify
+    write_surfaces:
+      - product_update
+      - collection_update
+      - discount_update
+      - theme_update
+      - storefront_publication
+    approval_gated_surfaces:
+      - product_or_theme_publication
+      - storefront_mutation
+      - customer_or_order_mutation
+    forbidden_surfaces:
+      - hidden_store_mutation
+      - mutation_without_brand_tenant_resolution
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env or AWS-synced secret metadata"
+      env_keys: [SHOPIFY_TOKEN_BY_BRAND]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes:
+      - shopify-read
+      - shopify-admin-graphql
+      - storefront-verification
+    direct_tool_use_policy:
+      read: "allowed for Rosa/Naya/Alfred/Tony only when brand and tenant are explicit"
+      write: "route_or_explicit_approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [naya.stock-check, rosa.audit-performance-marketing]
+    proof_targets: [json_readback, report_bundle, no_mutation_statement, pre_post_readback_for_mutation]
+    test_plan:
+      fixture_test: "brand-scoped product/order/inventory fixture"
+      live_read_test: "bounded read against one declared store"
+      mutation_gate_test: "attempted mutation must block without approval"
+    open_questions:
+      - "Which Shopify write routes should be promoted first: product updates, theme/content, discounts, or storefront publication?"
+
+  recharge:
+    platform_id: recharge
+    display_name: Recharge
+    category: commerce
+    status: partial
+    maturity_note: "Declared in Botanic brand pack; not broadly validated."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: naya
+    secondary_owner_agents: [rosa, selena]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.subscriptions.provider
+      - critical_routes.recharge
+    read_surfaces: [subscriptions, subscription_status]
+    write_surfaces: [subscription_update, cancellation, billing_update]
+    approval_gated_surfaces: [subscription_or_billing_mutation]
+    forbidden_surfaces: [unapproved_subscription_mutation]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env when configured"
+      env_keys: [RECHARGE_API_KEY_BY_BRAND]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [recharge-read]
+    direct_tool_use_policy:
+      read: "allowed only after account and brand are explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [subscription_readback, report_bundle]
+    test_plan:
+      fixture_test: "subscription fixture or reviewed export"
+      live_read_test: "small read-only subscription check"
+      mutation_gate_test: "subscription update blocks without approval"
+    open_questions:
+      - "Confirm Recharge owner agent for subscription operations: Naya, Selena, or a split by support vs ops."
+
+  klaviyo:
+    platform_id: klaviyo
+    display_name: Klaviyo
+    category: crm_email
+    status: partial
+    maturity_note: "Centrally wired; audit/design reads are usable in bounded routes, live sends remain gated."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: safir
+    secondary_owner_agents: [rosa]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.crm.provider
+      - ecosystem.crm.account_key
+      - ecosystem.crm.status
+      - critical_routes.klaviyo
+    read_surfaces: [flows, campaigns, templates, segments, metrics]
+    write_surfaces: [draft_email, template_update, segment_update, flow_update, campaign_send]
+    approval_gated_surfaces: [external_email_send, crm_mutation, flow_activation, segment_mutation]
+    forbidden_surfaces: [send_without_approval, crm_mutation_without_route]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [KLAVIYO_API_KEY_BY_BRAND]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [klaviyo-read, klaviyo-email-design, email-render]
+    direct_tool_use_policy:
+      read: "allowed for Safir/Rosa when brand account is explicit"
+      write: "draft locally only unless approval and route allow"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [safir.email-audit, safir.mail-pole-audit]
+    proof_targets: [audit_artifact, rendered_draft, html_pdf_render, no_send_statement]
+    test_plan:
+      fixture_test: "reviewed template/flow export"
+      live_read_test: "bounded flow/template list"
+      mutation_gate_test: "send/flow activation blocks without approval"
+    open_questions:
+      - "Define the first production-ready Safir email workflow route before any send path."
+
+  ms365-mail:
+    platform_id: ms365-mail
+    display_name: Microsoft 365 Mail
+    category: crm_email
+    status: beta
+    maturity_note: "Usable for bounded inbox/sent intake and memory/email context."
+    scope_model: [account_scoped]
+    primary_owner_agent: jack-x
+    secondary_owner_agents: [safir, jack]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [inbox, sent, message_headers, message_bodies_bounded]
+    write_surfaces: [email_draft, email_send]
+    approval_gated_surfaces: [external_email_send]
+    forbidden_surfaces: [unapproved_send, unbounded_mailbox_sweep]
+    auth:
+      required: true
+      secret_source: "shared Hermes env / profile auth"
+      env_keys: [MS365_REFRESH_TOKEN_MAE]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [ms365-mail-read, email-digest]
+    direct_tool_use_policy:
+      read: "allowed for Jack-X intake and Safir context when bounded"
+      write: "send requires approval"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [jack-x.email-intake-pass0, jack.email-digest]
+    proof_targets: [batch_artifact, memory_candidate, digest_artifact, no_send_statement]
+    test_plan:
+      fixture_test: "mail artifact replay"
+      live_read_test: "bounded inbox+sent cursor read"
+      mutation_gate_test: "email send blocks without approval"
+    open_questions: []
+
+  zendesk:
+    platform_id: zendesk
+    display_name: Zendesk
+    category: support
+    status: prod
+    maturity_note: "Production-usable for bounded read/audit routes only."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: selena
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.support.zendesk_account]
+    read_surfaces: [tickets, comments_bounded, reviewed_exports]
+    write_surfaces: [ticket_reply, ticket_tag_update, ticket_status_update]
+    approval_gated_surfaces: [customer_visible_support_reply, ticket_mutation]
+    forbidden_surfaces: [reply_without_approval, refund_or_payment_decision_without_approval]
+    auth:
+      required: true
+      secret_source: "AWS brm-api-keys / business sync metadata"
+      env_keys: [ZENDESK_API_TOKEN, ZENDESK_SUBDOMAIN]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [zendesk-read, support-risk-report]
+    direct_tool_use_policy:
+      read: "allowed for Selena on bounded ticket/export work"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [selena.zendesk-feedback-review, selena.zendesk-feedback-live]
+    proof_targets: [reviewed_export, live_fetch_artifact, support_risk_report, no_mutation_statement]
+    test_plan:
+      fixture_test: "reviewed Zendesk export replay"
+      live_read_test: "bounded live fetch with skip-comments where needed"
+      mutation_gate_test: "reply/update blocks without approval"
+    open_questions: []
+
+  paypal:
+    platform_id: paypal
+    display_name: PayPal
+    category: payment
+    status: prod
+    maturity_note: "Production-usable for bounded dispute read/audit routes only."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: selena
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.payments.paypal_account]
+    read_surfaces: [disputes, dispute_details, reviewed_exports]
+    write_surfaces: [dispute_message, refund, payment_mutation]
+    approval_gated_surfaces: [dispute_message, refund_payment_billing_financial_mutation]
+    forbidden_surfaces: [unapproved_refund, unapproved_dispute_message]
+    auth:
+      required: true
+      secret_source: "AWS brm-api-keys / business sync metadata"
+      env_keys: [PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [paypal-read, dispute-audit]
+    direct_tool_use_policy:
+      read: "allowed for Selena on bounded dispute work"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [selena.paypal-dispute.phase1-audit, selena.paypal-dispute.phase1-live]
+    proof_targets: [reviewed_dispute_export, live_fetch_artifact, dispute_audit_report, no_mutation_statement]
+    test_plan:
+      fixture_test: "reviewed dispute export replay"
+      live_read_test: "bounded live dispute fetch"
+      mutation_gate_test: "refund/message blocks without approval"
+    open_questions: []
+
+  bigblue:
+    platform_id: bigblue
+    display_name: BigBlue
+    category: logistics
+    status: beta
+    maturity_note: "Bounded live validation floor exists for inventory/product/order reads."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: naya
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.logistics.provider
+      - critical_routes.bigblue
+    read_surfaces: [inventory, products, orders, telemetry]
+    write_surfaces: [fulfillment_update, order_update, shipment_mutation]
+    approval_gated_surfaces: [order_or_purchase_mutation, supplier_order_purchase_mutation]
+    forbidden_surfaces: [unapproved_order_or_shipment_mutation]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [BIGBLUE_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [bigblue-read, stock-telemetry]
+    direct_tool_use_policy:
+      read: "allowed for Naya when brand/order/product target is explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [naya.stock-check]
+    proof_targets: [stock_snapshot, telemetry_artifact, report_bundle, no_mutation_statement]
+    test_plan:
+      fixture_test: "reviewed stock snapshot"
+      live_read_test: "bounded inventory/product/order read"
+      mutation_gate_test: "order/shipment mutation blocks without approval"
+    open_questions: []
+
+  hiboo-core:
+    platform_id: hiboo-core
+    display_name: Hiboo Core
+    category: supply_chain
+    status: beta
+    maturity_note: "Live enough for Naya telemetry and Jeff/Rosa script-first work; broader family remains partial."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: naya
+    secondary_owner_agents: [jeff, rosa]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.hiboo.account_id
+      - ecosystem.hiboo.store_id
+      - ecosystem.hiboo.surfaces
+    read_surfaces: [products, production, governance, creator_profiles]
+    write_surfaces: [candidate_registry_local, collaboration_update]
+    approval_gated_surfaces: [collaboration_create_update_archive, supplier_order_purchase_mutation]
+    forbidden_surfaces: [unapproved_collaboration_or_business_mutation]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [HIBOO_SERVICE_KEY, HIBOO_ACCOUNT_ID]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [hiboo-read, hiboo-creators, stock-telemetry]
+    direct_tool_use_policy:
+      read: "allowed for Naya/Jeff/Rosa on owned bounded surfaces"
+      write: "approval_required unless local-only candidate artifact"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [jeff.analyse-profil, jeff.performance-report, jeff.candidate-intake, rosa.audit-performance-marketing]
+    proof_targets: [profile_report, performance_report, telemetry_artifact, candidate_artifact]
+    test_plan:
+      fixture_test: "reviewed Hiboo export or profile fixture"
+      live_read_test: "bounded profile/telemetry read"
+      mutation_gate_test: "collaboration update blocks without approval"
+    open_questions: []
+
+  sourcing-sheets:
+    platform_id: sourcing-sheets
+    display_name: Sourcing Sheets
+    category: supply_chain
+    status: draft
+    maturity_note: "Artifact-fed sourcing inputs exist; supplier communication remains draft/gated."
+    scope_model: [brand_scoped, file_scoped]
+    primary_owner_agent: naya
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.sourcing]
+    read_surfaces: [reviewed_sourcing_sheet, supplier_inputs]
+    write_surfaces: [supplier_question_pack, supplier_message_draft]
+    approval_gated_surfaces: [supplier_message_send, order_or_purchase_mutation]
+    forbidden_surfaces: [unapproved_supplier_message, unapproved_purchase]
+    auth:
+      required: false
+      secret_source: "n/a unless backed by an external sheet provider"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [sourcing-sheet-analysis]
+    direct_tool_use_policy:
+      read: "allowed from reviewed local artifact"
+      write: "local draft only unless approval"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [naya.product-sourcing]
+    proof_targets: [sourcing_report, supplier_question_pack, no_send_statement]
+    test_plan:
+      fixture_test: "reviewed sourcing sheet"
+      live_read_test: "none until provider is declared"
+      mutation_gate_test: "supplier send blocks without approval"
+    open_questions:
+      - "Decide whether sourcing sheets are local artifacts, Lark tables, Google Sheets, or another provider."
+
+  meta-ads:
+    platform_id: meta-ads
+    display_name: Meta Ads
+    category: paid_media
+    status: partial
+    maturity_note: "Brand account mappings exist; live mutation is not approved."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: cortex
+    secondary_owner_agents: [rosa]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.paid_media.meta_account_code
+      - ecosystem.paid_media.meta_ad_accounts
+    read_surfaces: [campaigns, adsets, ads, spend, performance]
+    write_surfaces: [campaign_create, campaign_update, ad_publication, budget_update]
+    approval_gated_surfaces: [campaign_publication_or_ad_mutation, budget_mutation]
+    forbidden_surfaces: [unapproved_spend_or_publication]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [META_ADS_ACCESS_TOKEN]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [paid-media-read, meta-ads-read]
+    direct_tool_use_policy:
+      read: "allowed for Cortex when brand account is explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [cortex.ads-observation]
+    proof_targets: [ads_snapshot, observation_report, no_mutation_statement]
+    test_plan:
+      fixture_test: "paid media snapshot fixture"
+      live_read_test: "bounded campaign read"
+      mutation_gate_test: "campaign/budget update blocks without approval"
+    open_questions: []
+
+  google-ads:
+    platform_id: google-ads
+    display_name: Google Ads
+    category: paid_media
+    status: partial
+    maturity_note: "Centrally wired; paid-media routes remain read/observation-first."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: cortex
+    secondary_owner_agents: [rosa]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.paid_media.google_ads_account]
+    read_surfaces: [campaigns, ads, keywords, spend, performance]
+    write_surfaces: [campaign_create, campaign_update, ad_publication, budget_update]
+    approval_gated_surfaces: [campaign_publication_or_ad_mutation, budget_mutation]
+    forbidden_surfaces: [unapproved_spend_or_publication]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [GOOGLE_ADS_AUTH_TUPLE]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [paid-media-read, google-ads-read]
+    direct_tool_use_policy:
+      read: "allowed for Cortex when brand account is explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [cortex.ads-observation]
+    proof_targets: [ads_snapshot, observation_report, no_mutation_statement]
+    test_plan:
+      fixture_test: "paid media snapshot fixture"
+      live_read_test: "bounded campaign read"
+      mutation_gate_test: "campaign/budget update blocks without approval"
+    open_questions: []
+
+  hiboo-ads:
+    platform_id: hiboo-ads
+    display_name: Hiboo Ads And Creatives
+    category: paid_media
+    status: beta
+    maturity_note: "Closed on current Rosa/Cortex routes; partial outside packaged surfaces."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: cortex
+    secondary_owner_agents: [rosa, kanye]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.hiboo.surfaces
+      - ecosystem.paid_media.hiboo_ads_account
+    read_surfaces: [ads, creatives, performance, creative_references]
+    write_surfaces: [creative_handoff_artifact, campaign_task_artifact]
+    approval_gated_surfaces: [campaign_publication_or_ad_mutation]
+    forbidden_surfaces: [unapproved_campaign_mutation]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [HIBOO_SERVICE_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [hiboo-ads-read, creative-observation]
+    direct_tool_use_policy:
+      read: "allowed for Cortex/Rosa on bounded account"
+      write: "local handoff artifacts only unless approval"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [cortex.ads-observation, rosa.audit-performance-marketing]
+    proof_targets: [ads_observation_report, creative_handoff, no_mutation_statement]
+    test_plan:
+      fixture_test: "ads/creative snapshot"
+      live_read_test: "bounded ads observation"
+      mutation_gate_test: "campaign mutation blocks without approval"
+    open_questions: []
+
+  ga4:
+    platform_id: ga4
+    display_name: Google Analytics 4
+    category: analytics
+    status: partial
+    maturity_note: "Brand/property hints exist; not every brand has canonical property."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: rosa
+    secondary_owner_agents: [alfred]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.analytics.ga4_property_key
+      - ecosystem.analytics.ga4_property_id
+      - ecosystem.analytics.ga4_property_keys
+    read_surfaces: [traffic, conversion, ecommerce, campaign_metrics]
+    write_surfaces: [analytics_config_update]
+    approval_gated_surfaces: [analytics_config_mutation]
+    forbidden_surfaces: [unapproved_config_mutation]
+    auth:
+      required: true
+      secret_source: "Google credentials path in shared Hermes credentials"
+      env_keys: [GOOGLE_APPLICATION_CREDENTIALS]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [ga4-read, analytics-read]
+    direct_tool_use_policy:
+      read: "allowed for Rosa/Alfred when property is explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [rosa.audit-performance-marketing, alfred.visibility-audit]
+    proof_targets: [analytics_snapshot, report_bundle, missing_property_note]
+    test_plan:
+      fixture_test: "analytics fixture or exported report"
+      live_read_test: "bounded property query"
+      mutation_gate_test: "config mutation blocks without approval"
+    open_questions:
+      - "Fill missing canonical GA4 properties in brand packs where needed."
+
+  google-search-console:
+    platform_id: google-search-console
+    display_name: Google Search Console
+    category: visibility
+    status: prod
+    maturity_note: "Live Search Console queries validated for Alfred current route."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: alfred
+    secondary_owner_agents: [rosa]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.analytics.gsc_site_hints]
+    read_surfaces: [search_performance, site_hints, pages, queries]
+    write_surfaces: [property_or_sitemap_submission]
+    approval_gated_surfaces: [site_or_property_mutation]
+    forbidden_surfaces: [unapproved_site_mutation]
+    auth:
+      required: true
+      secret_source: "Google credentials path in shared Hermes credentials"
+      env_keys: [GOOGLE_APPLICATION_CREDENTIALS]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [gsc-read, visibility-audit]
+    direct_tool_use_policy:
+      read: "allowed for Alfred/Rosa when domain/property is explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [alfred.visibility-audit]
+    proof_targets: [visibility_report, query_snapshot, no_mutation_statement]
+    test_plan:
+      fixture_test: "reviewed visibility bundle"
+      live_read_test: "bounded Search Console query"
+      mutation_gate_test: "property/site mutation blocks without approval"
+    open_questions: []
+
+  dataforseo:
+    platform_id: dataforseo
+    display_name: DataForSEO
+    category: visibility
+    status: prod
+    maturity_note: "Bounded validation floor exists through Alfred visibility work."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: alfred
+    secondary_owner_agents: [rosa]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.analytics.search_or_serp_provider]
+    read_surfaces: [serp, keyword, backlink, competitor_visibility]
+    write_surfaces: []
+    approval_gated_surfaces: [costly_bulk_query]
+    forbidden_surfaces: [unbounded_bulk_query]
+    auth:
+      required: true
+      secret_source: "Hermes business sync and AWS secret path"
+      env_keys: [DATAFORSEO_LOGIN, DATAFORSEO_PASSWORD]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [dataforseo-read]
+    direct_tool_use_policy:
+      read: "allowed for Alfred/Rosa with bounded query/domain"
+      write: "n/a"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: [alfred.visibility-audit, rosa.veille-concurrentielle, rosa.market-graph-refresh]
+    proof_targets: [serp_snapshot, visibility_report]
+    test_plan:
+      fixture_test: "SERP fixture"
+      live_read_test: "bounded keyword/domain query"
+      mutation_gate_test: "n/a"
+    open_questions: []
+
+  public-site-rendering:
+    platform_id: public-site-rendering
+    display_name: Public Site Rendering And Browser Verification
+    category: visibility
+    status: beta
+    maturity_note: "Used for SEO/storefront/dev verification; mutation is separate."
+    scope_model: [brand_scoped, repo_scoped]
+    primary_owner_agent: alfred
+    secondary_owner_agents: [tony, jack]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [identity.known_domains, ecosystem.shopify.known_tenants]
+    read_surfaces: [url_fetch, render_screenshot, html_inspection]
+    write_surfaces: []
+    approval_gated_surfaces: [site_or_theme_mutation]
+    forbidden_surfaces: [browser_driven_external_mutation_without_approval]
+    auth:
+      required: false
+      secret_source: "n/a for public rendering"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [browser-verification, site-audit-read]
+    direct_tool_use_policy:
+      read: "allowed for Jack/Alfred/Tony when URL target is explicit"
+      write: "n/a"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: [alfred.visibility-audit]
+    proof_targets: [screenshot, html_snapshot, render_report]
+    test_plan:
+      fixture_test: "saved HTML/render fixture"
+      live_read_test: "bounded URL render"
+      mutation_gate_test: "browser mutation blocks without approval"
+    open_questions: []
+
+  instagram-public:
+    platform_id: instagram-public
+    display_name: Instagram Public/Profile Signals
+    category: creator_social
+    status: beta
+    maturity_note: "Used by Jeff creator analysis through bounded profile workflows."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: jeff
+    secondary_owner_agents: [cortex]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.social.instagram]
+    read_surfaces: [creator_profile, handle_metrics, public_posts]
+    write_surfaces: [outreach_message, collaboration_update]
+    approval_gated_surfaces: [creator_contact_send, collaboration_create_update_archive]
+    forbidden_surfaces: [unapproved_contact_or_collaboration_mutation]
+    auth:
+      required: false
+      secret_source: "provider-specific when used through Graph/Apify/Hiboo"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [creator-profile-read, hiboo-creators, apify-when-routed]
+    direct_tool_use_policy:
+      read: "allowed for Jeff on explicit handle/store"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [jeff.analyse-profil, jeff.candidate-intake]
+    proof_targets: [creator_profile_report, candidate_artifact, no_contact_statement]
+    test_plan:
+      fixture_test: "creator profile fixture"
+      live_read_test: "bounded handle analysis"
+      mutation_gate_test: "contact/send blocks without approval"
+    open_questions: []
+
+  instagram-graph:
+    platform_id: instagram-graph
+    display_name: Instagram Graph Auth
+    category: creator_social
+    status: partial
+    maturity_note: "Auth standardization is documented; V1 operational use remains bounded."
+    scope_model: [account_scoped, brand_scoped]
+    primary_owner_agent: jeff
+    secondary_owner_agents: [cortex]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.social.instagram_graph_account]
+    read_surfaces: [owned_account_metrics, media_metrics]
+    write_surfaces: [publish_media, comment_reply, account_mutation]
+    approval_gated_surfaces: [external_message_send, publication_or_account_mutation]
+    forbidden_surfaces: [unapproved_publish_or_reply]
+    auth:
+      required: true
+      secret_source: "AWS Secrets Manager to sync-secrets to openclaw env fallback"
+      env_keys: [INSTAGRAM_GRAPH_ACCESS_TOKEN]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [instagram-graph-read]
+    direct_tool_use_policy:
+      read: "allowed only after account and purpose are explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [graph_readback, no_mutation_statement]
+    test_plan:
+      fixture_test: "saved Graph response"
+      live_read_test: "bounded account metric read"
+      mutation_gate_test: "publish/reply blocks without approval"
+    open_questions:
+      - "Decide whether Instagram Graph belongs to Jeff only or is split with Cortex for ads/media."
+
+  apify:
+    platform_id: apify
+    display_name: Apify
+    category: creator_social
+    status: partial
+    maturity_note: "Centrally wired; mainly adjacent to Jeff creator/social extraction."
+    scope_model: [account_scoped]
+    primary_owner_agent: jeff
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [actors, datasets, social_web_extracts]
+    write_surfaces: [actor_run]
+    approval_gated_surfaces: [costly_or_unbounded_actor_run]
+    forbidden_surfaces: [unbounded_scrape, unapproved_costly_run]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [APIFY_TOKEN]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [apify-read, creator-extraction]
+    direct_tool_use_policy:
+      read: "allowed only for explicit bounded actor/dataset"
+      write: "actor run requires route or approval if costly"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: []
+    proof_targets: [dataset_ref, extraction_report, cost_scope]
+    test_plan:
+      fixture_test: "saved dataset fixture"
+      live_read_test: "bounded dataset read"
+      mutation_gate_test: "new actor run blocks unless scoped"
+    open_questions: []
+
+  whatsapp:
+    platform_id: whatsapp
+    display_name: WhatsApp
+    category: channel
+    status: beta
+    maturity_note: "Jack operator path is live; Jack-X bounded intake works; group volume remains partial."
+    scope_model: [profile_scoped, channel_scoped]
+    primary_owner_agent: jack
+    secondary_owner_agents: [jack-x]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: [ecosystem.coordination.operator_surface]
+    read_surfaces: [operator_messages, remote_snapshot, bounded_group_snapshot]
+    write_surfaces: [operator_reply, fanout_message]
+    approval_gated_surfaces: [outbound_external_message, multi_target_fanout]
+    forbidden_surfaces: [unapproved_external_send, unbounded_snapshot]
+    auth:
+      required: true
+      secret_source: "profile-local WhatsApp session; runtime-owned"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [whatsapp-operator-surface, whatsapp-snapshot-read]
+    direct_tool_use_policy:
+      read: "allowed for Jack-X bounded intake and Jack supervision"
+      write: "approval_required unless existing operator reply path explicitly allows"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [jack-x.whatsapp-intake-pass0]
+    proof_targets: [snapshot_artifact, message_archive_ref, no_send_or_send_approval]
+    test_plan:
+      fixture_test: "remote snapshot fixture"
+      live_read_test: "bounded DM/group snapshot"
+      mutation_gate_test: "outbound/fanout blocks without approval"
+    open_questions:
+      - "Close real group-volume proof when production traffic exists."
+
+  lark-messages:
+    platform_id: lark-messages
+    display_name: Lark Messages
+    category: collaboration
+    status: beta
+    maturity_note: "Usable on first truthful Jack-X path and selected brand slices."
+    scope_model: [brand_scoped, channel_scoped, account_scoped]
+    primary_owner_agent: jack-x
+    secondary_owner_agents: [rosa, safir, naya]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields:
+      - ecosystem.lark.groups
+      - ecosystem.coordination.team_discussion_routes
+    read_surfaces: [channel_messages, thread_context, team_discussion]
+    write_surfaces: [message_post, reaction_or_status_update]
+    approval_gated_surfaces: [external_or_team_message_send]
+    forbidden_surfaces: [unapproved_post]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [LARK_APP_ID, LARK_APP_SECRET]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [lark-read, lark-message-intake]
+    direct_tool_use_policy:
+      read: "allowed for Jack-X and domain agents when channel/brand is explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [jack-x.lark-message-intake-pass0]
+    proof_targets: [lark_batch_artifact, memory_candidate, no_post_statement]
+    test_plan:
+      fixture_test: "saved Lark batch"
+      live_read_test: "bounded channel read"
+      mutation_gate_test: "post blocks without approval"
+    open_questions: []
+
+  lark-tables:
+    platform_id: lark-tables
+    display_name: Lark Tables
+    category: collaboration
+    status: beta
+    maturity_note: "Maybe slice is validated; Blinx remains draft."
+    scope_model: [brand_scoped, account_scoped]
+    primary_owner_agent: jack-x
+    secondary_owner_agents: [rosa, safir, naya]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.lark.tables]
+    read_surfaces: [table_records, operations_calendar]
+    write_surfaces: [record_create, record_update, record_archive]
+    approval_gated_surfaces: [table_mutation_when_business_effect]
+    forbidden_surfaces: [unapproved_table_mutation]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [LARK_APP_ID, LARK_APP_SECRET]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [lark-table-read, operations-calendar]
+    direct_tool_use_policy:
+      read: "allowed for explicit table/store scope"
+      write: "approval_required unless route owns the table mutation"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [jack-x.lark-table-intake-pass0]
+    proof_targets: [table_batch_artifact, operation_candidates, no_mutation_statement]
+    test_plan:
+      fixture_test: "saved table batch"
+      live_read_test: "bounded table read"
+      mutation_gate_test: "record update blocks without approval"
+    open_questions:
+      - "Complete Blinx Lark tables onboarding."
+
+  google-drive:
+    platform_id: google-drive
+    display_name: Google Drive
+    category: delivery
+    status: partial
+    maturity_note: "Delivery surface exists but remains approval-gated by design."
+    scope_model: [account_scoped, file_scoped]
+    primary_owner_agent: jack
+    secondary_owner_agents: [alfred, jeff, cortex, naya]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [reviewed_file_ref, delivery_folder_ref]
+    write_surfaces: [upload, share, attach_to_mm]
+    approval_gated_surfaces: [drive_upload_or_external_delivery]
+    forbidden_surfaces: [unapproved_upload_or_share]
+    auth:
+      required: true
+      secret_source: "Google credentials path in shared Hermes credentials"
+      env_keys: [GOOGLE_APPLICATION_CREDENTIALS]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [google-drive-approval-gated]
+    direct_tool_use_policy:
+      read: "allowed for file existence/ref inspection when target is explicit"
+      write: "approval_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [alfred.visibility-audit, jeff.performance-report]
+    proof_targets: [blocked_pending_approval, upload_manifest, delivery_json]
+    test_plan:
+      fixture_test: "local file delivery fixture"
+      live_read_test: "folder/file metadata read if approved"
+      mutation_gate_test: "upload/share blocks without approval"
+    open_questions: []
+
+  telegram:
+    platform_id: telegram
+    display_name: Telegram
+    category: channel
+    status: deferred
+    maturity_note: "Legacy OpenClaw channel; explicitly outside V1."
+    scope_model: [channel_scoped]
+    primary_owner_agent: ""
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: []
+    write_surfaces: []
+    approval_gated_surfaces: [outbound_external_message]
+    forbidden_surfaces: [v1_use_without_promotion]
+    auth:
+      required: false
+      secret_source: "legacy"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: []
+    direct_tool_use_policy:
+      read: "forbidden_in_v1"
+      write: "forbidden_in_v1"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [deferred_note]
+    test_plan:
+      fixture_test: "n/a"
+      live_read_test: "n/a"
+      mutation_gate_test: "n/a"
+    open_questions: []
+
+  higgsfield:
+    platform_id: higgsfield
+    display_name: Higgsfield
+    category: creative_ai
+    status: beta
+    maturity_note: "Still/product tests passed; marketplace and Soul ID remain gated; voice output planned."
+    scope_model: [profile_scoped, account_scoped]
+    primary_owner_agent: kanye
+    secondary_owner_agents: [jack]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [auth_presence, job_status, generated_media_refs]
+    write_surfaces: [image_generation, video_generation, product_photoshoot, voice_identity_generation]
+    approval_gated_surfaces: [external_publication, paid_delivery_platform_mutation, voice_clone_without_consent]
+    forbidden_surfaces: [secret_printing, unapproved_voice_clone, unapproved_publication]
+    auth:
+      required: true
+      secret_source: "profile env loader"
+      env_keys: [HF_API_KEY_ID, HF_API_KEY_SECRET]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes:
+      - higgsfield-generate
+      - higgsfield-product-photoshoot
+      - higgsfield-marketplace-cards
+      - higgsfield-soul-id
+    direct_tool_use_policy:
+      read: "auth presence and job inspection allowed without secret printing"
+      write: "Kanye owns; Jack may execute only as explicit governed exception"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [kanye.still-generate, kanye.reference-edit]
+    proof_targets: [prompt_manifest, job_json, media_artifact, attachment_manifest, qa_notes]
+    test_plan:
+      fixture_test: "local reference media and manifest"
+      live_read_test: "job status/get without leaking secrets"
+      mutation_gate_test: "publication/voice clone blocks without approval"
+    open_questions:
+      - "Validate Higgsfield voice output before switching live spoken replies."
+
+  seedance:
+    platform_id: seedance
+    display_name: Seedance
+    category: creative_ai
+    status: draft
+    maturity_note: "Mentioned as motion route alongside Higgsfield; not validated in current governance."
+    scope_model: [account_scoped]
+    primary_owner_agent: kanye
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [job_status]
+    write_surfaces: [motion_generation]
+    approval_gated_surfaces: [external_publication]
+    forbidden_surfaces: [unvalidated_prod_use]
+    auth:
+      required: true
+      secret_source: "unclear"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [motion-generation-draft]
+    direct_tool_use_policy:
+      read: "unclear_until_onboarded"
+      write: "forbidden_until_onboarded"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [onboarding_report]
+    test_plan:
+      fixture_test: "provider docs and local manifest"
+      live_read_test: "auth presence only after onboarding"
+      mutation_gate_test: "generation/publication blocked until approved"
+    open_questions:
+      - "Confirm whether Seedance remains needed now that Higgsfield is the creative/voice target."
+
+  openai:
+    platform_id: openai
+    display_name: OpenAI
+    category: model_provider
+    status: beta
+    maturity_note: "Central model provider; Whisper-1 is governed voice input standard."
+    scope_model: [global]
+    primary_owner_agent: tony
+    secondary_owner_agents: [jack, safir, kanye]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [model_response, transcription_result]
+    write_surfaces: [model_call, transcription_call, image_generation_when_routed]
+    approval_gated_surfaces: [external_send_of_generated_content]
+    forbidden_surfaces: [secret_printing, unbounded_costly_generation]
+    auth:
+      required: true
+      secret_source: "shared profile/provider auth"
+      env_keys: [OPENAI_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [openai-codex, gpt-models, whisper-1, image-generation-when-routed]
+    direct_tool_use_policy:
+      read: "n/a"
+      write: "model calls allowed only inside agent/task policy; external mutations remain platform-gated"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: true
+      current_routes: [tony.development-plan, tony.development]
+    proof_targets: [model_used, artifact_or_transcript, cost_or_scope_note]
+    test_plan:
+      fixture_test: "model-independent fixture where possible"
+      live_read_test: "small bounded model call when needed"
+      mutation_gate_test: "external send blocked by target platform gate"
+    open_questions: []
+
+  anthropic:
+    platform_id: anthropic
+    display_name: Anthropic Claude
+    category: model_provider
+    status: beta
+    maturity_note: "Centrally resolved; overloaded errors require clean fallback semantics."
+    scope_model: [global]
+    primary_owner_agent: jack
+    secondary_owner_agents: [selena, rosa, safir]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [model_response]
+    write_surfaces: [model_call]
+    approval_gated_surfaces: [external_send_of_generated_content]
+    forbidden_surfaces: [secret_printing, assuming_model_success_after_529]
+    auth:
+      required: true
+      secret_source: "profile OAuth/provider auth"
+      env_keys: [ANTHROPIC_TOKEN]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [claude-reasoning]
+    direct_tool_use_policy:
+      read: "n/a"
+      write: "model calls allowed inside route model policy"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [model_used, fallback_or_error_status]
+    test_plan:
+      fixture_test: "route fallback fixture"
+      live_read_test: "small model smoke only when needed"
+      mutation_gate_test: "external send blocked by target platform gate"
+    open_questions:
+      - "Model-by-stage fallback policy should be made explicit per agent."
+
+  google-gemini:
+    platform_id: google-gemini
+    display_name: Google Gemini
+    category: model_provider
+    status: beta
+    maturity_note: "Validated on Cortex phase 1 and Memory Wiki semantic layer."
+    scope_model: [global]
+    primary_owner_agent: cortex
+    secondary_owner_agents: [jack-x, safir]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [model_response]
+    write_surfaces: [model_call]
+    approval_gated_surfaces: [external_send_of_generated_content]
+    forbidden_surfaces: [secret_printing, unbounded_costly_generation]
+    auth:
+      required: true
+      secret_source: "shared Hermes env"
+      env_keys: [GEMINI_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [gemini-reasoning, semantic-memory]
+    direct_tool_use_policy:
+      read: "n/a"
+      write: "model calls allowed inside route model policy"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: true
+      current_routes: [cortex.ads-observation]
+    proof_targets: [model_used, output_artifact, fallback_status]
+    test_plan:
+      fixture_test: "semantic or ads fixture"
+      live_read_test: "small model smoke only when needed"
+      mutation_gate_test: "external send blocked by target platform gate"
+    open_questions: []
+
+  kimi:
+    platform_id: kimi
+    display_name: Kimi
+    category: model_provider
+    status: beta
+    maturity_note: "Reserved for extraction/raw-result cleanup paths."
+    scope_model: [global]
+    primary_owner_agent: tony
+    secondary_owner_agents: [jack-x]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [model_response]
+    write_surfaces: [model_call]
+    approval_gated_surfaces: []
+    forbidden_surfaces: [reasoning_control_stage_unless_route_allows]
+    auth:
+      required: true
+      secret_source: "consolidated OpenClaw/Hermes auth"
+      env_keys: [KIMI_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [kimi-extraction]
+    direct_tool_use_policy:
+      read: "n/a"
+      write: "pass0/exploration only where route allows"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: true
+      current_routes: [tony.codebase-exploration]
+    proof_targets: [model_used, extraction_artifact]
+    test_plan:
+      fixture_test: "pass0 extraction fixture"
+      live_read_test: "small model smoke only when needed"
+      mutation_gate_test: "n/a"
+    open_questions: []
+
+  zai-glm:
+    platform_id: zai-glm
+    display_name: "Z.AI / GLM"
+    category: model_provider
+    status: beta
+    maturity_note: "Runtime base conversation and Hippocampus refiner path are runtime-owned."
+    scope_model: [global]
+    primary_owner_agent: jack
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [model_response]
+    write_surfaces: [model_call]
+    approval_gated_surfaces: []
+    forbidden_surfaces: [secret_printing]
+    auth:
+      required: true
+      secret_source: "shared Hermes env"
+      env_keys: [GLM_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [glm-runtime-base]
+    direct_tool_use_policy:
+      read: "n/a"
+      write: "runtime-owned; governance records policy only"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [model_used, fallback_status]
+    test_plan:
+      fixture_test: "fallback fixture"
+      live_read_test: "runtime-owned smoke only"
+      mutation_gate_test: "n/a"
+    open_questions: []
+
+  elevenlabs:
+    platform_id: elevenlabs
+    display_name: ElevenLabs
+    category: creative_ai
+    status: legacy
+    maturity_note: "Jack has a legacy TTS block; target voice output is Higgsfield."
+    scope_model: [profile_scoped]
+    primary_owner_agent: ""
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: []
+    write_surfaces: [tts_generation]
+    approval_gated_surfaces: [external_audio_send, voice_clone_without_consent]
+    forbidden_surfaces: [promote_as_target_standard_without_decision]
+    auth:
+      required: true
+      secret_source: "legacy profile config if present"
+      env_keys: [ELEVENLABS_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: []
+    direct_tool_use_policy:
+      read: "legacy_only"
+      write: "do_not_promote_without_explicit_decision"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [legacy_note]
+    test_plan:
+      fixture_test: "n/a"
+      live_read_test: "n/a"
+      mutation_gate_test: "n/a"
+    open_questions: []
+
+  mission-manager:
+    platform_id: mission-manager
+    display_name: Mission Manager
+    category: internal_control
+    status: beta
+    maturity_note: "Hosted operator surface is usable; product implementation belongs to integrator lane."
+    scope_model: [global]
+    primary_owner_agent: jack
+    secondary_owner_agents: [jack-x]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [missions, tasks, workflow_ledger, costs, lineage]
+    write_surfaces: [governed_status_update, artifact_link]
+    approval_gated_surfaces: [product_implementation_or_schema_change]
+    forbidden_surfaces: [mission_manager_code_edit_in_governance_lane]
+    auth:
+      required: true
+      secret_source: "runtime/env; implementation out of scope"
+      env_keys: [MISSION_MANAGER_API_URL]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [mission-manager-read, mission-manager-supervision]
+    direct_tool_use_policy:
+      read: "allowed for Jack supervision and Jack-X session context"
+      write: "governed status only through existing route/runtime path"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [jack.direct.mm-supervision]
+    proof_targets: [workflow_ref, task_ref, delivery_json, no_product_code_change_statement]
+    test_plan:
+      fixture_test: "workflow ledger fixture"
+      live_read_test: "bounded task/read query"
+      mutation_gate_test: "MM implementation edit out of scope"
+    open_questions: []
+
+  hermes-runtime:
+    platform_id: hermes-runtime
+    display_name: Hermes Runtime
+    category: internal_control
+    status: prod
+    maturity_note: "Runtime/gateway/deploy/service work is integrator-owned."
+    scope_model: [profile_scoped]
+    primary_owner_agent: ""
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [route_outputs, profile_metadata, status_when_needed]
+    write_surfaces: [runtime_config, gateway, deploy_scripts, systemd]
+    approval_gated_surfaces: [runtime_or_gateway_change, deploy_restart_systemd]
+    forbidden_surfaces: [governance_lane_runtime_gateway_deploy_edits]
+    auth:
+      required: true
+      secret_source: "runtime-owned"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [runtime-read-when-needed]
+    direct_tool_use_policy:
+      read: "read only when needed for governance audit"
+      write: "forbidden_in_governance_lane"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [read_only_audit_note]
+    test_plan:
+      fixture_test: "n/a"
+      live_read_test: "non-mutating status check only if needed"
+      mutation_gate_test: "forbidden"
+    open_questions: []
+
+  route-registry:
+    platform_id: route-registry
+    display_name: Specialist Route Registry
+    category: internal_control
+    status: prod
+    maturity_note: "Current live route truth for specialist dispatch."
+    scope_model: [global, file_scoped]
+    primary_owner_agent: jack
+    secondary_owner_agents: [tony]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [route_ids, owner_agents, route_status]
+    write_surfaces: [route_registration]
+    approval_gated_surfaces: [runtime_registry_mutation]
+    forbidden_surfaces: [unvalidated_route_registration]
+    auth:
+      required: false
+      secret_source: "n/a"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [specialist-dispatch, protocol-loader]
+    direct_tool_use_policy:
+      read: "allowed for Jack/governance"
+      write: "explicitly scoped only; runtime impact must be reviewed"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: [jack.protocol-missing, jack.capability-missing]
+    proof_targets: [route_diff, validation_summary]
+    test_plan:
+      fixture_test: "registry parse"
+      live_read_test: "n/a"
+      mutation_gate_test: "route add requires validation"
+    open_questions: []
+
+  protocol-packages:
+    platform_id: protocol-packages
+    display_name: Protocol Packages
+    category: internal_control
+    status: beta
+    maturity_note: "Package maturity varies by route."
+    scope_model: [global, file_scoped]
+    primary_owner_agent: jack
+    secondary_owner_agents: [tony]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [stage_contracts, tool_allowlists, input_contracts, proof_contracts]
+    write_surfaces: [package_update, package_add]
+    approval_gated_surfaces: [package_promotes_external_mutation]
+    forbidden_surfaces: [package_change_without_validation]
+    auth:
+      required: false
+      secret_source: "n/a"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [protocol-loader]
+    direct_tool_use_policy:
+      read: "allowed for all governed agents through Jack/specialist route context"
+      write: "validation_required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [yaml_parse, route_validation, test_artifact]
+    test_plan:
+      fixture_test: "YAML parse and route fixture"
+      live_read_test: "n/a"
+      mutation_gate_test: "approval gate preserved"
+    open_questions: []
+
+  brand-packs:
+    platform_id: brand-packs
+    display_name: Brand Registry And Brand Packs
+    category: internal_control
+    status: beta
+    maturity_note: "Canonical brand/account mapping surface; partial surfaces are normal and scoped."
+    scope_model: [brand_scoped, file_scoped]
+    primary_owner_agent: jack
+    secondary_owner_agents: [rosa, alfred, naya, safir, cortex]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [identity, ecosystem, critical_routes, caveats]
+    read_surfaces: [brand_id, accounts, tenants, channels, caveats]
+    write_surfaces: [brand_metadata_update, platform_account_mapping]
+    approval_gated_surfaces: [ambiguous_brand_or_account_mapping_change]
+    forbidden_surfaces: [secret_values_in_brand_pack]
+    auth:
+      required: false
+      secret_source: "n/a; metadata only"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [brand-scope-resolution]
+    direct_tool_use_policy:
+      read: "allowed for all governed agents"
+      write: "governance update only; no secrets"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: false
+      current_routes: []
+    proof_targets: [brand_scope, account_mapping_diff, missing_surface_note]
+    test_plan:
+      fixture_test: "JSON parse and brand_scope validation"
+      live_read_test: "n/a"
+      mutation_gate_test: "no secret values"
+    open_questions: []
+
+  knowledge-graph:
+    platform_id: knowledge-graph
+    display_name: Knowledge Graph
+    category: memory
+    status: beta
+    maturity_note: "KG repair/rehearsal passed; live Jack-X commit still needs review-gated proof."
+    scope_model: [global, file_scoped]
+    primary_owner_agent: jack-x
+    secondary_owner_agents: [jack]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [memory_projection, entity_relation_read, validation_report]
+    write_surfaces: [candidate_commit, correction_commit, relation_update]
+    approval_gated_surfaces: [high_risk_memory_commit, ambiguous_identity_merge]
+    forbidden_surfaces: [direct_llm_wiki_kg_write, commit_when_validation_fails]
+    auth:
+      required: false
+      secret_source: "local durable KG path"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [kg-memory-update-governed, memory-refinement-review]
+    direct_tool_use_policy:
+      read: "allowed for Jack/Jack-X bounded memory retrieval"
+      write: "Jack-X review and validation gates only"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: [jack-x.db-analysis, jack-x.signal.extract]
+    proof_targets: [memory_candidate, promotion_review, kg_commit_summary, strict_validation_result]
+    test_plan:
+      fixture_test: "copied-KG lifecycle regression"
+      live_read_test: "bounded projection read"
+      mutation_gate_test: "live commit requires review gate"
+    open_questions:
+      - "Close wiki-to-review bridge and first supervised low-risk live commit."
+
+  memory-wiki:
+    platform_id: memory-wiki
+    display_name: LLM Wiki / Memory Wiki
+    category: memory
+    status: beta
+    maturity_note: "Compiles pages and kg_operations; advisory only."
+    scope_model: [global, file_scoped]
+    primary_owner_agent: jack-x
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [jack_x_reports, memory_projection, source_refs]
+    write_surfaces: [wiki_pages, wiki_manifest, kg_operation_proposals]
+    approval_gated_surfaces: [promotion_to_durable_kg]
+    forbidden_surfaces: [direct_durable_kg_mutation]
+    auth:
+      required: false
+      secret_source: "model provider may be required for semantic layer"
+      env_keys: [GEMINI_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [memory-wiki, semantic-memory]
+    direct_tool_use_policy:
+      read: "allowed for Jack-X review"
+      write: "wiki artifacts only"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: []
+    proof_targets: [latest_manifest, pages, kg_operations_count, review_items]
+    test_plan:
+      fixture_test: "deterministic wiki compile"
+      live_read_test: "latest manifest read"
+      mutation_gate_test: "kg operation cannot bypass Jack-X review"
+    open_questions:
+      - "Create governed bridge from wiki kg_operations to Jack-X review queue."
+
+  mnemos-continuity:
+    platform_id: mnemos-continuity
+    display_name: Mnemos Continuity Journal
+    category: memory
+    status: beta
+    maturity_note: "Continuity surface, not durable enterprise truth."
+    scope_model: [profile_scoped, file_scoped]
+    primary_owner_agent: mnemos
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [session_state, continuity_journal, latest_handoff]
+    write_surfaces: [continuity_capsule, journal_append]
+    approval_gated_surfaces: []
+    forbidden_surfaces: [durable_kg_write, external_business_execution]
+    auth:
+      required: false
+      secret_source: "local workspace"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [local-session-state, context-metering]
+    direct_tool_use_policy:
+      read: "allowed for Mnemos/Jack continuity"
+      write: "local continuity artifacts only"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: [mnemos.context-check]
+    proof_targets: [continuity_artifact, handoff_capsule]
+    test_plan:
+      fixture_test: "context threshold fixture"
+      live_read_test: "bounded profile session state"
+      mutation_gate_test: "no external/KG writes"
+    open_questions: []
+
+  hippocampus:
+    platform_id: hippocampus
+    display_name: Hippocampus Packet
+    category: internal_control
+    status: partial
+    maturity_note: "Runtime-owned pre-routing enrichment and session context surface."
+    scope_model: [profile_scoped]
+    primary_owner_agent: jack
+    secondary_owner_agents: []
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [context_packet, llm_metadata]
+    write_surfaces: [packet_generation_runtime]
+    approval_gated_surfaces: [runtime_wiring_change]
+    forbidden_surfaces: [governance_lane_runtime_change]
+    auth:
+      required: false
+      secret_source: "runtime-owned"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [hippocampus-read-when-needed]
+    direct_tool_use_policy:
+      read: "governance may inspect proof artifacts"
+      write: "runtime-owned"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: []
+    proof_targets: [packet_ref, no_runtime_change_statement]
+    test_plan:
+      fixture_test: "packet fixture"
+      live_read_test: "read-only artifact inspection"
+      mutation_gate_test: "runtime wiring forbidden in governance lane"
+    open_questions: []
+
+  local-repositories:
+    platform_id: local-repositories
+    display_name: Local Repositories And Filesystem
+    category: development
+    status: prod
+    maturity_note: "Primary Tony/code/governance work surface."
+    scope_model: [repo_scoped, file_scoped]
+    primary_owner_agent: tony
+    secondary_owner_agents: [jack]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [repo_files, docs, tests, artifacts]
+    write_surfaces: [repo_files, docs, local_artifacts]
+    approval_gated_surfaces: [forbidden_path_change, destructive_change]
+    forbidden_surfaces:
+      - runtime_gateway_deploy_systemd_without_request
+      - mission_manager_code_without_request
+      - user_changes_revert_without_request
+    auth:
+      required: false
+      secret_source: "n/a"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [filesystem-read, filesystem-write, terminal]
+    direct_tool_use_policy:
+      read: "allowed in scoped task"
+      write: "allowed only in scoped task and never forbidden paths"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: false
+      current_routes: [tony.codebase-exploration, tony.development-plan, tony.development]
+    proof_targets: [changed_files, tests, diff_check, final_summary]
+    test_plan:
+      fixture_test: "repo tests/lint where applicable"
+      live_read_test: "n/a"
+      mutation_gate_test: "forbidden paths not touched"
+    open_questions: []
+
+  git-github:
+    platform_id: git-github
+    display_name: Git And GitHub
+    category: development
+    status: beta
+    maturity_note: "Used when requested; Tony is expert owner for code/git."
+    scope_model: [repo_scoped, account_scoped]
+    primary_owner_agent: tony
+    secondary_owner_agents: [jack]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [git_status, diff, log, github_pr_issue_ci]
+    write_surfaces: [commit, push, branch, pr]
+    approval_gated_surfaces: [push_or_pr_when_not_requested, destructive_git_operation]
+    forbidden_surfaces: [git_reset_hard_without_request, deploy_release_control_without_request]
+    auth:
+      required: true
+      secret_source: "local git/GitHub auth"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [git, github-when-requested]
+    direct_tool_use_policy:
+      read: "allowed in scoped repo"
+      write: "commit/push only when requested or task clearly requires"
+    protocol_policy:
+      required_for_repeated_use: false
+      required_for_external_mutation: true
+      current_routes: [tony.development]
+    proof_targets: [git_status, commit_sha, push_ref, pr_ref_when_used]
+    test_plan:
+      fixture_test: "n/a"
+      live_read_test: "git status/diff"
+      mutation_gate_test: "no push unless requested"
+    open_questions: []
+
+  package-registries:
+    platform_id: package-registries
+    display_name: Package Registries And Installers
+    category: development
+    status: partial
+    maturity_note: "Used for package managers and skill installs such as npx skills add."
+    scope_model: [global, repo_scoped, profile_scoped]
+    primary_owner_agent: tony
+    secondary_owner_agents: [kanye, jack]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [package_metadata, installable_skill_metadata]
+    write_surfaces: [dependency_install, skill_install]
+    approval_gated_surfaces: [broad_dependency_or_executable_install]
+    forbidden_surfaces: [unscoped_global_install, hidden_runtime_dependency_change]
+    auth:
+      required: false
+      secret_source: "provider-specific if private"
+      env_keys: []
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [npm, npx, package-manager, skill-installer]
+    direct_tool_use_policy:
+      read: "allowed for package metadata"
+      write: "allowed only in scoped profile/repo with validation"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: false
+      current_routes: []
+    proof_targets: [install_command, version_or_package_ref, validation_output]
+    test_plan:
+      fixture_test: "n/a"
+      live_read_test: "package metadata query"
+      mutation_gate_test: "install scope is explicit"
+    open_questions: []
+
+  aws:
+    platform_id: aws
+    display_name: AWS
+    category: infra
+    status: prod
+    maturity_note: "Hosts Mission Manager and secrets; infra operations are integrator-owned."
+    scope_model: [account_scoped]
+    primary_owner_agent: ""
+    secondary_owner_agents: [tony]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [ecs, alb, secrets_metadata, cloud_logs_when_requested]
+    write_surfaces: [ecs_deploy, secret_write, infra_change]
+    approval_gated_surfaces: [infra_dns_secret_deploy_restart_mutation]
+    forbidden_surfaces: [governance_lane_deploy_or_secret_mutation_without_request]
+    auth:
+      required: true
+      secret_source: "local AWS credentials"
+      env_keys: [AWS_PROFILE, AWS_REGION]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [aws-read-when-requested]
+    direct_tool_use_policy:
+      read: "allowed only when task requires and no secrets are printed"
+      write: "explicit request required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [caller_identity_without_secret, resource_ref, no_mutation_statement]
+    test_plan:
+      fixture_test: "n/a"
+      live_read_test: "caller identity or resource describe when requested"
+      mutation_gate_test: "write/deploy/secret update blocked without request"
+    open_questions: []
+
+  aws-secrets-manager:
+    platform_id: aws-secrets-manager
+    display_name: AWS Secrets Manager
+    category: secrets
+    status: prod
+    maturity_note: "Used as business secret source for BRM/Hermes; value access and writes are high risk."
+    scope_model: [account_scoped]
+    primary_owner_agent: ""
+    secondary_owner_agents: [tony]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [secret_names, secret_metadata, key_presence]
+    write_surfaces: [secret_create_update, secret_rotation]
+    approval_gated_surfaces: [secret_value_read, secret_write, secret_rotation]
+    forbidden_surfaces: [secret_value_printing, secret_value_commit, unapproved_secret_mutation]
+    auth:
+      required: true
+      secret_source: "local AWS credentials"
+      env_keys: [AWS_PROFILE, AWS_REGION]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [aws-secrets-metadata-read]
+    direct_tool_use_policy:
+      read: "metadata/key-presence only unless explicitly requested; never print secret values"
+      write: "explicit request required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [secret_metadata_ref, key_presence_summary, no_secret_values_statement]
+    test_plan:
+      fixture_test: "n/a"
+      live_read_test: "metadata/key-presence only when needed"
+      mutation_gate_test: "secret value read/write blocks without explicit request"
+    open_questions: []
+
+  cloudflare:
+    platform_id: cloudflare
+    display_name: Cloudflare
+    category: edge_domain
+    status: partial
+    maturity_note: "Centrally wired; mutation is not part of normal agent work."
+    scope_model: [account_scoped, brand_scoped]
+    primary_owner_agent: tony
+    secondary_owner_agents: [alfred]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.edge.cloudflare_zone]
+    read_surfaces: [dns_records, zone_settings, cache_status]
+    write_surfaces: [dns_update, cache_purge, edge_rule_update]
+    approval_gated_surfaces: [dns_or_edge_mutation]
+    forbidden_surfaces: [unapproved_dns_or_edge_mutation]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [CLOUDFLARE_API_TOKEN]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [edge-dns-read]
+    direct_tool_use_policy:
+      read: "allowed for Tony/Alfred when domain/zone is explicit"
+      write: "explicit approval required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [dns_snapshot, no_mutation_statement]
+    test_plan:
+      fixture_test: "saved DNS export"
+      live_read_test: "bounded zone read"
+      mutation_gate_test: "DNS/edge update blocks without approval"
+    open_questions: []
+
+  godaddy:
+    platform_id: godaddy
+    display_name: GoDaddy
+    category: edge_domain
+    status: partial
+    maturity_note: "Centrally wired; registrar/domain mutation is high risk."
+    scope_model: [account_scoped, brand_scoped]
+    primary_owner_agent: tony
+    secondary_owner_agents: [alfred]
+    supervisor_agent: jack
+    brand_scoped: true
+    brand_pack_fields: [ecosystem.domain.registrar]
+    read_surfaces: [domains, dns_records, renewal_status]
+    write_surfaces: [dns_update, domain_update, renewal_change]
+    approval_gated_surfaces: [domain_or_dns_mutation]
+    forbidden_surfaces: [unapproved_domain_or_dns_mutation]
+    auth:
+      required: true
+      secret_source: "shared Hermes/business env"
+      env_keys: [GODADDY_API_KEY, GODADDY_API_SECRET]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes: [domain-dns-read]
+    direct_tool_use_policy:
+      read: "allowed for Tony/Alfred when domain/account is explicit"
+      write: "explicit approval required"
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: []
+    proof_targets: [domain_snapshot, no_mutation_statement]
+    test_plan:
+      fixture_test: "saved domain export"
+      live_read_test: "bounded domain read"
+      mutation_gate_test: "domain/DNS update blocks without approval"
+    open_questions: []
+
+not_currently_governed_v1:
+  stripe:
+    status: unclear
+    decision: "No active V1 BRM platform evidence in current governance docs; onboard as payment/billing platform before use."
+  slack:
+    status: unclear
+    decision: "No active V1 evidence."
+  notion:
+    status: unclear
+    decision: "No active V1 evidence."
+  tiktok-ads:
+    status: unclear
+    decision: "No active V1 evidence."
+  pinterest-ads:
+    status: unclear
+    decision: "No active V1 evidence."
+  amazon:
+    status: unclear
+    decision: "No active V1 evidence."
+  carrier-apis-beyond-bigblue:
+    status: unclear
+    decision: "No active V1 evidence."

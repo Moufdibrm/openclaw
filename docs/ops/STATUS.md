@@ -1456,3 +1456,18 @@ Operator review package:
   - reads route artifacts, logs, Mission Manager patterns, Jack-X memory reviews, LLM Wiki operations, direct tool summaries, and blockers
   - outputs protocol candidates, toolbox gaps, skill doc updates, memory refinement candidates, route quality issues, agent scope conflicts, and approval gate gaps
   - no external mutation, no direct KG write, no permission widening without Jack/operator approval
+
+## Platform Governance
+- Platform standard created on `2026-05-07`: `docs/ops/agent-governance/PLATFORM_GOVERNANCE_STANDARD.md`
+- Machine-readable registry: `docs/ops/agent-governance/platform-registry.yaml`
+- Current platform classification is intentionally broad:
+  - business platforms: Shopify, Recharge, Klaviyo, MS365, Zendesk, PayPal, BigBlue, Hiboo, Meta Ads, Google Ads, GA4, GSC, DataForSEO, Instagram/Apify
+  - channels/delivery: WhatsApp, Lark messages/tables, Google Drive, Telegram as deferred legacy
+  - creative/model providers: Higgsfield, Seedance draft, OpenAI, Anthropic, Gemini, Kimi, Z.AI/GLM, ElevenLabs legacy
+  - internal/governance surfaces: Mission Manager, Hermes runtime, route registry, protocol packages, brand packs, KG, Memory Wiki, Mnemos, Hippocampus
+  - dev/infra/domain surfaces: local repos, Git/GitHub, package registries, AWS, AWS Secrets Manager, Cloudflare, GoDaddy
+- Addition standard:
+  - every new platform starts as `draft`
+  - owner agent, Jack supervisor access, scope model, read/write split, auth metadata, approval gates, proof targets, route policy, and tests must be declared before beta
+  - missing brand-pack platform fields are partial data and block only that platform surface, not the whole brand
+  - no secret values may be written in docs, commits, logs, manifests, or brand packs

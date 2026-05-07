@@ -32,6 +32,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - working list for consolidating agent toolboxes into scripts, skills, docs, and protocols
 - `agent-toolbox-consolidation.yaml`
   - lightweight machine-readable consolidation backlog; not a permission register
+- `PLATFORM_GOVERNANCE_STANDARD.md`
+  - standard for platform ownership, read/write split, agent access, approvals, proof, and platform onboarding
+- `platform-registry.yaml`
+  - machine-readable registry of current governed platforms/surfaces and the standard required fields for adding a platform
 - `SKILL_ATTACHMENT_POLICY.md`
   - shared attachment/reference-file contract for skills and protocol manifests
 - `BRAND_SCOPE_CONTRACT.md`

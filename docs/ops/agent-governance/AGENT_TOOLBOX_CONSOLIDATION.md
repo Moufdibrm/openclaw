@@ -6,6 +6,7 @@ This is the working list for consolidating agent toolboxes into usable skills, s
 
 Authorization still comes from:
 
+- `platform-registry.yaml`
 - `agent-toolbox-matrix.yaml`
 - route packages / protocol matrices
 - global approval gates
@@ -17,12 +18,13 @@ This document is for iteration planning. It does not grant permission by itself.
 Consolidate in this order:
 
 1. agent role and owned business surface
-2. platform/toolbox read operations
-3. platform/toolbox write operations
-4. reusable script or CLI wrapper
-5. skill documentation
-6. route/protocol proof contract
-7. beta/prod promotion evidence
+2. platform registry entry and owner
+3. platform/toolbox read operations
+4. platform/toolbox write operations
+5. reusable script or CLI wrapper
+6. skill documentation
+7. route/protocol proof contract
+8. beta/prod promotion evidence
 
 If a tool use happens once, keep it direct and logged.
 If it repeats with the same input and proof shape, make it a protocol candidate.
