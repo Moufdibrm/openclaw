@@ -100,6 +100,10 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - voice input/output standard: OpenAI Whisper input, Higgsfield agent voice output target
 - `voice-standard.yaml`
   - machine-readable voice provider, agent voice slot, and promotion gate registry
+- `AGENT_OPERATING_MODEL_AUDIT.md`
+  - synthesis of existing protocol ideas, agent needs, shared standards, specific overlays, Jack transversal access, and curator loop
+- `agent-operating-model.yaml`
+  - machine-readable operating model for agents, shared rules, gaps, and curator function
 
 ## Scope
 

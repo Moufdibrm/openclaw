@@ -1441,3 +1441,18 @@ Operator review package:
 - Known runtime gap:
   - Jack still has a legacy ElevenLabs TTS block; do not promote it as the BRM voice identity path
   - switching live spoken replies to Higgsfield requires runtime-owned TTS/provider work and a validated generation manifest
+
+## Agent Operating Model
+- Cross-agent protocol synthesis created on `2026-05-07`: `docs/ops/agent-governance/AGENT_OPERATING_MODEL_AUDIT.md`
+- Machine-readable companion: `docs/ops/agent-governance/agent-operating-model.yaml`
+- Current synthesis:
+  - Jack is transversal and should see every toolbox/surface for routing, supervision, gap detection, and governed direct execution when requested
+  - specialist agents remain domain owners for execution
+  - installed skills are still not permissions
+  - shared standards are `protocol first`, `script first`, read/write split, proof before `done`, phase model, brand scope, global approval gates, and direct-tool-use-to-protocol-candidate
+  - agent-specific overlays remain necessary for domain surfaces, scripts, route inputs, proof formats, sidecars, and mutation rules
+- Curator direction:
+  - start as a function/protocol layer, not necessarily a new runtime agent
+  - reads route artifacts, logs, Mission Manager patterns, Jack-X memory reviews, LLM Wiki operations, direct tool summaries, and blockers
+  - outputs protocol candidates, toolbox gaps, skill doc updates, memory refinement candidates, route quality issues, agent scope conflicts, and approval gate gaps
+  - no external mutation, no direct KG write, no permission widening without Jack/operator approval

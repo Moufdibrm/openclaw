@@ -1,0 +1,283 @@
+standard_id: brm.agent-operating-model.v1
+updated_at: "2026-05-07"
+source_scope:
+  live_registry: /Users/moufdi/hermes-runtime/contracts/specialist-route-registry.json
+  protocol_packages: /Users/moufdi/hermes-runtime/adapters/agents
+  historical_protocols: /Users/moufdi/.openclaw/kg/protocols
+  governance_root: docs/ops/agent-governance
+shared_standards:
+  route_before_tool: true
+  script_first: true
+  proof_before_done: true
+  read_write_split: true
+  global_approval_gates:
+    - external_message_send
+    - customer_visible_support_reply
+    - paypal_dispute_message
+    - refund_payment_billing_financial_mutation
+    - campaign_publication_or_ad_mutation
+    - supplier_order_purchase_mutation
+    - production_deploy_restart_systemd
+    - ambiguous_target_tenant_brand_or_delta
+  phase_model:
+    phase1_observation: audit_read_report
+    phase2_creation: plan_draft_build
+    phase3_feedback_loop: publication_monitoring_iteration
+  profile_level_files_required:
+    - ROLE_PERMISSIONS.md
+    - ROLE_PERMISSIONS.json
+    - ENVIRONMENT_MAP.md
+    - ROUTE_MATRIX.md
+    - PROCEDURES.md
+    - SOUL.md
+  voice_input:
+    provider: openai
+    model: whisper-1
+  proof_vocab:
+    - compact_json
+    - report_bundle
+    - verification_json
+    - delivery_json
+    - manifest
+    - final_summary
+    - blocked
+    - no_change
+jack_transversal_policy:
+  access_model: all_surfaces_for_routing_supervision_and_governance
+  mutation_model: governed_route_or_explicit_approval_only
+  may:
+    - inspect_agent_outputs
+    - inspect_toolbox_matrices
+    - dispatch_specialist_routes
+    - create_protocol_missing_artifacts
+    - create_capability_missing_artifacts
+    - supervise_handoffs
+    - perform_bounded_direct_execution_when_requested
+  may_not_without_gate:
+    - external_message_send
+    - payment_or_support_mutation
+    - campaign_publication
+    - supplier_or_order_mutation
+    - production_deploy_restart
+    - mission_manager_product_implementation
+agents:
+  jack:
+    idea: transversal_operator_router_supervisor
+    needs:
+      - all_toolbox_visibility
+      - specialist_dispatch
+      - kg_and_mm_read_supervision
+      - route_gap_creation
+      - governance_matrix_access
+    shared: [route_before_tool, approval_gates, proof_before_done]
+    specific:
+      - protocol_missing
+      - capability_missing
+      - draft_protocol_runtime
+      - direct_mm_supervision_package_only
+      - email_digest_package_only
+    gaps:
+      - link_cross_agent_operating_model_into_jack_profile_without_touching_reserved_files
+  jack-x:
+    idea: long_term_memory_multi_channel_extraction_and_kg_candidate_lifecycle
+    needs:
+      - ms365_read
+      - lark_read
+      - whatsapp_snapshot_read
+      - mm_agent_session_read
+      - graph_candidates
+      - promotion_review
+      - kg_validation
+      - memory_wiki_bridge
+    shared: [proof_before_done, confidence_provenance, feedback_loop]
+    specific:
+      - durable_kg_write_after_review
+      - llm_wiki_advisory_only
+    gaps:
+      - live_review_gate
+      - wiki_operations_to_review_bridge
+      - live_feedback_loop_route
+  mnemos:
+    idea: continuity_compaction_and_reinjection
+    needs:
+      - local_session_state
+      - context_metering
+      - continuity_capsules
+    shared: [proof_before_done]
+    specific:
+      - no_external_surface
+      - no_durable_kg_ownership
+    gaps:
+      - prevent_scope_creep_into_enterprise_memory
+  rosa:
+    idea: marketing_offers_performance_market_intelligence
+    needs:
+      - shopify_read
+      - klaviyo_read
+      - hiboo_read
+      - lark_read
+      - ga4_gsc_dataforseo_read
+      - creative_handoff_to_kanye
+    specific:
+      - offer_strategy
+      - performance_audit
+      - competitive_watch
+      - market_graph
+    gaps:
+      - creative_handoff_format
+      - mutation_path_for_campaign_storefront_crm_actions
+  jeff:
+    idea: influence_creator_outreach_collaboration_ops
+    needs:
+      - hiboo_creator_read
+      - profile_analysis
+      - inbox_signals
+      - candidate_registry
+    specific:
+      - creator_profile_analysis
+      - performance_report
+      - candidate_intake
+    gaps:
+      - outreach_draft_proof
+      - collaboration_mutation_protocol
+  naya:
+    idea: stock_sourcing_supply_chain_feasibility
+    needs:
+      - shopify_read
+      - bigblue_read
+      - stock_telemetry
+      - sourcing_sheets
+    specific:
+      - stock_check
+      - product_sourcing
+      - campaign_stock_support
+    gaps:
+      - supplier_question_pack
+      - campaign_support_route
+  selena:
+    idea: support_risk_paypal_zendesk_feedback
+    needs:
+      - paypal_read
+      - zendesk_read
+      - reviewed_exports
+      - strict_customer_action_approval
+    specific:
+      - paypal_dispute_audit_live
+      - zendesk_feedback_review_live
+    gaps:
+      - approval_checklist_for_replies_disputes_refunds
+  alfred:
+    idea: seo_aeo_visibility_strategy_feedback
+    needs:
+      - gsc_read
+      - dataforseo_read
+      - ga4_read
+      - site_audit_read
+      - report_bundles
+    specific:
+      - visibility_audit
+      - strategy_plan
+      - deployment_feedback_loop
+    gaps:
+      - registry_live_phase2_phase3
+      - no_site_mutation_without_route
+  cortex:
+    idea: paid_media_observation_campaign_handoff_feedback_loop
+    needs:
+      - hiboo_ads_read
+      - meta_ads_read
+      - google_ads_read
+      - creative_observation
+      - kanye_asset_handoff
+    specific:
+      - ads_observation
+      - campaign_management
+      - alerts
+      - task_management
+      - weekly_report
+      - feedback_loop
+    gaps:
+      - phase2_phase3_route_promotion
+      - integration_with_kanye_and_rosa
+  tony:
+    idea: development_owner_code_repos_tests_git
+    needs:
+      - target_repo_resolution
+      - filesystem_terminal_git
+      - package_manager_tests_build_lint
+      - github_when_requested
+    specific:
+      - explore_plan_execute_review_modes
+      - no_deploy_restart_release_control_by_default
+    gaps:
+      - codebase_exploration_contract_alignment
+      - wrapper_test_import_path
+      - artifact_path_normalization
+  kanye:
+    idea: creative_generation_reference_edit_media_identity
+    needs:
+      - image_video_generation
+      - higgsfield_official_cli
+      - attachment_policy
+      - generated_media_manifests
+    specific:
+      - still_generate
+      - reference_edit
+      - higgsfield_product_photoshoot
+      - marketplace_cards
+      - soul_id
+    gaps:
+      - polling_recovery_wrapper
+      - more_qa_variants
+      - higgsfield_voice_output_validation
+  safir:
+    idea: email_crm_audit_workflow_design_drafting
+    needs:
+      - ms365_read
+      - klaviyo_read
+      - email_template_analysis
+      - renderable_email_drafts
+      - kanye_creative_handoff
+    specific:
+      - email_audit
+      - mail_pole_audit
+      - email_workflow
+    gaps:
+      - reopen_email_workflow_with_modern_design_image_floor
+      - send_and_crm_mutation_gates
+curator:
+  recommended_form: function_or_protocol_layer_first
+  owns_no_business_mutation: true
+  purpose:
+    - detect_repeated_direct_tool_use
+    - detect_protocol_failures
+    - detect_duplicate_or_stale_knowledge
+    - propose_protocol_candidates
+    - propose_toolbox_consolidation
+    - propose_memory_refinement_candidates
+  inputs:
+    - route_manifests
+    - verification_reports
+    - mission_manager_status_patterns
+    - jack_x_memory_reviews
+    - llm_wiki_kg_operations
+    - direct_tool_summaries
+    - agent_final_summaries_and_blockers
+  outputs:
+    - protocol_candidate
+    - toolbox_gap
+    - skill_doc_update
+    - memory_refinement_candidate
+    - route_quality_issue
+    - agent_scope_conflict
+    - approval_gate_gap
+  gates:
+    - no_external_mutation
+    - no_direct_kg_write
+    - no_permission_widening_without_jack_operator_approval
+next_order:
+  - profile_level_docs_for_remaining_v1_agents
+  - shared_agent_procedure_template
+  - curator_feedback_loop_draft_registry
+  - platform_toolbox_read_write_standardization
+  - conversation_to_action_tests_per_agent
