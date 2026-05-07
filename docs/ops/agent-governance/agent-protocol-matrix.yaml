@@ -291,7 +291,7 @@ agents:
     operational_standard: docs/ops/agent-governance/TONY_OPERATIONAL_STANDARD.md
     protocols:
       - id: tony.codebase-exploration
-        status: beta_blocked_contract_alignment
+        status: beta
         registry_coverage: specialist_route_registry
         purpose: "Bounded codebase read and topology extraction."
         proof_target: "compact_json and final_summary"

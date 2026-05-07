@@ -108,6 +108,12 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - synthesis of existing protocol ideas, agent needs, shared standards, specific overlays, Jack transversal access, and curator loop
 - `agent-operating-model.yaml`
   - machine-readable operating model for agents, shared rules, gaps, and curator function
+- `AGENT_PROFILE_STANDARD.md`
+  - required local profile files, SOUL ownership rule, platform access projection, and validation gates
+- `AGENT_PLATFORM_ACCESS_MATRIX.md`
+  - human-readable projection of platform visibility, read, write, provider-selection, and partial-platform rules
+- `agent-platform-access-matrix.yaml`
+  - machine-readable agent to platform access projection; Jack sees all, Tony sees partial platforms for dev/audit, specialists stay scoped
 
 ## Scope
 

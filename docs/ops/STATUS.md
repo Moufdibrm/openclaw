@@ -42,6 +42,7 @@ Current readiness:
 - `Toolbox standardization`: `first Shopify commerce slice is now standardized around the live shopify-stores backend; broader toolbox wave remains open but no longer depends on Shopify floor discovery`
 - `Jack X memory/KG`: `usable structured pipeline plus readable Memory Wiki compiler; KG JSONL is repaired locally, real processed DB data replays through candidate generation, promotion review, isolated review queue, no-apply KG validation, and deterministic Wiki compile, and a copied-KG lifecycle rehearsal now proves commit/refinement/correction/retrieval; durable memory production is still blocked until review-gated live commit, source-of-truth cleanup, wiki-to-review promotion, relation rendering, and Jack retrieval proof are closed`
 - `Mnemos context-check`: `usable continuity surface with proactive watch-threshold snapshots, auto-reset handoff capsules, and a cross-session journal; still not a KG writer`
+- `Agent governance/profile standard`: `local V1 profile sidecars are standardized for role permissions, environment, routes, procedures, and platform access; Jack has all-platform visibility, Tony has partial-platform dev/audit visibility, specialists are scoped, and Kanye defaults creative provider selection to Higgsfield with Banana/OpenAI selectable`
 - `Autoloop`: `not closed; current cron is scheduling, not protocol self-improvement`
 - `Protocol improvement inbox`: `first derived task-bound inbox live; replay, promotion, and monitoring still partial`
 

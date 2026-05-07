@@ -286,7 +286,8 @@ agents:
       - ad-publication-without-approval
 
   tony:
-    status: beta_blocked_contract_alignment
+    status: beta
+    maturity_note: "Contract-alignment blockers remain tracked in TONY_OPERATIONAL_STANDARD.md; status stays within draft/beta/prod."
     role: "Development owner: codebase exploration, planning, implementation, tests, git."
     operational_standard: docs/ops/agent-governance/TONY_OPERATIONAL_STANDARD.md
     approved_autonomy:

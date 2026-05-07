@@ -161,6 +161,7 @@ This inventory comes from the route registry, protocol packages, governance docs
 | Platform | Status | Owners | Scope | Current use | Write policy |
 | --- | --- | --- | --- | --- | --- |
 | Higgsfield | `beta` for still/product tests; voice planned gated | Kanye owner; Jack supervision/direct exception | profile/API/job/media | still generation, reference edit, product photoshoot, marketplace cards draft, Soul ID gated, future voice identities | publication/delivery/voice clone requires approval and proof |
+| Nano Banana | `beta` for Kanye exploratory/edit use | Kanye owner; Jack supervision/direct exception | profile/provider/media | selectable fast image exploration/edit path; Higgsfield remains default final provider | publication/delivery requires approval and proof |
 | Seedance | `draft`/mentioned motion route | Kanye | generation job/media | motion route concept | no prod use until validated |
 | OpenAI | `beta`/central provider; `whisper-1` is voice input standard | Tony/Jack/general; Safir/Kanye where routed | model/provider/task | GPT/Codex, Whisper STT, image/design experiments | external sending remains platform-specific gate |
 | Anthropic Claude | `beta`/central provider | Jack/specialists by route | model/provider/task | reasoning/control stages where allowed | no platform mutation by model choice alone |

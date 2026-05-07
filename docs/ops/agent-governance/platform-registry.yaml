@@ -1058,6 +1058,46 @@ platforms:
     open_questions:
       - "Validate Higgsfield voice output before switching live spoken replies."
 
+  banana:
+    platform_id: banana
+    display_name: Nano Banana
+    category: creative_ai
+    status: beta
+    maturity_note: "Selectable Kanye exploratory/edit image provider; Higgsfield remains the default final creative provider."
+    scope_model: [profile_scoped, account_scoped]
+    primary_owner_agent: kanye
+    secondary_owner_agents: [jack]
+    supervisor_agent: jack
+    brand_scoped: false
+    brand_pack_fields: []
+    read_surfaces: [generation_policy, model_availability]
+    write_surfaces: [image_generation, image_edit]
+    approval_gated_surfaces: [external_publication, paid_delivery_platform_mutation]
+    forbidden_surfaces: [unapproved_publication, treating_exploration_as_final_without_review]
+    auth:
+      required: true
+      secret_source: "Gemini/OpenAI profile provider auth, depending on active Nano Banana backend"
+      env_keys: [GEMINI_API_KEY]
+      secret_values_in_docs_allowed: false
+    skills_or_toolboxes:
+      - nano-banana
+      - nano-banana-pro
+      - creative-gemini-image
+    direct_tool_use_policy:
+      read: "Kanye may inspect configured generation policy and provider availability."
+      write: "Kanye may generate bounded local exploratory/edit artifacts; publication stays approval-gated."
+    protocol_policy:
+      required_for_repeated_use: true
+      required_for_external_mutation: true
+      current_routes: [kanye.still-generate, kanye.reference-edit]
+    proof_targets: [prompt_manifest, provider_route, media_artifact, qa_notes, no_publication_statement]
+    test_plan:
+      fixture_test: "local prompt/reference fixture with provider route recorded"
+      live_read_test: "provider availability check without secret output"
+      mutation_gate_test: "publication/delivery blocks without approval"
+    open_questions:
+      - "Decide whether Nano Banana gets a dedicated route after repeated exploratory/edit use."
+
   seedance:
     platform_id: seedance
     display_name: Seedance

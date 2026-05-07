@@ -82,7 +82,7 @@ Specialization changes prompt emphasis and validation choices. It does not grant
 
 Current status:
 
-- `tony.codebase-exploration`: `beta_blocked_contract_alignment`
+- `tony.codebase-exploration`: `beta`
 - `tony.development-plan`: `beta`
 - `tony.development`: `beta`
 

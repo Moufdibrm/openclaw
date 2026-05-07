@@ -1,7 +1,8 @@
 standard_id: brm.tony.operational-standard.v1
 updated_at: "2026-05-07"
 agent: tony
-status: beta_blocked_contract_alignment
+status: beta
+maturity_note: "Contract-alignment blockers remain open; blocker state is tracked as proof/readiness metadata, not as a custom status value."
 principle: no_double_truth
 identity:
   role: development_owner
