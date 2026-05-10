@@ -354,6 +354,77 @@ Current interpretation:
 - The memory lifecycle is no longer broken: event ingestion, projection, MM auth, MM publishing, MM decision consumption, wiki refinement ingestion, and cleanup review generation all run.
 - It is not yet `complete` because the approved-review mutation path still needs one supervised real operator approval to prove live KG mutation end-to-end.
 
+### Step 7 - Add Memory Curator evidence expansion and reversible KG correction
+
+Status: implemented and locally validated on 2026-05-10; not deployed or applied to the live KG in this pass.
+
+Goal: close the gap between raw Jack-X observations and slow LLM Wiki refinement without making LLM Wiki the mutation owner.
+
+Role split:
+- Jack-X observes channels, stores events, creates memory reviews, and keeps the local review workflow current.
+- Memory Curator investigates ambiguous reviews, searches local evidence, optionally adds external search evidence, proposes clean durable entities, and can apply strong/reversible KG candidates through the shared graph bridge.
+- LLM Wiki remains a read/consolidation surface: it compiles readable pages and low-priority refinement operations from the durable KG and channel artifacts.
+- KG remains the durable truth. `memory_reviews.db` remains workflow truth.
+
+Implemented changes:
+- Add `scripts/jack_x_memory_curator.py`.
+- Add `memory-curator` as an allowed shared-graph commit actor.
+- Add durable `business_event` entity support to:
+  - KG ontology v2.
+  - shared graph strict validator.
+  - semantic memory page eligibility.
+  - LLM Wiki page routing.
+- Curator CLI:
+  - `curate --limit N` reads pending reviews and writes dossiers.
+  - no mutation without `--apply`.
+  - `--external-evidence-file` can inject reviewed browser/mail/search evidence.
+  - `--allow-external-search` can use Brave only when `BRAVE_API_KEY` exists.
+- Dossiers include:
+  - search terms.
+  - event/review/KG/wiki/external evidence hits.
+  - entity hypotheses with confidence basis.
+  - reversible corrections.
+  - optional `brm.graph-candidate.v1`.
+- Strong composite sender example is handled as:
+  - `Patrick Philip Via Docusign` -> person `Patrick Philip`.
+  - application `Docusign`.
+  - business event `Business event :: Patrick Philip Via Docusign`.
+  - relation `business_event uses application`.
+  - relation `business_event mentions person`.
+  - relation `person related_to application`.
+- Existing composite KG entities can be superseded instead of silently deleted.
+- Runtime noise such as `go`/`ok` is auto-archived as non-KG material.
+
+Validation evidence:
+- Local curator tests: `4 passed`.
+- Existing Hermes memory tests: `21 passed`.
+- Openclaw graph/wiki/semantic tests: `10 passed`.
+- Python compile passed for:
+  - `scripts/jack_x_memory_curator.py`.
+  - `brm-shared-graph.py`.
+  - `jack_x_semantic_memory.py`.
+  - `jack-x-memory-wiki-compile.py`.
+- JSON parse passed for:
+  - `contracts/brm-kg-ontology.v2.json`.
+  - `shared-graph-write-policy.json`.
+- Real local dry-run against pending reviews:
+  - review count: `5`.
+  - recommendation counts: `needs_more_evidence: 5`.
+  - apply: `false`.
+  - result: no KG candidate emitted, so no over-promotion.
+- Synthetic strong-evidence KG bridge dry-run:
+  - candidate valid: `true`.
+  - actor: `memory-curator`.
+  - apply: `false`.
+  - entities accepted: `Patrick Philip`, `Docusign`, `Business event :: Patrick Philip Via Docusign`.
+  - relations accepted: `uses`, `mentions`, `related_to`.
+
+Open caveats:
+- This is locally implemented only; no service restart, deploy, push, or live `--apply` occurred in this pass.
+- A supervised real approval/apply run is still required to validate live KG mutation end-to-end.
+- External evidence remains optional and explicit; internal sensitive relations still need internal proof.
+- The curator does not yet run on a schedule. It is an operator/Jack-X callable stage until deployment is handled by the integrator lane.
+
 ## Current Priority Order
 
 1. Step 1: promotion-gated commits. This prevents further KG pollution.
@@ -362,6 +433,7 @@ Current interpretation:
 4. Step 4: LLM Wiki refinement ingestion. This makes slow consolidation useful.
 5. Step 5: KG cleanup. This repairs existing noise.
 6. Step 6: health report. This makes supervised production measurable.
+7. Step 7: Memory Curator evidence expansion. This makes ambiguous reviews improve over time without giving LLM Wiki write ownership.
 
 ## Current Business Readiness
 
@@ -371,14 +443,17 @@ Ready:
 - MM auth and memory publish.
 - LLM Wiki compile and publish.
 - Basic review creation.
+- Local Memory Curator dossier and KG-candidate generation.
 
 Partial:
 - Review backlog exposure to MM.
 - LLM Wiki operation feedback into Jack-X.
 - Decision-to-KG application.
 - Curative cleanup of noisy durable entries.
+- Memory Curator live apply/deploy/schedule.
 
 Not ready:
 - Claiming the memory lifecycle is complete.
 - Letting Jack-X auto-commit all durable KG candidates without promotion filtering.
 - Treating MM review count as the full backlog; it is only the P1/P2 visible slice today.
+- Treating LLM Wiki as a KG writer; it remains consolidation/read-model unless a future protocol explicitly changes that.

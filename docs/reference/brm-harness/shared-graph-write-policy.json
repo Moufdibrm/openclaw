@@ -1,0 +1,22 @@
+{
+  "allowed_commit_actors": [
+    "jack",
+    "jack-x",
+    "memory-curator"
+  ],
+  "candidate_write_boundaries": {
+    "prohibited_entity_types": [
+      "runtime_fact",
+      "runtime_batch"
+    ],
+    "prohibited_relation_types": [
+      "derived_from",
+      "reported_in"
+    ],
+    "notes": "Stable channels and integrations may be durable enterprise objects when they are registry-backed. Runtime batches, raw telemetry, and provenance-only links belong to the event/report layers."
+  },
+  "notes": [
+    "During the Hermes migration, only Jack, Jack X, and Memory Curator may commit reviewed shared-graph writes.",
+    "Specialist agents may emit graph candidates, but they do not mutate durable shared memory directly."
+  ]
+}

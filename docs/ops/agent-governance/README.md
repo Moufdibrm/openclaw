@@ -1,6 +1,6 @@
 # Agent Governance
 
-Last updated: `2026-05-06`
+Last updated: `2026-05-10`
 
 This folder is the operational governance base for BRM/Hermes agents.
 
@@ -78,6 +78,8 @@ It is intentionally simple. Runtime wiring, gateway work, Mission Manager implem
   - official Higgsfield CLI procedure, artifact layout, and polling recovery
 - `HIGGSFIELD_VALIDATION_REPORT.md`
   - current Higgsfield beta validation evidence and remaining gates
+- `MEMORY_LIFECYCLE_BACKLOG_20260508.md`
+  - Jack-X, Memory Curator, LLM Wiki, KG, and MM memory lifecycle backlog/status
 
 ## Scope
 
